@@ -227,7 +227,7 @@ class Test extends AnyFreeSpec with Matchers:
         day19.part1(day19.sample) shouldBe 33
         day19.part1(day19.actual) shouldBe 817
       }
-      "part 2" taggedAs (Slow, CPU) in { // actually memory, not CPU
+      "part 2" taggedAs (Slow, CPU) in { // memory hog
         day19.part2(day19.sample) shouldBe 3348
         day19.part2(day19.actual) shouldBe 4216
       }

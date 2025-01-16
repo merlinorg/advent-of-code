@@ -181,21 +181,25 @@ class Test extends AnyFreeSpec with Matchers:
         day16.part2(day16.sample) shouldBe 45
         day16.part2(day16.actual) shouldBe 616
       }
-      "alt part 1" in {
-        day16alt.part1(day16alt.sample) shouldBe 7036
-        day16alt.part1(day16alt.actual) shouldBe 88468
+      "alternate" - {
+        "part 1" in {
+          day16alt.part1(day16alt.sample) shouldBe 7036
+          day16alt.part1(day16alt.actual) shouldBe 88468
+        }
+        "part 2" in {
+          day16alt.part2(day16alt.sample) shouldBe 45
+          day16alt.part2(day16alt.actual) shouldBe 616
+        }
       }
-      "alt part 2" in {
-        day16alt.part2(day16alt.sample) shouldBe 45
-        day16alt.part2(day16alt.actual) shouldBe 616
-      }
-      "mut part 1" in {
-        day16mut.part1(day16mut.sample) shouldBe 7036
-        day16mut.part1(day16mut.actual) shouldBe 88468
-      }
-      "mut part 2" in {
-        day16mut.part2(day16mut.sample) shouldBe 45
-        day16mut.part2(day16mut.actual) shouldBe 616
+      "mutable" - {
+        "part 1" in {
+          day16mut.part1(day16mut.sample) shouldBe 7036
+          day16mut.part1(day16mut.actual) shouldBe 88468
+        }
+        "part 2" in {
+          day16mut.part2(day16mut.sample) shouldBe 45
+          day16mut.part2(day16mut.actual) shouldBe 616
+        }
       }
     }
 
@@ -230,13 +234,15 @@ class Test extends AnyFreeSpec with Matchers:
         day19.part2(day19.sample) shouldBe 16
         day19.part2(day19.actual) shouldBe 796449099271652L
       }
-      "mut part 1" in {
-        day19mut.part1(day19mut.sample) shouldBe 6
-        day19mut.part1(day19mut.actual) shouldBe 267
-      }
-      "mut part 2" in {
-        day19mut.part2(day19mut.sample) shouldBe 16
-        day19mut.part2(day19mut.actual) shouldBe 796449099271652L
+      "mutable" - {
+        "part 1" in {
+          day19mut.part1(day19mut.sample) shouldBe 6
+          day19mut.part1(day19mut.actual) shouldBe 267
+        }
+        "part 2" in {
+          day19mut.part2(day19mut.sample) shouldBe 16
+          day19mut.part2(day19mut.actual) shouldBe 796449099271652L
+        }
       }
     }
 
@@ -271,13 +277,15 @@ class Test extends AnyFreeSpec with Matchers:
         day22.part2(day22.sample2) shouldBe 23
         day22.part2(day22.actual) shouldBe 1501
       }
-      "alt part 1" in {
-        day22alt.part1(day22alt.sample) shouldBe 37327623
-        day22alt.part1(day22alt.actual) shouldBe 13185239446L
-      }
-      "alt part 2" in {
-        day22alt.part2(day22alt.sample2) shouldBe 23
-        day22alt.part2(day22alt.actual) shouldBe 1501
+      "alternate" - {
+        "part 1" in {
+          day22alt.part1(day22alt.sample) shouldBe 37327623
+          day22alt.part1(day22alt.actual) shouldBe 13185239446L
+        }
+        "part 2" in {
+          day22alt.part2(day22alt.sample2) shouldBe 23
+          day22alt.part2(day22alt.actual) shouldBe 1501
+        }
       }
     }
 
@@ -307,10 +315,11 @@ class Test extends AnyFreeSpec with Matchers:
         day25.part1(day25.sample) shouldBe 3
         day25.part1(day25.actual) shouldBe 3327
       }
-
-      "alt part 1" in {
-        day25alt.part1(day25alt.sample) shouldBe 3
-        day25alt.part1(day25alt.actual) shouldBe 3327
+      "alternate" - {
+        "part 1" in {
+          day25alt.part1(day25alt.sample) shouldBe 3
+          day25alt.part1(day25alt.actual) shouldBe 3327
+        }
       }
     }
   }

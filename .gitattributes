@@ -1,0 +1,1 @@
+src/main/resources/**/actual.txt filter=git-crypt diff=git-crypt

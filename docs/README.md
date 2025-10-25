@@ -1,10 +1,14 @@
 # Advent of Code
 
-A scala 3 winter miracle!
+A Scala 3 winter miracle!
 
 https://adventofcode.com/
 
-Run it with SBT.
+[![Scala](https://img.shields.io/badge/Scala%203-%23de3423.svg?logo=scala&logoColor=white)](https://www.scala-lang.org/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Scala CI](https://github.com/merlinorg/advent-of-code/actions/workflows/scala.yml/badge.svg)](https://github.com/merlinorg/advent-of-code/actions/workflows/scala.yml)
+
+# Run it with SBT.
 
 ```shell
 % sbt

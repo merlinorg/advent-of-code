@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2023
 package day17
 
-import lib.impl.IO.*
-import scalaz.Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.collection.mutable
 
 @main
@@ -36,11 +36,11 @@ private given Ordering[Crucible] = Ordering.by(c => -c.loss)
 private def solve(city: Vector[String], min: Int, max: Int): Long =
   val seen  = mutable.Set.empty[(Int, Int, Int, Int, Int)] // ლ(ಠ益ಠლ)
   val queue = mutable.PriorityQueue(Crucible(0, 0, 1, 0, 0, 0), Crucible(0, 0, 0, 1, 0, 0))
-  while (queue.head.x != city.head.length - 1 || queue.head.y != city.length - 1 || queue.head.count < min)
+  while queue.head.x != city.head.length - 1 || queue.head.y != city.length - 1 || queue.head.count < min do
     val crucible = queue.dequeue()
-    if (crucible.within(city) && seen.add(crucible.key))
-      if (crucible.count < max) queue.enqueue(crucible.forward.loseHeat(city))
-      if (crucible.count >= min) queue.enqueue(crucible.turn.loseHeat(city), crucible.turnᛌ.loseHeat(city))
+    if crucible.within(city) && seen.add(crucible.key) then
+      if crucible.count < max then queue.enqueue(crucible.forward.loseHeat(city))
+      if crucible.count >= min then queue.enqueue(crucible.turn.loseHeat(city), crucible.turnᛌ.loseHeat(city))
   queue.head.loss
 
 def part1(city: Vector[String]): Long = solve(city, 0, 3)

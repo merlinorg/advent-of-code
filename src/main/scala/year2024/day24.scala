@@ -2,9 +2,9 @@ package org.merlin.aoc
 package year2024
 package day24
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.impl.Parser.*
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -33,12 +33,12 @@ private def fix(machine: Machine): Iterator[(Vector[String], Machine)] =
     key     <- machine.keys("z").iterator // all outputs
     index    = key.tail.toInt             // output bit index
     circuit  = bitAdd(index)              // correct full adder circuit
-    if machine.circuit(key) != circuit    // if the machine equation is incorrect
+    if machine.circuit(key) != circuit // if the machine equation is incorrect
     key0    <- machine.inGates(key)       // for all keys that feed this output
     key1    <- machine.gates.keySet       // for all other keys
     machine2 = machine.swap(key0, key1)   // swap the gates
-    if machine2.circuit(key) == circuit   // find the fix
-  yield Vector(key0, key1) -> machine2    // profit
+    if machine2.circuit(key) == circuit // find the fix
+  yield Vector(key0, key1) -> machine2 // profit
 
 def bitAdd(i: Int): String =
   val (x, y) = (pad("x", i), pad("y", i))

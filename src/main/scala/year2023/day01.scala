@@ -2,9 +2,7 @@ package org.merlin.aoc
 package year2023
 package day01
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
 
 @main
 def part1(): Unit =
@@ -50,10 +48,10 @@ def part2(lines: Vector[String]): Long =
     matches    = DigRe.findAllIn(line).toList
     first     <- matches.headOption
     firstIndex = Digits.indexOf(first)
-    firstDigit = if (firstIndex < 0) first.toInt else firstIndex
+    firstDigit = if firstIndex < 0 then first.toInt else firstIndex
     last      <- matches.lastOption
     lastIndex  = Digits.indexOf(last)
-    lastDigit  = if (lastIndex < 0) last.toInt else lastIndex
+    lastDigit  = if lastIndex < 0 then last.toInt else lastIndex
   yield s"$firstDigit$lastDigit".toInt
 
   calibrations.sum

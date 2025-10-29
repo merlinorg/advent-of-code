@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day04
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =

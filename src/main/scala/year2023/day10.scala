@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day10
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -77,7 +76,7 @@ def part2(lines: Vector[String]): Long =
       walls(chr) && dirs
         .map(_ |+| s)
         .forall(p => p == path.reverse.tail.head || p == path.tail.head)
-  val allWalls = if (sWall) walls + 'S' else walls
+  val allWalls = if sWall then walls + 'S' else walls
 
   val insides = for
     y           <- lines.indices

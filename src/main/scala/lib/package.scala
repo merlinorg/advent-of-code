@@ -3,21 +3,21 @@ package org.merlin.aoc
 import lib.impl.*
 
 package object lib:
-  export BFS.*
-  export BooleanOps.*
-  export GridOps.*
-  export IO.*
-  export IntOps.*
-  export IterableOps.*
-  export IteratorOps.*
-  export LongOps.*  
-  export MutableMapOps.*
-  export OptionOps.*
-  export Parser.*
-  export SeqOps.*
-  export StringOps.*
-  export StringVectorOps.*
-  export TupleOps.*
-  export Types.*
-  export Vec2Ops.*
-  export Vec3Ops.*
+  export BFS.{*, given}
+  export BooleanOps.{*, given}
+  export GridOps.{*, given}
+  export IO.{*, given}
+  export IntOps.{*, given}
+  export IterableOps.{*, given}
+  export IteratorOps.{*, given}
+  export LongOps.{*, given}
+  export MutableMapOps.{*, given}
+  export OptionOps.{*, given}
+  export Parser.{*, given}
+  export SeqOps.{*, given}
+  export StringOps.{*, given}
+  export StringVectorOps.{*, given}
+  export TupleOps.{*, given}
+  export Types.{*, given}
+  export Vec2Ops.{*, given}
+  export Vec3Ops.{*, given}

@@ -2,9 +2,7 @@ package org.merlin.aoc
 package year2023
 package day23
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
 import scala.collection.mutable
 
 @main
@@ -33,9 +31,8 @@ extension (self: Board)
     val results = mutable.ListBuffer.empty[(Loc, Long)]
 
     def loop(loc: Loc, visited: Set[Loc], length: Long): Unit =
-      if (loc == end || junctional(loc) && loc != source)
-        results.addOne(loc -> length)
-      else if (!visited.contains(loc))
+      if loc == end || junctional(loc) && loc != source then results.addOne(loc -> length)
+      else if !visited.contains(loc) then
         for
           dir <- Dir.values
           adj  = loc + dir
@@ -67,7 +64,7 @@ def part1(board: Board): Long =
 
   // try all walks
   def loop(location: Loc, visited: Set[Loc], length: Long, longest: Long): Long =
-    if (location == end) length max longest
+    if location == end then length max longest
     else
       val lengths = for
         (next, distance) <- graph(location)

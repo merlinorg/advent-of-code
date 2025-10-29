@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day16mut
 
-import lib.impl.IO.*
+import lib.impl.IO.{*, given}
 import scala.collection.mutable
 
 import day16alt.{Reindeer, findPosition, East, Position, Direction, Maze}
@@ -54,5 +54,4 @@ def solve(input: String): (Reindeer, mutable.PriorityQueue[Reindeer]) =
 
 given Ordering[Reindeer] = Ordering.by(-_.score)
 
-extension (maze: Maze)
-  def apply(position: Position): Char = maze(position(1))(position(0))
+extension (maze: Maze) def apply(position: Position): Char = maze(position(1))(position(0))

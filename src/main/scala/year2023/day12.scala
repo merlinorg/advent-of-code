@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day12
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.collection.mutable
 
 @main

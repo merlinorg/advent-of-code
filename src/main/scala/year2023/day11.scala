@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day11
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -22,15 +21,14 @@ val actual: Vector[String] = loadv("actual.txt")
 
 type Point = (Long, Long)
 
-extension (pt: Point)
-  private infix def Δ(op: Point): Long = (pt._1 - op._1).abs + (pt._2 - op._2).abs
+extension (pt: Point) private infix def Δ(op: Point): Long = (pt._1 - op._1).abs + (pt._2 - op._2).abs
 
 private def inflate(
   lines: Vector[Vector[Char]],
   factor: Long
 ): IndexedSeq[Long] =
   lines.scanLeft(0L): (offset, line) =>
-    if (!line.contains('#')) offset + factor else offset + 1
+    if !line.contains('#') then offset + factor else offset + 1
 
 private def allStars(
   lines: Vector[String],

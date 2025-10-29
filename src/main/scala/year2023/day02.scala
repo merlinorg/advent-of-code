@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day02
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -50,7 +49,7 @@ def part1(lines: Vector[String]): Long =
   possibilities.sum
 
 def part2(lines: Vector[String]): Long =
-  implicit val maxMonoid: Monoid[Int] = Monoid.instance(_ max _, 0)
+  given maxMonoid: Monoid[Int] = Monoid.instance(0, _.max(_))
 
   val powers = lines
     .map(parse)

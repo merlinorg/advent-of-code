@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day15
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -31,7 +30,7 @@ extension (self: List[Lens])
     self.filterNot(_._1 == label)
 
   private def add(label: String, focus: Int): List[Lens] =
-    if (self.exists(_._1 == label)) self.map(lens => if (lens._1 == label) label -> focus else lens)
+    if self.exists(_._1 == label) then self.map(lens => if lens._1 == label then label -> focus else lens)
     else self :+ (label -> focus)
 
 def part1(lines: Vector[String]): Long =
@@ -45,6 +44,7 @@ def part2(lines: Vector[String]): Long =
         boxes.updatedWith(label.hash)(_.map(_.remove(label)))
       case (boxes, s"$label=$focus") =>
         boxes.updatedWith(label.hash)(_.map(_.add(label, focus.toInt)).orElse(Some(List(label -> focus.toInt))))
+      case (boxes, _)                => boxes
     .toList
     .foldMap:
       case (box, lenses) =>

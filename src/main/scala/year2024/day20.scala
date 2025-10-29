@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day20
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -35,6 +34,8 @@ def solve(maze: Vector[String], cheat: Long): Long =
 
   path.tails.foldCollect:
     case (loc0, dst0) +: tail =>
-      tail.drop(picos).count: (loc1, dst1) =>
-        val dist = loc0.manhattan(loc1)
-        (dist <= cheat) && (dst1 - dst0 - dist >= picos)
+      tail
+        .drop(picos)
+        .count: (loc1, dst1) =>
+          val dist = loc0.manhattan(loc1)
+          (dist <= cheat) && (dst1 - dst0 - dist >= picos)

@@ -8,7 +8,7 @@ object StringOps:
     def tuple2: (String, String) =
       self.span(_ != ' ').rmap(_.stripLeading)
 
-    def linesv: Vector[String]   =
+    def linesv: Vector[String] =
       self.linesIterator.toVector
 
     def integers: Vector[Int] =

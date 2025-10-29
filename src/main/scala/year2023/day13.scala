@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day13
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -22,8 +21,8 @@ val actual: Vector[String] = loadv("actual.txt")
 
 type Area = Vector[Vector[Char]]
 
-private def parseAreas(lines: Vector[String]): List[Area] =
-  lines.selectSplit(_.nonEmpty).map(_.toVector.map(_.toVector))
+private def parseAreas(lines: Vector[String]): Vector[Area] =
+  lines.selectSplit(_.nonEmpty).map(_.map(_.toVector))
 
 private def differences(r0: Vector[Char], r1: Vector[Char]): Int =
   r0.zip(r1).count(_ != _)
@@ -49,7 +48,7 @@ def part2(lines: Vector[String]): Long =
 //   a.indices.tail.find: row =>
 //     a.take(row).reverse.zip(a.drop(row)).foldMap((r0, r1) => (r0 zip r1).count(_ != _)) == 1
 //
-// val areas = Source.fromResource("day-13.txt").getLines.toVector.selectSplit(_.nonEmpty).map(_.toVector.map(_.toVector))
+// val areas = Source.fromResource("day-13.txt").getLines.toVector.selectSplit(_.nonEmpty).map(_.map(_.toVector))
 //
 // areas.foldMap: area =>
 //   reflection(area).foldMap(_ * 100) + reflection(area.transpose).sum

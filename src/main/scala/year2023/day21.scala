@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day21
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.*
 
 @main
 def part1(): Unit =
@@ -37,7 +36,7 @@ end Problem1FSM
 def part1(board: Board): Long =
   Iterator
     .iterate(Problem1FSM(board, Set(board.find('S'))))(_.nextState)
-    .drop(if (board.length == 11) 6 else 64)
+    .drop(if board.length == 11 then 6 else 64)
     .next()
     .locations
     .size
@@ -95,7 +94,7 @@ private def part2Pretend(board: Board): Long =
   Iterator
     .iterate(Problem2FSM(board, 0, Set(board.find('S'))))(_.nextState)
     .tapEach: fsm =>
-      if (fsm.index == 6 || fsm.index == 10 || fsm.index == 50 || fsm.index == 100)
+      if fsm.index == 6 || fsm.index == 10 || fsm.index == 50 || fsm.index == 100 then
         println(s"${fsm.index} -> ${fsm.locations.size}")
     .drop(500)
     .next()

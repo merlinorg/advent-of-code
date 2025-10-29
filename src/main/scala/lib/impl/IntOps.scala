@@ -10,9 +10,12 @@ object IntOps:
 
     @targetName("geLt")
     inline def >=<(n: Int): Boolean = self >= 0 && self < n
-    
+
     @targetName("or")
     inline def ||(n: => Int): Int = if self != 0 then self else n
 
     infix def divMod(mod: Int): (Int, Int) = (self / mod, self % mod)
-    
+
+    inline def even: Boolean = self % 2 == 0
+
+    infix def mid(n: Int): Int = (self + n) / 2

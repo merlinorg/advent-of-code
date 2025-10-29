@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package year2022.day19
 
-import lib.*
+import lib.{*, given}
 
 import scala.collection.mutable
 

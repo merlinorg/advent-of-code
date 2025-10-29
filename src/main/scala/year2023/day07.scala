@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day07
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.math.Ordering.Implicits.seqOrdering
 
 @main
@@ -21,11 +20,10 @@ val sample: Vector[String] = loadv("sample.txt")
 
 val actual: Vector[String] = loadv("actual.txt")
 
-
 private def f(lines: Vector[String], strengthF: String => List[Int]): Long =
   val hands  = lines.map:
     case s"$hand $bid" => hand -> bid.toLong
-  val sorted = hands.map(_.leftMap(strengthF)).sortBy(_._1)
+  val sorted = hands.map(_.lmap(strengthF)).sortBy(_._1)
   sorted.map(_._2).zipWithIndex.foldMap((bid, rank) => (rank + 1) * bid)
 
 private val strengthsA = "23456789TJQKA".toList

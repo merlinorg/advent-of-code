@@ -2,9 +2,9 @@ package org.merlin.aoc
 package year2024
 package day17
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.impl.Parser.*
+import lib.legacy.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -26,7 +26,7 @@ def part1(lines: Vector[String]): String =
 
 // Observe that the core of the program is ... a = a >> 3 ... jnz 0
 // Hypostulate that we just need to twiddle octal triads from the top down.
-def part2(lines: Vector[String]): Long   =
+def part2(lines: Vector[String]): Long =
   val cpu = parse(lines)
   Iterator
     .iterate(1L): a =>

@@ -1,70 +1,7 @@
 package org.merlin.aoc
 package year2023
 
-import scala.collection.immutable.NumericRange
-import scala.language.implicitConversions
-
-// number extensions
-
-extension (self: Int)
-  inline def %%(n: Int): Int =
-    val mod = self % n
-    if mod < 0 then mod + n else mod
-
-extension (self: Long)
-  inline def >=<(n: Long): Boolean = self >= 0 && self < n
-  inline def %%(n: Long): Long     =
-    val mod = self % n
-    if mod < 0 then mod + n else mod
-
-// iterator extensions
-
-extension [A](self: Iterator[A]) def findMap[B](f: A => Option[B]): B = self.flatMap(f).next()
-
-private val NumRe = "-?\\d+".r
-private val WordRe = "\\S+".r
-
-// string extensions
-
-extension (self: String)
-  def numbers: Vector[Long]          = NumRe.findAllIn(self).map(_.toLong).toVector
-  def words: Vector[String]          = WordRe.findAllIn(self).toVector
-  def commaSeparated: Vector[String] = self.split(',').toVector
-  def characters: Vector[String]     = self.split("").toVector
-
-// vector extensions
-
-extension [A](self: Vector[A])
-  def mapToMap[B, C](f: A => (B, C)): Map[B, C] = self.map(f).toMap
-
-  // maps a vector with an accumulator, returning the final accumulator and values
-  def mapAcc[B, C](c0: C)(f: (C, A) => (C, B)): (C, Vector[B]) =
-    self.foldLeft(c0 -> Vector.empty[B]):
-      case ((c, bs), a) => f(c, a) match { case (c2, b) => (c2, bs :+ b) }
-
-  // stateful map, maps a vector with an accumulator then drops the accumulator at the end
-  def mapS[B, C](c0: C)(f: (C, A) => (C, B)): Vector[B] = mapAcc(c0)(f)._2
-
-  def groupToMap[B, C](using ABC: A <:< (B, C)): Map[B, Vector[C]] = self
-    .map(ABC)
-    .foldLeft(Map.empty[B, Vector[C]]):
-      case (bc, (b, c)) =>
-        bc.updatedWith(b):
-          case None     => Some(Vector(c))
-          case Some(cs) => Some(cs :+ c)
-
-  // all non-self element pairs
-  def allPairs: Vector[(A, A)] = self.tails.toVector.tail.flatMap(self.zip)
-
-// range extensions
-extension (self: NumericRange[Long])
-  def splitLess(limit: Long): (NumericRange[Long], NumericRange[Long]) =
-    self.splitAt((limit - self.head).toInt)
-
-  def splitGreater(limit: Long): (NumericRange[Long], NumericRange[Long]) =
-    self.splitAt((1 + limit - self.head).toInt).swap
-
-  def range: Long = if (self.isEmpty) 0 else 1 + self.last - self.head
+import lib.legacy.*
 
 // a board is a vector of strings
 
@@ -104,14 +41,13 @@ enum Dir(val dx: Long, val dy: Long):
 object Dir:
   val byName: Map[String, Dir] = Map("R" -> Dir.E, "D" -> Dir.S, "L" -> Dir.W, "U" -> Dir.N).withDefault(valueOf)
 
-  implicit def toVec(dir: Dir): Vec = dir * 1
-
   given Ordering[Dir] = Ordering.by(_.ordinal)
 
 // a location in space
 
 final case class Loc(x: Long, y: Long):
   inline def +(addend: Vec): Loc = Loc(x + addend.dx, y + addend.dy)
+  inline def +(addend: Dir): Loc = Loc(x + addend.dx, y + addend.dy)
 
   inline def -(subtrahend: Vec): Loc = Loc(x - subtrahend.dx, y - subtrahend.dy)
 

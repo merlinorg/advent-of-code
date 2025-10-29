@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package yearYYYY.dayXX
 
-import lib.*
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -23,5 +23,4 @@ def part1(input: String): Long =
 def part2(input: String): Long =
   2
 
-extension (string: String)
-  def parse: Iterator[String] = string.linesIterator
+extension (string: String) def parse: Iterator[String] = string.linesIterator

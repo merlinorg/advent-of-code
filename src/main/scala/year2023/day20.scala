@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day20
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.*
 import scala.annotation.tailrec
 import scala.collection.immutable.Queue
 

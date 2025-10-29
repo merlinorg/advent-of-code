@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day21
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.collection.mutable
 
 @main
@@ -29,8 +28,10 @@ def solve(lines: Vector[String], robots: Int): Long =
   val cache = mutable.Map.empty[(Loc, Loc, Int), Long]
 
   def shortestMove(src: Loc, dst: Loc, stage: Int): Long = cache.memo((src, dst, stage)):
-    given Monoid[Long] = Monoid.instance(_ min _, Long.MaxValue)
-    val pad            = if stage == 0 then Keypad else Dirpad
+    given Monoid[Long]:
+      def zero: Long                        = Long.MaxValue
+      def combine(a0: Long, a1: Long): Long = a0.min(a1)
+    val pad = if stage == 0 then Keypad else Dirpad
     bfsFoldl((src, Vector.empty[Char])): (loc, keys) =>
       (loc == dst).either(
         if stage < robots then shortedSolution(keys :+ 'A', stage + 1) else keys.length + 1L,
@@ -39,8 +40,11 @@ def solve(lines: Vector[String], robots: Int): Long =
 
   def shortedSolution(sequence: Vector[Char], stage: Int): Long =
     val pad = if stage == 0 then Keypad else Dirpad
-    ('A' +: sequence).map(pad.loc).sliding2.foldMap:
-      case (src, dst) => shortestMove(src, dst, stage)
+    ('A' +: sequence)
+      .map(pad.loc)
+      .slidingPairs
+      .foldMap:
+        case (src, dst) => shortestMove(src, dst, stage)
 
   lines.foldMap: line =>
     shortedSolution(line.toVector, 0) * line.init.toLong

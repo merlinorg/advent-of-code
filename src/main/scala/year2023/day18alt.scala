@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day18alt
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -37,7 +36,7 @@ private def outsideVertices(path: Vector[Vec]): Vector[Loc] =
     .scanLeft(false -> Origin): // safe initial state for a 0 0 start going east
       case ((priorWinding, location), (step, nextStep)) =>
         val winding = nextStep.direction == step.direction.cw // coming up to a right turn
-        val edge    = if (winding != priorWinding) step else if (winding) step + 1 else step - 1
+        val edge    = if winding != priorWinding then step else if winding then step + 1 else step - 1
         winding -> (location + edge)
     .map(_._2)
 

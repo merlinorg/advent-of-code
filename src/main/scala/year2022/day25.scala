@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package year2022.day25
 
-import lib.*
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -19,7 +19,7 @@ extension (self: Long)
   def snafu: String =
     Iterator
       .unfold(self): value =>
-        value divMod 5 match
+        value /% 5 match
           case (0, 0)     => None
           case (div, 3)   => Some(('=', div + 1))
           case (div, 4)   => Some(('-', div + 1))

@@ -18,6 +18,8 @@ object IteratorOps:
     def findMap[B](f: A => Option[B]): B =
       self.flatMap(f).next()
 
+    def findCollect[B](f: PartialFunction[A, B]): B = findMap(f.lift)
+
     def sumCollect(pf: PartialFunction[A, Long]): Long =
       self.foldLeft(0L)((sum, a) => pf.lift(a).fold(sum)(sum + _))
 
@@ -43,10 +45,10 @@ object IteratorOps:
         true
       }
 
-      def next(): A = if hasNext then {
-        hdDefined = false;
+      def next(): A = if hasNext then
+        hdDefined = false
         hd
-      } else Iterator.empty.next()
+      else Iterator.empty.next()
 
     def slidingPairs: Iterator[(A, A)] = self.sliding(2).map(a => a.head -> a.tail.head)
 

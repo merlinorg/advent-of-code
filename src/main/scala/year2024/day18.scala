@@ -2,9 +2,9 @@ package org.merlin.aoc
 package year2024
 package day18
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.impl.Parser.*
+import lib.legacy.{*, given}
 import scala.collection.immutable.Queue
 
 @main

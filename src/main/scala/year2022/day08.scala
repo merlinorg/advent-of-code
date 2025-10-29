@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package year2022.day08
 
-import lib.*
+import lib.{*, given}
 
 @main
 def part1(): Unit =

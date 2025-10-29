@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day06
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.collection.parallel.CollectionConverters.*
 
 @main
@@ -29,10 +28,8 @@ case class Guard1FSM(loc: Loc, dir: Dir, board: Board, visited: Set[Loc]):
 
   def next: Guard1FSM =
     val nxt = loc + dir
-    if (board.is(nxt, '#'))
-      copy(dir = dir.cw)
-    else
-      copy(loc = nxt, visited = visited + loc)
+    if board.is(nxt, '#') then copy(dir = dir.cw)
+    else copy(loc = nxt, visited = visited + loc)
 
 object Guard1FSM:
   def apply(board: Board): Guard1FSM =
@@ -49,12 +46,9 @@ case class Guard2FSM(loc: Loc, dir: Dir, board: Board, obstacle: Loc, visited: S
 
   def next: Guard2FSM =
     val nxt = loc + dir
-    if (board.is(nxt, '#') || nxt == obstacle)
-      copy(dir = dir.cw, visited = visited + (loc -> dir))
-    else
-      copy(loc = nxt, visited = visited + (loc -> dir))
+    if board.is(nxt, '#') || nxt == obstacle then copy(dir = dir.cw, visited = visited + (loc -> dir))
+    else copy(loc = nxt, visited = visited + (loc -> dir))
 
 object Guard2FSM:
   def apply(board: Board, obstacle: Loc): Guard2FSM =
     Guard2FSM(board.loc('^'), Dir.N, board, obstacle, Set.empty)
-

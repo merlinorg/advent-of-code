@@ -2,10 +2,8 @@ package org.merlin.aoc
 package year2024
 package day09
 
-import lib.impl.IO.*
-
-import scalaz.*
-import scalaz.Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -25,12 +23,9 @@ def part1(lines: Vector[String]): Long =
   Iterator
     .unfold(parse(lines)):
       case (file +: files, blank +: blanks) if blank.pos < file.pos =>
-        if (blank.len == file.len)
-          Some(file.inBlank(blank), (files, blanks))
-        else if (blank.len < file.len)
-          Some(file.inBlank(blank), (file.dropRight(blank.len) +: files, blanks))
-        else
-          Some(file.inBlank(blank), (files, blank.dropLeft(file.len) +: blanks))
+        if blank.len == file.len then Some(file.inBlank(blank), (files, blanks))
+        else if blank.len < file.len then Some(file.inBlank(blank), (file.dropRight(blank.len) +: files, blanks))
+        else Some(file.inBlank(blank), (files, blank.dropLeft(file.len) +: blanks))
       case (file +: files, blanks)                                  =>
         Some(file, (files, blanks))
       case _                                                        => None
@@ -42,7 +37,7 @@ def part2(lines: Vector[String]): Long =
       case (file +: files, blanks) =>
         blanks.span(blank => blank.pos >= file.pos || blank.len < file.len) match
           case (pre, blank +: post) =>
-            val insert = if (file.len == blank.len) Vector.empty else Vector(blank.dropLeft(file.len))
+            val insert = if file.len == blank.len then Vector.empty else Vector(blank.dropLeft(file.len))
             Some(file.inBlank(blank), (files, pre ++ insert ++ post))
           case _                    =>
             Some(file, (files, blanks))

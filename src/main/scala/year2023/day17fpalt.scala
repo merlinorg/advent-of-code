@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2023
 package day17fpalt
 
-import lib.impl.IO.*
-import scalaz.Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.collection.SortedSet
 
 @main
@@ -47,8 +47,8 @@ private final case class State(queue: SortedSet[(Int, Crucible)], seen: Set[Cruc
 
 private def solve(city: Board, min: Int, max: Int): Long =
   Iterator
-    .iterate(State(SortedSet(0 -> Crucible(city.nw, Dir.E, 0), 0 -> Crucible(city.nw, Dir.S, 0)), Set.empty)):
-      state => state.update(city, min, max)
+    .iterate(State(SortedSet(0 -> Crucible(city.nw, Dir.E, 0), 0 -> Crucible(city.nw, Dir.S, 0)), Set.empty)): state =>
+      state.update(city, min, max)
     .findMap(_.solution(city, min))
 
 def part1(city: Board): Long = solve(city, 0, 3)

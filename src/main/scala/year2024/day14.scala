@@ -2,9 +2,9 @@ package org.merlin.aoc
 package year2024
 package day14
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.impl.Parser.*
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -36,8 +36,11 @@ def part2(lines: Vector[String]): Long =
 
 // It is improbable that there will be ten robots above each other
 private def probable(robots: Vector[Bot])(using dim: XY): Boolean =
-  robots.groupBy(_.pos._1).values.forall: robots =>
-    robots.map(_.pos._2).sorted.groupWhen(_ - _ == -1).forall(_.length < dim._2 / 10)
+  robots
+    .groupBy(_.pos._1)
+    .values
+    .forall: robots =>
+      robots.map(_.pos._2).sorted.groupWhen(_ - _ == -1).forall(_.length < dim._2 / 10)
 
 def parse(lines: Vector[String]): Vector[Bot] =
   lines.collect:

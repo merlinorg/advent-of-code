@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day13
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -48,4 +47,4 @@ case class Game(ax: Long, ay: Long, bx: Long, by: Long, x: Long, y: Long):
     Option.when(bden != 0 && bnum % bden == 0 && aden != 0 && anum % aden == 0):
       anum / aden -> bnum / bden
 
-  def cost: Long = solution.cata(_ * 3 + _, 0)
+  def cost: Long = solution.fold(0L)(_ * 3 + _)

@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package year2022.day22
 
-import lib.*
+import lib.{*, given}
 
 import scala.annotation.tailrec
 

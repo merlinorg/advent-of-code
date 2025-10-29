@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day22
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -55,5 +54,5 @@ def part2(lines: Vector[String]): Long =
   blocks.foldMap: block =>
     blocks
       .foldLeft(Set(block)): (set, b) =>
-        if (b.z1 > 1 && slices(b.z1 - 1).filter(b.overlaps).forall(set.contains)) set + b else set
+        if b.z1 > 1 && slices(b.z1 - 1).filter(b.overlaps).forall(set.contains) then set + b else set
       .size - 1

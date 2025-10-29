@@ -37,9 +37,11 @@ object IterableOps:
 
     def findMapOpt[B](f: A => Option[B]): Option[B] = self.iterator.flatMap(f).nextOption()
 
-    def strengthsL[B](b: B): Iterable[(B, A)] = self.map(b -> _)
+    def fproduct[B](f: A => B): Iterable[(A, B)] = self.map(a => (a, f(a)))
 
-    def strengthsR[B](b: B): Iterable[(A, B)] = self.map(_ -> b)
+    def strengthL[B](b: B): Iterable[(B, A)] = self.map(b -> _)
+
+    def strengthR[B](b: B): Iterable[(A, B)] = self.map(_ -> b)
 
     def pairs: Iterable[(A, A)] = self.grouped(2).map(a => a.head -> a.tail.head).toVector
 

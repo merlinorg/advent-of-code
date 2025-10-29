@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day22alt
 
-import lib.impl.IO.*
+import lib.impl.IO.{*, given}
 
 @main
 def part1(): Unit =
@@ -52,11 +52,11 @@ trait Semigroup[A]:
 trait Monoid[A] extends Semigroup[A]:
   def zero: A
 
-given NumericMonoid[A](using N: Numeric[A]): Monoid[A] with
+given NumericMonoid: [A: Numeric as N] => Monoid[A]:
   def zero: A                  = N.zero
   def combine(a0: A, a1: A): A = N.plus(a0, a1)
 
-given MapMonoid[A, B](using S: Semigroup[B]): Monoid[Map[A, B]] with
+given MapMonoid: [A, B: Semigroup as S] => Monoid[Map[A, B]]:
   def zero: Map[A, B] = Map.empty
 
   def combine(ab0: Map[A, B], ab1: Map[A, B]): Map[A, B] =

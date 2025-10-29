@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day05
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.*
 import scala.annotation.tailrec
 
 @main
@@ -55,7 +54,7 @@ end Mapping
   case _                            => list.reverse
 
 private def transform(value: Long, mappings: List[Mapping]): Long =
-  mappings.findMapM[Id, Long](_.map(value)) | value
+  mappings.view.flatMap(_.map(value)).headOption | value
 
 private def combine(as: List[Mapping], bs: List[Mapping]): List[Mapping] =
   val aPoints = as.flatMap(a => a.src :: (a.dst + a.len) :: Nil)
@@ -70,7 +69,7 @@ private def combine(as: List[Mapping], bs: List[Mapping]): List[Mapping] =
     bSplit.filterNot(b => as.exists(_.mapsTo(b.src)))
 
 private def split(range: Mapping, n: Long): List[Mapping] =
-  if (n > 0 && n < range.len) range.take(n) :: range.drop(n) :: Nil
+  if n > 0 && n < range.len then range.take(n) :: range.drop(n) :: Nil
   else range :: Nil
 
 def part1(lines: Vector[String]): Long =

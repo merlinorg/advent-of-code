@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day25alt
 
-import lib.impl.IO.*
+import lib.impl.IO.{*, given}
 
 @main
 def part1(): Unit =
@@ -19,8 +19,10 @@ def part1(input: String): Int =
   val matches = for
     lock <- locks
     key  <- keys
-    if lock.zip(key).forall: (lockChar, keyChar) =>
-      lockChar != '#' || keyChar != '#'
+    if lock
+      .zip(key)
+      .forall: (lockChar, keyChar) =>
+        lockChar != '#' || keyChar != '#'
   yield lock -> key
 
   matches.length

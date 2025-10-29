@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package year2022.day21
 
-import lib.*
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -51,8 +51,7 @@ extension (self: Graph)
 
   def contains(name: String, value: String): Boolean = name == value || (self(name) match
     case Right(_)        => false
-    case Left((a, _, b)) => contains(a, value) || contains(b, value)
-  )
+    case Left((a, _, b)) => contains(a, value) || contains(b, value))
 
 type Graph = Map[String, Either[(String, Char, String), Long]]
 

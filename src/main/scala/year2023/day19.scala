@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day19
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 import scala.annotation.tailrec
 import scala.collection.immutable.NumericRange
 
@@ -25,9 +24,9 @@ val actual: Vector[String] = loadv("actual.txt")
 private type Rating = 'a' | 'x' | 's' | 'm'
 
 private type WorkflowName = String
-private final val Accept = "A"
-private final val Reject = "R"
-private final val In     = "in"
+private val Accept = "A"
+private val Reject = "R"
+private val In     = "in"
 
 private type Part  = Map[Rating, Long]
 private type Parts = Map[Rating, NumericRange[Long]]
@@ -44,7 +43,7 @@ private final case class TerminalRule(next: WorkflowName) extends Rule:
   def matches(values: Part): Boolean = true
 
 private final case class ConditionalRule(rating: Rating, less: Boolean, value: Long, next: WorkflowName) extends Rule:
-  def matches(values: Part): Boolean = if (less) values(rating) < value else values(rating) > value
+  def matches(values: Part): Boolean = if less then values(rating) < value else values(rating) > value
 
 // parse the rules and the parts
 
@@ -68,7 +67,7 @@ extension (self: Vector[String])
 private def routeParts(parts: Parts, rule: Rule): (Parts, (WorkflowName, Parts)) = rule match
   case TerminalRule(next)                         => Map.empty -> (next -> parts)
   case ConditionalRule(rating, less, limit, next) =>
-    val (range, remaining) = if (less) parts(rating).splitLess(limit) else parts(rating).splitGreater(limit)
+    val (range, remaining) = if less then parts(rating).splitLess(limit) else parts(rating).splitGreater(limit)
     parts.updated(rating, remaining) -> (next -> parts.updated(rating, range))
 
 // part 1, just thread all the parts through the workflows until they reach A

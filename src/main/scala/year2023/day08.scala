@@ -2,9 +2,7 @@ package org.merlin.aoc
 package year2023
 package day08
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -27,6 +25,7 @@ private def parseRules(
   lines.foldLeft(Map.empty[String, Map[Char, String]]):
     case (acc, s"$from = ($l, $r)") =>
       acc.updated(from, Map('L' -> l, 'R' -> r))
+    case (acc, _)                   => acc
 
 def part1(lines: Vector[String]): Long =
   val lr    = LazyList.continually(lines.head).flatten
@@ -37,7 +36,7 @@ def part1(lines: Vector[String]): Long =
   .indexOf("ZZZ")
 
 @tailrec private def gcd(x: Long, y: Long): Long =
-  if (y == 0) x else gcd(y, x % y)
+  if y == 0 then x else gcd(y, x % y)
 
 private def lcm(list: Iterable[Long]): Long =
   list.foldLeft(1L): (a, b) =>

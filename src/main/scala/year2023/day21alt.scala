@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day21alt
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -36,7 +35,7 @@ end Problem1FSM
 def part1(board: Board): Long =
   Iterator
     .iterate(Problem1FSM(board, Set(board.find('S'))))(_.nextState)
-    .drop(if (board.length == 11) 6 else 64)
+    .drop(if board.length == 11 then 6 else 64)
     .next()
     .locations
     .size
@@ -121,13 +120,11 @@ final case class Solution2FSM(
           // our indexes are over the even steps so we have to halve the quotient. we're also looking
           // at values several iterations in so we he have to subtract the iteration count.
           val q = quotient / 2 - iteration + 3
-          if values(0) == values(1) then
-            count * values(0)
+          if values(0) == values(1) then count * values(0)
           else if values(1) - values(0) == values(2) - values(1) then
             val solved = values(0) + q * (values(1) - values(0))
             count * solved
-          else
-            count * solve(q, values(0), values(1), values(2))
+          else count * solve(q, values(0), values(1), values(2))
 
   end solution
 
@@ -148,7 +145,7 @@ private def part2Pretend(board: Board): Long =
   Iterator
     .iterate(Problem2FSM(board, board.find('S'), 0, Set(start)))(_.nextState)
     .tapEach: fsm =>
-      if (fsm.index == 6 || fsm.index == 10 || fsm.index == 50 || fsm.index == 100)
+      if fsm.index == 6 || fsm.index == 10 || fsm.index == 50 || fsm.index == 100 then
         println(s"${fsm.index} -> ${fsm.allLocations.size}")
     .drop(500)
     .next()

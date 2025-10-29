@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day02
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -30,5 +29,5 @@ def part2(lines: Vector[String]): Long =
 
 private def safe(numbers: Vector[Long]): Boolean =
   (numbers == numbers.sorted || numbers == numbers.sorted.reverse) &&
-    numbers.adjacentPairs.forall: (a, b) =>
+    numbers.slidingPairs.forall: (a, b) =>
       (a |-| b) >=< (1, 4)

@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2023
 package day04
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.*
 
 @main
 def part1(): Unit =
@@ -36,6 +35,6 @@ def part1(lines: Vector[String]): Long =
   scores.sum
 
 def part2(lines: Vector[String]): Long =
-  val winMap             = lines.zipWithIndex.map(_.swap.rightMap(wins)).toMap
+  val winMap             = lines.zipWithIndex.map(_.swap.rmap(wins)).toMap
   def count(i: Int): Int = 1 + (i + 1 to i + winMap(i)).map(count).sum
   lines.indices.map(count).sum

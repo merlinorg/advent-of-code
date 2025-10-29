@@ -2,9 +2,8 @@ package org.merlin.aoc
 package year2024
 package day05
 
-import lib.impl.IO.*
-import scalaz.*
-import Scalaz.*
+import lib.impl.IO.{*, given}
+import lib.legacy.{*, given}
 
 @main
 def part1(): Unit =
@@ -44,4 +43,3 @@ private def parse(lines: Vector[String]): (Rules, Vector[Update]) =
       _.map({ case s"$a|$b" => (a.toLong, b.toLong) }),
       _.tail.map(_.numbers)
     )
-

@@ -50,4 +50,4 @@ extension (self: String)
         (elves2.toSet, dirs.tail :+ dirs.head)
 
   def parse: Set[Vec2] = self.linesv.gridIterator.collectToSet:
-    case ('#', loc) => loc
+    case (loc, '#') => loc

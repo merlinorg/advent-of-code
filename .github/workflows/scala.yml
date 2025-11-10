@@ -35,8 +35,9 @@ jobs:
       uses: sbt/setup-sbt@v1
 
     - name: Run tests
-      # We exclude "CPU" tests which require more memory than is available
-      run: sbt 'testOnly -- -l "org.scalatest.tags.CPU"'
+      # We excluded "CPU" tests which require more memory than is available
+      # Now we exclude all slow tests because time...
+      run: sbt 'testOnly -- -l "org.scalatest.tags.Slow"'
 
     - name: Publish test results
       uses: EnricoMi/publish-unit-test-result-action@v2

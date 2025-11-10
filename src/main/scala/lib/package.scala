@@ -5,6 +5,7 @@ import lib.impl.*
 package object lib:
   export BFS.{*, given}
   export BooleanOps.{*, given}
+  export EitherOps.{*, given}
   export GridOps.{*, given}
   export IO.{*, given}
   export IntOps.{*, given}

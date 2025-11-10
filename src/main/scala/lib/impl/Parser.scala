@@ -5,6 +5,7 @@ import scala.collection.immutable.NumericRange
 
 object Parser:
   val NumRE = "(?:-)?\\d+".r
+  val WordRE = "\\w+".r
 
   object C:
     def unapply(string: String): Option[Char] = string.headOption

@@ -50,13 +50,13 @@ def rockerator(input: String): Iterator[(Int, Int, Vec2, Int, Set[Vec2])] =
     val blown = if hit(rock, pos + dir, board) then pos else pos + dir
     if hit(rock, blown + North, board) then
       val newHeight = height max (pos.y + rock.height)
-      val newBoard  = board ++ rock.gridIterator.filter(_._1 == '#').map(_._2 + blown)
+      val newBoard  = board ++ rock.gridIterator.filter(_._2 == '#').map(_._1 + blown)
       (stringdex + 1, rockdex + 1, (2, newHeight + 3), newHeight, newBoard)
     else (stringdex + 1, rockdex, blown + North, height, board)
 
 def hit(rock: Rock, pos: Vec2, board: Set[Vec2]): Boolean =
   (pos.x < 0) || (pos.x + rock.width > 7) || (pos.y < 0) ||
-    rock.gridIterator.exists((c, loc) => c == '#' && board(pos + loc))
+    rock.gridIterator.exists((loc, c) => c == '#' && board(pos + loc))
 
 extension (string: String) def parse: Iterator[String] = string.linesIterator
 

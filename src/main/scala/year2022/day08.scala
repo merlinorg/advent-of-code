@@ -20,7 +20,7 @@ val actual: String = load("actual.txt")
 def part1(input: String): Long =
   val grid = input.linesv
   val res  = for
-    (c, (x, y)) <- grid.gridIterator
+    ((x, y), c) <- grid.gridIterator
     if (0 until x).forall(xx => c > grid(xx -> y)) ||
       (0 until y).forall(yy => c > grid(x -> yy)) ||
       (grid.width - 1 until x by -1).forall(xx => c > grid(xx -> y)) ||
@@ -31,7 +31,7 @@ def part1(input: String): Long =
 def part2(input: String): Long =
   val grid = input.linesv
   val res  =
-    for (c, (x, y)) <- grid.gridIterator
+    for ((x, y), c) <- grid.gridIterator
     yield (x - 1 to 0 by -1).takeUntil(xx => c > grid(xx -> y)).length *
       (x + 1 until grid.width).takeUntil(xx => c > grid(xx -> y)).length *
       (y - 1 to 0 by -1).takeUntil(yy => c > grid(x -> yy)).length *

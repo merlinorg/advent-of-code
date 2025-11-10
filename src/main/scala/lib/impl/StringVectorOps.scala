@@ -4,15 +4,17 @@ package lib.impl
 import lib.impl.TupleOps.*
 
 object StringVectorOps:
-  extension (vector: Vector[String])
+  import Vec2Ops.*
+
+  extension (self: Vector[String])
     def chunks: Vector[Vector[String]] =
       Iterator
-        .unfold(vector): v =>
+        .unfold(self): v =>
           Option.when(v.nonEmpty):
             v.bichunk
         .toVector
 
     def bichunk: (Vector[String], Vector[String]) =
-      vector.span(_.nonEmpty).rmap(_.dropWhile(_.isEmpty))
+      self.span(_.nonEmpty).rmap(_.dropWhile(_.isEmpty))
 
-    def toLongs: Vector[Long] = vector.map(_.toLong)
+    def toLongs: Vector[Long] = self.map(_.toLong)

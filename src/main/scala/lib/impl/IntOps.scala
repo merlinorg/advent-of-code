@@ -19,3 +19,5 @@ object IntOps:
     inline def even: Boolean = self % 2 == 0
 
     infix def mid(n: Int): Int = (self + n) / 2
+
+  private[impl] inline def posMod(a: Int, b: Int): Int = a %% b

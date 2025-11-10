@@ -15,6 +15,8 @@ object IteratorOps:
     def sumMap(f: A => Long): Long =
       self.foldLeft(0L)((sum, a) => sum + f(a))
 
+    def findFirst(f: A => Boolean): A = self.find(f).get
+
     def findMap[B](f: A => Option[B]): B =
       self.flatMap(f).next()
 
@@ -25,7 +27,7 @@ object IteratorOps:
 
     def collectToSet[B](pf: PartialFunction[A, B]): Set[B] =
       self.collect(pf).toSet
-
+      
     def last(): A =
       var result = self.next()
       while self.hasNext do result = self.next()

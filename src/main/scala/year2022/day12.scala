@@ -24,7 +24,7 @@ def part1(input: String): Long =
 def part2(input: String): Long =
   val (grid, _, end) = input.parse
   grid.gridIterator.minCollect:
-    case ('a', xy) =>
+    case (xy, 'a') =>
       solve(grid, xy, end).getOrElse(Int.MaxValue)
 
 def solve(grid: Vector[String], start: Vec2, end: Vec2): Option[Int] =

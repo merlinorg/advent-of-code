@@ -17,6 +17,17 @@ object BFS:
 
     queue.headOption
 
+  def countPaths[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Int =
+    var count = 0
+    val queue = mutable.Queue(start)
+
+    while queue.nonEmpty do
+      val a = queue.dequeue()
+      if endF(a) then count = count + 1
+      else queue.addAll(neighbourF(a))
+
+    count
+
   def minimumDistances[A](routes: Map[A, Iterable[A]]): Map[A, Map[A, Int]] =
     routes.keys.mapToMap: a =>
       val distances = mutable.Map.empty[A, Int]
@@ -28,3 +39,12 @@ object BFS:
           queue.enqueueAll:
             routes.get(loc).iterator.flatMap(_.strengthR(distance + 1))
       a -> distances.toMap
+
+  def floodfill[A](start: A, neighbourF: A => Vector[A]): Set[A] =
+    val visited = mutable.Set(start)
+    val queue   = mutable.Queue(start)
+    while queue.nonEmpty do
+      val current    = queue.dequeue()
+      val neighbours = neighbourF(current).filter(visited.add)
+      queue.addAll(neighbours)
+    visited.toSet

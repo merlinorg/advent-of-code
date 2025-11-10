@@ -2,6 +2,8 @@ package org.merlin.aoc
 package lib.impl
 
 import lib.impl.BooleanOps.*
+import lib.impl.GridOps.*
+import lib.impl.IntOps.*
 import lib.impl.IteratorOps.*
 
 object Vec2Ops:
@@ -35,22 +37,28 @@ object Vec2Ops:
   private val ccwMap = cwMap.map((a, b) => b -> a)
 
   extension (vec: Vec2)
-    def x: Int     = vec(0)
-    def y: Int     = vec(1)
-    def abs: Vec2  = (x.abs, y.abs)
-    def sign: Vec2 = (x.sign, y.sign)
+    def x: Int               = vec(0)
+    def y: Int               = vec(1)
+    def abs: Vec2            = (x.abs, y.abs)
+    def sign: Vec2           = (x.sign, y.sign)
+    def *(scalar: Int): Vec2 = (x * scalar, y * scalar)
 
-    def +(other: Vec2): Vec2         = append(other, _ + _)
-    def -(other: Vec2): Vec2         = append(other, _ - _)
-    def >=<(other: Vec2): Boolean    = x >= 0 && x < other.x && y >= 0 && y < other.y
-    def |-|(other: Vec2): Int        = (other.x - x).abs + (other.y - y).abs
-    infix def min(other: Vec2): Vec2 = append(other, _ min _)
-    infix def max(other: Vec2): Vec2 = append(other, _ max _)
+    def +(other: Vec2): Vec2           = append(other, _ + _)
+    def %(other: Vec2): Vec2           = append(other, _ % _)
+    def %(grid: Vector[String]): Vec2  = append(grid.dimensions, _ % _)
+    def %%(other: Vec2): Vec2          = append(other, posMod)
+    def %%(grid: Vector[String]): Vec2 = append(grid.dimensions, posMod)
+    def -(other: Vec2): Vec2           = append(other, _ - _)
+    def >=<(other: Vec2): Boolean      = x >= 0 && x < other.x && y >= 0 && y < other.y
+    def |-|(other: Vec2): Int          = (other.x - x).abs + (other.y - y).abs
+    infix def min(other: Vec2): Vec2   = append(other, _ min _)
+    infix def max(other: Vec2): Vec2   = append(other, _ max _)
 
     private inline def append(other: Vec2, f: (Int, Int) => Int): Vec2 = (f(x, other.x), f(y, other.y))
 
-    def dotProduct: Int          = x * y
-    def neighbours: Vector[Vec2] = CardinalDirections.map(vec + _)
+    def dotProduct: Long            = x.toLong * y
+    def neighbours: Vector[Vec2]    = CardinalDirections.map(vec + _)
+    def allNeighbours: Vector[Vec2] = AllDirections.map(vec + _)
 
     def cw: Vec2     = (-y, x)
     def ccw: Vec2    = (y, -x)

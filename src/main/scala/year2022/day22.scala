@@ -28,7 +28,7 @@ def part2(input: String): Long =
 def solve(input: String, overflow: (Vector[String], Vec2, Vec2) => (Vec2, Vec2)): Long =
   val (map, instructions) = input.parse
   val start               = map.gridIterator.collectFirst:
-    case ('.', loc) => loc
+    case (loc, '.') => loc
   val (pos, dir)          = instructions.foldLeft(start.get -> East):
     case ((pos, dir), I(num)) =>
       @tailrec def move(map: Vector[String], pos: Vec2, dir: Vec2, count: Int): (Vec2, Vec2) =

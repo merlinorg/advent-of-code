@@ -58,7 +58,7 @@ type Gales = Map[Vec2, Vector[Vec2]]
 extension (self: Vector[String])
   def gales: Gales = self.gridIterator
     .flatMap:
-      case (c, loc) => Dir.get(c).map(dir => loc -> Vector(dir))
+      case (loc, c) => Dir.get(c).map(dir => loc -> Vector(dir))
     .toMap
 
   def step(loc: Vec2, dir: Vec2): Vec2 = loc + dir match

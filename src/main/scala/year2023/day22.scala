@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day22
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -42,7 +41,7 @@ extension (self: Vector[Block])
 def part1(lines: Vector[String]): Long =
   val blocks = lines.parse.fall
   val slices =
-    blocks.flatMap(block => (block.z1 to block.z2).map(_ -> block)).groupToMap.withDefaultValue(Vector.empty)
+    blocks.flatMap(block => (block.z1 to block.z2).map(_ -> block)).toMultimap.withDefaultValue(Vector.empty)
   blocks.count: block =>
     !slices(block.z2 + 1).exists: other =>
       other.overlaps(block) && slices(other.z1 - 1).count(other.overlaps) == 1
@@ -50,8 +49,8 @@ def part1(lines: Vector[String]): Long =
 def part2(lines: Vector[String]): Long =
   val blocks = lines.parse.fall
   val slices =
-    blocks.flatMap(block => (block.z1 to block.z2).map(_ -> block)).groupToMap.withDefaultValue(Vector.empty)
-  blocks.foldMap: block =>
+    blocks.flatMap(block => (block.z1 to block.z2).map(_ -> block)).toMultimap.withDefaultValue(Vector.empty)
+  blocks.sumMap: block =>
     blocks
       .foldLeft(Set(block)): (set, b) =>
         if b.z1 > 1 && slices(b.z1 - 1).filter(b.overlaps).forall(set.contains) then set + b else set

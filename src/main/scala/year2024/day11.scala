@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2024
 package day11
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.fp.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -25,7 +25,7 @@ def part2(lines: Vector[String]): Long = blink(lines, 75)
 
 private def blink(lines: Vector[String], iterations: Int): Long =
   Iterator
-    .iterate(lines.head.numbers.foldMap(n => Map(n -> 1L))): kenneth =>
+    .iterate(lines.head.longs.foldMap(n => Map(n -> 1L))): kenneth =>
       kenneth.toVector.foldMap:
         case (0, count)          => Map(1L -> count)
         case (Even(a, b), count) => if a == b then Map(a -> 2 * count) else Map(a -> count, b -> count)

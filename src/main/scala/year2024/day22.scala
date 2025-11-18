@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2024
 package day22
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
+import lib.fp.{*, given}
 
 @main
 def part1(): Unit =
@@ -20,7 +20,7 @@ val sample2: Vector[String] = loadv("sample2.txt")
 val actual: Vector[String]  = loadv("actual.txt")
 
 def part1(lines: Vector[String]): Long =
-  lines.foldMap: line =>
+  lines.sumMap: line =>
     Iterator.iterate(line.toLong)(next).nth(2000)
 
 def part2(lines: Vector[String]): Long =

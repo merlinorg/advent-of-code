@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day13
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -31,15 +30,15 @@ private def reflections(a: Area, smudges: Int): Seq[Int] =
   for
     row            <- a.indices.tail
     (before, after) = a.splitAt(row)
-    if smudges == before.reverse.zip(after).foldMap(differences)
+    if smudges == before.reverse.zip(after).sumMap(differences)
   yield row
 
 def part1(lines: Vector[String]): Long =
-  parseAreas(lines).foldMap: area =>
+  parseAreas(lines).sumMap: area =>
     reflections(area, 0).map(_ * 100).sum + reflections(area.transpose, 0).sum
 
 def part2(lines: Vector[String]): Long =
-  parseAreas(lines).foldMap: area =>
+  parseAreas(lines).sumMap: area =>
     reflections(area, 1).map(_ * 100).sum + reflections(area.transpose, 1).sum
 
 // Part 2 in "6" lines

@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day15
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -34,7 +33,7 @@ extension (self: List[Lens])
     else self :+ (label -> focus)
 
 def part1(lines: Vector[String]): Long =
-  lines.flatMap(_.split(",")).foldMap(_.hash)
+  lines.flatMap(_.split(",")).sumMap(_.hash)
 
 def part2(lines: Vector[String]): Long =
   lines
@@ -46,6 +45,6 @@ def part2(lines: Vector[String]): Long =
         boxes.updatedWith(label.hash)(_.map(_.add(label, focus.toInt)).orElse(Some(List(label -> focus.toInt))))
       case (boxes, _)                => boxes
     .toList
-    .foldMap:
+    .sumMap:
       case (box, lenses) =>
-        lenses.zipWithIndex.foldMap((lens, index) => (box + 1) * (index + 1) * lens._2)
+        lenses.zipWithIndex.sumMap((lens, index) => (box + 1) * (index + 1) * lens._2)

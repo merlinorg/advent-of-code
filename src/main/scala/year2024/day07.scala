@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2024
 package day07
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.fp.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -20,7 +20,7 @@ val sample: Vector[String] = loadv("sample.txt")
 val actual: Vector[String] = loadv("actual.txt")
 
 def part1(lines: Vector[String]): Long =
-  parse(lines).foldMap:
+  parse(lines).sumMap:
     case (total, numbers) =>
       def solvable(numbers: Vector[Long], sum: Long = 0): Boolean = numbers match
         case num +: rest => solvable(rest, sum + num) || solvable(rest, sum * num)
@@ -28,7 +28,7 @@ def part1(lines: Vector[String]): Long =
       solvable(numbers) ?? total
 
 def part2(lines: Vector[String]): Long =
-  parse(lines).foldMap:
+  parse(lines).sumMap:
     case (total, numbers) =>
       def solvable(numbers: Vector[Long], sum: Long = 0): Boolean = numbers match
         case num +: rest => solvable(rest, sum + num) || solvable(rest, sum * num) || solvable(rest, sum || num)
@@ -37,6 +37,6 @@ def part2(lines: Vector[String]): Long =
 
 private def parse(lines: Vector[String]): Vector[(Long, Vector[Long])] =
   lines.map:
-    case s"$a: $b" => a.toLong -> b.numbers
+    case s"$a: $b" => a.toLong -> b.longs
 
 extension (self: Long) def ||(n: Long): Long = s"$self$n".toLong

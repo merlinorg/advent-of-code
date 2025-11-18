@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2024
 package day09
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -29,7 +28,7 @@ def part1(lines: Vector[String]): Long =
       case (file +: files, blanks)                                  =>
         Some(file, (files, blanks))
       case _                                                        => None
-    .foldMap(_.value)
+    .sumMap(_.value)
 
 def part2(lines: Vector[String]): Long =
   Iterator
@@ -43,15 +42,16 @@ def part2(lines: Vector[String]): Long =
             Some(file, (files, blanks))
       case _                       =>
         None
-    .foldMap(_.value)
+    .sumMap(_.value)
 
 private def parse(lines: Vector[String]): (Vector[Extent], Vector[Extent]) =
   lines.head.toVector
-    .foldLeftMap((true, 0, 0, (Vector.empty[Extent], Vector.empty[Extent])))(_._4):
+    .foldLeft((true, 0, 0, (Vector.empty[Extent], Vector.empty[Extent]))):
       case ((true, index, pos, (files, blanks)), char)  =>
         (false, index, pos + char.asDigit, (Extent(index, pos, char.asDigit) +: files, blanks))
       case ((false, index, pos, (files, blanks)), char) =>
         (true, index + 1, pos + char.asDigit, (files, blanks :+ Extent(index, pos, char.asDigit)))
+    ._4
 
 private final case class Extent(id: Long, pos: Int, len: Int):
   def value: Long                     = id * (pos * len + len * (len - 1) / 2)

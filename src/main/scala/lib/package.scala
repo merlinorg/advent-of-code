@@ -17,7 +17,7 @@ package object lib:
   export Parser.{*, given}
   export SeqOps.{*, given}
   export StringOps.{*, given}
-  export StringVectorOps.{*, given}
+  export VectorOps.{*, given}
   export TupleOps.{*, given}
   export Types.{*, given}
   export Vec2Ops.{*, given}

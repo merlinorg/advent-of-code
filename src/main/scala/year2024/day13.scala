@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2024
 package day13
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -19,10 +18,10 @@ val sample: Vector[String] = loadv("sample.txt")
 
 val actual: Vector[String] = loadv("actual.txt")
 
-def part1(lines: Vector[String]): Long = parse(lines).foldMap(_.cost)
+def part1(lines: Vector[String]): Long = parse(lines).sumMap(_.cost)
 
 def part2(lines: Vector[String]): Long =
-  parse(lines).map(g => g.copy(x = g.x + 10000000000000L, y = g.y + 10000000000000L)).foldMap(_.cost)
+  parse(lines).map(g => g.copy(x = g.x + 10000000000000L, y = g.y + 10000000000000L)).sumMap(_.cost)
 
 def parse(lines: Vector[String]): Vector[Game] =
   lines

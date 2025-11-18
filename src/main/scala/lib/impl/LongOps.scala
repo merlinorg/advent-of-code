@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package lib.impl
 
-import scala.annotation.targetName
+import scala.annotation.{tailrec, targetName}
 
 object LongOps:
   extension (self: Long)
@@ -30,3 +30,5 @@ object LongOps:
     inline def **(n: Int): Long = math.pow(self.doubleValue, n.doubleValue).longValue
 
     inline def digits: Int = 1 + math.log10(self.doubleValue).intValue
+    
+    @tailrec def gcd(y: Long): Long = if y == 0 then self else y.gcd(self % y)

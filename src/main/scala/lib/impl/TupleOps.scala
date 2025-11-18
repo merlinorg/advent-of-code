@@ -8,6 +8,11 @@ object TupleOps:
     inline def rmap[C](fb: B => C): (A, C)                 = (self(0), fb(self(1)))
     inline def bimap[C, D](fa: A => C, fb: B => D): (C, D) = (fa(self(0)), fb(self(1)))
 
+  extension [A](self: (A, A))
+    def sum(using N: Numeric[A]): A = N.plus(self._1, self._2)
+    def difference(using N: Numeric[A]): A = N.minus(self._2, self._1)
+    def product(using N: Numeric[A]): A = N.times(self._1, self._2)
+
   extension [A](self: (A, A, A))
     inline def set(i: 0 | 1 | 2, a: A): (A, A, A) =
       if i == 0 then (a, self(1), self(2))

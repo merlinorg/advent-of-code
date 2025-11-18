@@ -22,12 +22,15 @@ object IteratorOps:
 
     def findCollect[B](f: PartialFunction[A, B]): B = findMap(f.lift)
 
+    def foldCollect[B](z: B)(pf: PartialFunction[(B, A), B]): B =
+      self.foldLeft(z)((b, a) => pf.lift(b -> a).getOrElse(b))
+
     def sumCollect(pf: PartialFunction[A, Long]): Long =
       self.foldLeft(0L)((sum, a) => pf.lift(a).fold(sum)(sum + _))
 
     def collectToSet[B](pf: PartialFunction[A, B]): Set[B] =
       self.collect(pf).toSet
-      
+
     def last(): A =
       var result = self.next()
       while self.hasNext do result = self.next()
@@ -35,6 +38,7 @@ object IteratorOps:
 
     def nth(n: Int): A = self.drop(n).next
 
+    /** Takes until and excluding when a predicate matches. */
     def takeUntil(p: A => Boolean): Iterator[A] = new AbstractIterator[A]:
       private var hd: A              = uninitialized
       private var hdDefined: Boolean = false
@@ -42,9 +46,12 @@ object IteratorOps:
 
       def hasNext: Boolean = hdDefined || tail.hasNext && {
         hd = tail.next()
-        hdDefined = true
-        if p(hd) then tail = Iterator.empty
-        true
+        if p(hd) then
+          tail = Iterator.empty
+          false
+        else
+          hdDefined = true
+          true
       }
 
       def next(): A = if hasNext then
@@ -58,3 +65,6 @@ object IteratorOps:
     def iteropt[A](init: A)(f: A => Option[A]): Iterator[A] =
       Iterator.single(init) ++ Iterator.unfold(init): a =>
         f(a).map(a => (a, a))
+
+    def last[A](init: A)(f: A => Option[A]): A =
+      iteropt(init)(f).last()

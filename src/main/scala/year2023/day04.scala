@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day04
 
-import lib.impl.IO.{*, given}
-import lib.legacy.*
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -21,8 +20,8 @@ val actual: Vector[String] = loadv("actual.txt")
 
 private def wins(line: String): Int = line match
   case s"Card $_: $winning | $chosen" =>
-    val wins = NumRe.findAllIn(winning).toSet
-    val mine = NumRe.findAllIn(chosen).toSet
+    val wins = NumRE.findAllIn(winning).toSet
+    val mine = NumRE.findAllIn(chosen).toSet
     wins.intersect(mine).size
 
 def part1(lines: Vector[String]): Long =

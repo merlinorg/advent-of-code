@@ -47,5 +47,5 @@ private def solve(map: Vector[String], dirs: Vector[String]): Long =
             case (locs, map) if locs.isEmpty              => loc + dir -> map
             case (locs, _) if locs.exists(map.is(_, '#')) => loc       -> map0
 
-  result.locations.foldMap: loc =>
+  result.locations.sumMap: loc =>
     if result.is(loc, 'O') || result.is(loc, '[') then loc.y * 100 + loc.x else 0

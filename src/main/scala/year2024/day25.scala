@@ -16,7 +16,7 @@ val actual: Vector[String] = loadv("actual.txt")
 
 def part1(lines: Vector[String]): Long =
   val (locks, keys) = parse(lines)
-  locks.foldMap: lock =>
+  locks.sumMap: lock =>
     keys.count: key =>
       key.locations.forall: loc =>
         key.is(loc, '.') || lock.is(loc, '.')

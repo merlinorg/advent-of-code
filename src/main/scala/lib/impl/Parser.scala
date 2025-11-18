@@ -4,7 +4,7 @@ package lib.impl
 import scala.collection.immutable.NumericRange
 
 object Parser:
-  val NumRE = "(?:-)?\\d+".r
+  val NumRE = "-?\\d+".r
   val WordRE = "\\w+".r
 
   object C:

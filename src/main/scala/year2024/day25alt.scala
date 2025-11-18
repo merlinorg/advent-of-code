@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day25alt
 
-import lib.impl.IO.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =

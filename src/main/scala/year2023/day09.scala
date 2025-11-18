@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day09
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -30,13 +29,13 @@ val actual: Vector[String] = loadv("actual.txt")
 def part1(lines: Vector[String]): Long =
   lines
     .map: line =>
-      NumRe.findAllIn(line).map(_.toLong).toList.reverse
-    .foldMap: values =>
+      NumRE.findAllIn(line).map(_.toLong).toList.reverse
+    .sumMap: values =>
       loop(values, 0)
 
 def part2(lines: Vector[String]): Long =
   lines
     .map: line =>
-      NumRe.findAllIn(line).map(_.toLong).toList
-    .foldMap: values =>
+      NumRE.findAllIn(line).map(_.toLong).toList
+    .sumMap: values =>
       loop(values, 0)

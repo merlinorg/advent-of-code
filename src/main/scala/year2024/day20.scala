@@ -32,7 +32,7 @@ def solve(maze: Vector[String], cheat: Long): Long =
       .find(loc => !maze.is(loc, '#') && loc != prev)
       .map(loc => ((loc, steps), (cur, loc, steps + 1)))
 
-  path.tails.foldCollect:
+  path.tails.sumCollect:
     case (loc0, dst0) +: tail =>
       tail
         .drop(picos)

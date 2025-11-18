@@ -20,11 +20,11 @@ val sample: Vector[String] = loadv("sample.txt")
 val actual: Vector[String] = loadv("actual.txt")
 
 def part1(board: Board): Long =
-  parse(board).foldMap: region =>
+  parse(board).sumMap: region =>
     region.area * region.perimeter
 
 def part2(board: Board): Long =
-  parse(board).foldMap: region =>
+  parse(board).sumMap: region =>
     region.area * region.sides
 
 type Region = Set[Loc]
@@ -41,7 +41,7 @@ private def floodfill(board: Board, loc: Loc, region: Region): Region =
 
 extension (region: Region)
   def area: Long      = region.size
-  def perimeter: Long = region.foldMap(_.adjacents.count(adj => !region(adj)))
-  def sides: Long     = region.foldMap: loc =>
+  def perimeter: Long = region.sumMap(_.adjacents.count(adj => !region(adj)))
+  def sides: Long     = region.sumMap: loc =>
     CardinalDirections.count: dir =>
       !region(loc + dir) && (!region(loc + dir.ccw) || region(loc + dir.ccw2))

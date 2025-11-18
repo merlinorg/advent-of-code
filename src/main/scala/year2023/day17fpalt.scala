@@ -2,6 +2,7 @@ package org.merlin.aoc
 package year2023
 package day17fpalt
 
+import lib.fp.{*, given}
 import lib.impl.IO.{*, given}
 import lib.legacy.{*, given}
 import scala.collection.SortedSet

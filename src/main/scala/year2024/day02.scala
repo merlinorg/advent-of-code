@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2024
 package day02
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -20,10 +19,10 @@ val sample: Vector[String] = loadv("sample.txt")
 val actual: Vector[String] = loadv("actual.txt")
 
 def part1(lines: Vector[String]): Long =
-  lines.numbers.count(safe)
+  lines.map(_.longs).count(safe)
 
 def part2(lines: Vector[String]): Long =
-  lines.numbers.count: numbers =>
+  lines.map(_.longs).count: numbers =>
     safe(numbers) || numbers.indices.exists: index =>
       safe(numbers.splice(index, 1))
 

@@ -10,3 +10,7 @@ object OptionOps:
     def ||(a: => Option[A]): Option[A]        = self.orElse(a)
     def cata[B](f: A => B, z: => B): B        = self.fold(z)(f)
     def when(z: => Boolean): Option[A]        = self.filter(_ => z)
+    def -(a: => A): Option[A]                 = self.filter(_ != a)
+
+  extension[A](self: A)
+    def some: Option[A] = Some(self)

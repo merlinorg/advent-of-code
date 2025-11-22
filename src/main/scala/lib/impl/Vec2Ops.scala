@@ -26,7 +26,7 @@ object Vec2Ops:
     "WL<" -> West
   ).flatMap((str, dir) => str.map(_ -> dir))
 
-  val CardinalDirections = Vector(North, South, East, West)
+  val CardinalDirections = Vector(North, East, South, West)
   val AllDirections      = Vector(North, NorthEast, East, SouthEast, South, SouthWest, West, NorthWest)
 
   val Origin = (0, 0)

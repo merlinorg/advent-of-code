@@ -11,6 +11,9 @@ object IntOps:
     @targetName("geLt")
     inline def >=<(n: Int): Boolean = self >= 0 && self < n
 
+    @targetName("geLt")
+    inline def >=<[A: Numeric as N](t: (A, A)): Boolean = self >= N.toLong(t._1) && self < N.toLong(t._2)
+
     @targetName("or")
     inline def ||(n: => Int): Int = if self != 0 then self else n
 

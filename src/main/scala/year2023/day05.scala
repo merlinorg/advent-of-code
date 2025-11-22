@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day05
 
-import lib.impl.IO.{*, given}
-import lib.legacy.*
+import lib.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -73,13 +72,13 @@ private def split(range: Mapping, n: Long): List[Mapping] =
   else range :: Nil
 
 def part1(lines: Vector[String]): Long =
-  val seeds        = NumRe.findAllIn(lines.head).map(_.toLong).toList
+  val seeds        = NumRE.findAllIn(lines.head).map(_.toLong).toList
   val head :: tail = parseAllMappings(lines.drop(2).toList): @unchecked
   val mappings     = tail.foldLeft(head)(combine)
   seeds.map(transform(_, mappings)).min
 
 def part2(lines: Vector[String]): Long =
-  val pairs        = NumRe.findAllIn(lines.head).map(_.toLong).toList.grouped(2)
+  val pairs        = NumRE.findAllIn(lines.head).map(_.toLong).toList.grouped(2)
   val head :: tail = parseAllMappings(lines.drop(2).toList): @unchecked
   val mappings     = tail.foldLeft(head)(combine)
   val seeds        =

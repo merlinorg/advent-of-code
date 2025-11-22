@@ -2,9 +2,7 @@ package org.merlin.aoc
 package year2024
 package day17
 
-import lib.impl.IO.{*, given}
-import lib.impl.Parser.*
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -63,7 +61,7 @@ def parse(lines: Vector[String]): CPU =
     case (cpu, s"Register A: ${L(a)}") => cpu.copy(a = a)
     case (cpu, s"Register B: ${L(b)}") => cpu.copy(b = b)
     case (cpu, s"Register C: ${L(c)}") => cpu.copy(c = c)
-    case (cpu, s"Program: ${p}")       => cpu.copy(program = p.numbers.map(_.toInt))
+    case (cpu, s"Program: ${p}")       => cpu.copy(program = p.longs.map(_.toInt))
     case (cpu, _)                      => cpu
 
 extension (n: Long) @tailrec def dropz: Long = if n % 8 != 0 then n else (n >> 3).dropz

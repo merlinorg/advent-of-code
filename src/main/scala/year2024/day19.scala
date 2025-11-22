@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2024
 package day19
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -30,6 +29,9 @@ def part1(lines: Vector[String]): Long =
     )
   )
 
+def Y[A, B](f: (A => B, A) => B, x: A): B =
+  f(v => Y(f, v), x)
+
 def part2(lines: Vector[String]): Long =
   val (allTowels, patterns) = parse(lines)
   Iterator
@@ -41,7 +43,7 @@ def part2(lines: Vector[String]): Long =
       case ((pattern, _ +: towels) +: tail, cache, patterns, total)                                  =>
         ((pattern, towels) +: tail, cache, patterns, total)
       case ((pattern, _) +: tail, cache, patterns, total)                                            =>
-        val subtotal = allTowels.foldMap: towel =>
+        val subtotal = allTowels.sumMap: towel =>
           if pattern.startsWith(towel) then cache(pattern.substring(towel.length)) else 0
         (tail, cache + (pattern -> subtotal), patterns, total)
       case (_, cache, pattern +: next +: patterns, total)                                            =>

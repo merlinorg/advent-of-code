@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day07
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.math.Ordering.Implicits.seqOrdering
 
 @main
@@ -24,12 +23,12 @@ private def f(lines: Vector[String], strengthF: String => List[Int]): Long =
   val hands  = lines.map:
     case s"$hand $bid" => hand -> bid.toLong
   val sorted = hands.map(_.lmap(strengthF)).sortBy(_._1)
-  sorted.map(_._2).zipWithIndex.foldMap((bid, rank) => (rank + 1) * bid)
+  sorted.map(_._2).zipWithIndex.sumMap((bid, rank) => (rank + 1) * bid)
 
 private val strengthsA = "23456789TJQKA".toList
 
 private def strengthA(hand: String): List[Int] =
-  strengthsA.map(c => hand.count(_ == c)).sorted.reverse ::: hand.toList.map(
+  strengthsA.map(c => hand.countA(c)).sorted.reverse ::: hand.toList.map(
     strengthsA.indexOf
   )
 
@@ -38,7 +37,7 @@ def part1(lines: Vector[String]): Long = f(lines, strengthA)
 private val strengthsB = "J23456789TQKA".toList
 
 private def strengthB(hand: String): List[Int] =
-  val jokers :: cards = strengthsB.map(c => hand.count(_ == c)): @unchecked
+  val jokers :: cards = strengthsB.map(c => hand.countA(c)): @unchecked
   val best :: rest    = cards.sorted.reverse: @unchecked
   jokers + best :: rest ::: hand.toList.map(strengthsB.indexOf)
 

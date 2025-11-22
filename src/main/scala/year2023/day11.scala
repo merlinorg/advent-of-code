@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day11
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -43,7 +42,7 @@ private def allStars(
   yield x -> y
 
 def part1(lines: Vector[String]): Long =
-  allStars(lines, 2).combinations(2).toList.foldMap(v => v(0) Δ v(1))
+  allStars(lines, 2).combinations(2).toList.sumMap(v => v(0) Δ v(1))
 
 def part2(lines: Vector[String]): Long =
-  allStars(lines, 1_000_000).combinations(2).toList.foldMap(v => v(0) Δ v(1))
+  allStars(lines, 1_000_000).combinations(2).toList.sumMap(v => v(0) Δ v(1))

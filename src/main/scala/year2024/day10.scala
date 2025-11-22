@@ -20,10 +20,10 @@ val sample: Vector[String] = loadv("sample.txt")
 val actual: Vector[String] = loadv("actual.txt")
 
 def part1(board: Board): Long =
-  trails(board).foldMap(_.toSet.size)
+  trails(board).sumMap(_.toSet.size)
 
 def part2(board: Board): Long =
-  trails(board).foldMap(_.size)
+  trails(board).sumMap(_.size)
 
 private def trails(board: Board): Vector[Vector[Loc]] =
   board

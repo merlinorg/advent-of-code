@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2024
 package day05
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -21,13 +20,13 @@ val actual: Vector[String] = loadv("actual.txt")
 
 def part1(lines: Vector[String]): Long =
   val (rules, updates) = parse(lines)
-  updates.filter(valid(_, rules)).foldMap(_.middle)
+  updates.filter(valid(_, rules)).sumMap(_.middle)
 
 def part2(lines: Vector[String]): Long =
   val (rules, updates) = parse(lines)
   updates
     .filterNot(valid(_, rules))
-    .foldMap(_.sortWith((a, b) => rules.contains(a -> b)).middle)
+    .sumMap(_.sortWith((a, b) => rules.contains(a -> b)).middle)
 
 private type Rules  = Vector[(Long, Long)]
 private type Update = Vector[Long]
@@ -41,5 +40,5 @@ private def parse(lines: Vector[String]): (Rules, Vector[Update]) =
     .span(_.nonEmpty)
     .bimap(
       _.map({ case s"$a|$b" => (a.toLong, b.toLong) }),
-      _.tail.map(_.numbers)
+      _.tail.map(_.longs)
     )

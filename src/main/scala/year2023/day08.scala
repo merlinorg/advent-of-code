@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day08
 
-import lib.impl.IO.{*, given}
-import scala.annotation.tailrec
+import lib.{*, given}
 
 @main
 def part1(): Unit =
@@ -35,13 +34,6 @@ def part1(lines: Vector[String]): Long =
     rules(pos)(dir)
   .indexOf("ZZZ")
 
-@tailrec private def gcd(x: Long, y: Long): Long =
-  if y == 0 then x else gcd(y, x % y)
-
-private def lcm(list: Iterable[Long]): Long =
-  list.foldLeft(1L): (a, b) =>
-    b * a / gcd(a, b)
-
 def part2(lines: Vector[String]): Long =
   val lr    = LazyList.continually(lines.head).flatten
   val rules = parseRules(lines.drop(2))
@@ -51,4 +43,4 @@ def part2(lines: Vector[String]): Long =
       rules(pos)(dir)
     .indexWhere(_.endsWith("Z"))
 
-  lcm(rules.keys.filter(_.endsWith("A")).map(count))
+  rules.keys.filter(_.endsWith("A")).map(count).lcm

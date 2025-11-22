@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2024
 package day23
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
+import lib.fp.{*, given}
 
 @main
 def part1(): Unit =

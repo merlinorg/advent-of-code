@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day25
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -21,11 +20,11 @@ extension (self: Vector[String])
   private def parse: Graph =
     val edges = self.flatMap:
       case s"$lhs: $rhss" => rhss.split(" ").map(lhs -> _)
-    (edges ++ edges.map(_.swap)).groupToMap
+    (edges ++ edges.map(_.swap)).toMultimap
 
 // want https://en.wikipedia.org/wiki/Stoer%E2%80%93Wagner_algorithm but this seems to work shrug
 @tailrec private def partition(graph: Graph, vertices: Set[String]): Set[String] =
-  if vertices.foldMap(graph(_).count(!vertices(_))) == 3 then vertices
+  if vertices.sumMap(graph(_).count(!vertices(_))) == 3 then vertices
   else partition(graph, vertices + (graph.keySet -- vertices).minBy(graph(_).count(!vertices(_))))
 
 def part1(lines: Vector[String]): Long =

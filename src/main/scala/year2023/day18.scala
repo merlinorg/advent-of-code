@@ -31,7 +31,7 @@ private def area(vertices: Vector[Loc]): Long = // shoelace algorithm
   vertices.zip(vertices.tail).map((a, b) => a.x * b.y - b.x * a.y).sum.abs / 2
 
 private def cellArea(path: Vector[Vec]): Long = // area of cell coordinates + perimeter / 2 + 1
-  area(path.scanLeft(Origin)(_ + _)) + path.foldMap(_.magnitude) / 2 + 1
+  area(path.scanLeft(Origin)(_ + _)) + path.sumMap(_.magnitude) / 2 + 1
 
 def part1(lines: Vector[String]): Long = lines |> parse1 |> cellArea
 

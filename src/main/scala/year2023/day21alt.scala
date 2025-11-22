@@ -115,7 +115,7 @@ final case class Solution2FSM(
 
   def solution: Option[Long] =
     Option.when(countHistories.values.exists(_.length == 3)):
-      countHistories.toList.foldMap:
+      countHistories.toList.sumMap:
         case (count, values) =>
           // our indexes are over the even steps so we have to halve the quotient. we're also looking
           // at values several iterations in so we he have to subtract the iteration count.

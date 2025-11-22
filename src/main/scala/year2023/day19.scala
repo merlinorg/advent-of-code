@@ -80,7 +80,7 @@ def part1(lines: Vector[String]): Long =
     case Reject   => 0
     case workflow => loop(workflows(workflow).find(_.matches(part)).get.next, part)
 
-  parts.foldMap(loop(In, _))
+  parts.sumMap(loop(In, _))
 
 // part 2, push all the part ranges through the workflows, splitting as necessary, until they reach A
 
@@ -90,6 +90,6 @@ def part2(lines: Vector[String]): Long =
   def loop(name: WorkflowName, parts: Parts): Long = name match
     case Accept   => parts.values.map(_.range).product
     case Reject   => 0
-    case workflow => workflows(workflow).mapS(parts)(routeParts).foldMap(loop)
+    case workflow => workflows(workflow).mapS(parts)(routeParts).sumMap(loop)
 
   loop(In, "amxs".toVector.mapToMap(_.toRating -> (1L until 4001L)))

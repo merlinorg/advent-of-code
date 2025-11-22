@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day14
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.annotation.tailrec
 
 @main
@@ -37,7 +36,7 @@ extension (self: Dish)
     case None     => cycle(n - 1, d.tilt.rotate.tilt.rotate.tilt.rotate.tilt.rotate, map.updated(d, map.size))
 
   private def load: Long =
-    self.transpose.zipWithIndex.foldMap((row, i) => row.count(_ == 'O') * (self.length - i))
+    self.transpose.zipWithIndex.sumMap((row, i) => row.count(_ == 'O') * (self.length - i))
 
 def part1(dish: Dish): Long =
   dish.rotateᛌ.tilt.load

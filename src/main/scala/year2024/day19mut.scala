@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2024
 package day19mut
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.collection.mutable
 
 @main
@@ -30,8 +29,8 @@ def part2(lines: Vector[String]): Long =
   val (towels, patterns)           = parse(lines)
   val cache                        = mutable.Map("" -> 1L)
   def solve(pattern: String): Long = cache.memo(pattern):
-    towels.flatMap(pattern.dropPrefix).foldMap(solve)
-  patterns.foldMap(solve)
+    towels.flatMap(pattern.dropPrefix).sumMap(solve)
+  patterns.sumMap(solve)
 
 private def parse(lines: Vector[String]): (Vector[String], Vector[String]) =
   (lines(0).split(", ").toVector, lines.drop(2))

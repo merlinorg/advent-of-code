@@ -20,7 +20,7 @@ val sample: Vector[String] = loadv("sample.txt")
 val actual: Vector[String] = loadv("actual.txt")
 
 def part1(board: Board): Long =
-  board.locations.foldMap: loc =>
+  board.locations.sumMap: loc =>
     Dir.values.count: dir =>
       "XMAS".zipWithIndex.forall:
         case (c, index) =>

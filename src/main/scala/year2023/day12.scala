@@ -2,8 +2,7 @@ package org.merlin.aoc
 package year2023
 package day12
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.{*, given}
 import scala.collection.mutable
 
 @main
@@ -34,7 +33,7 @@ private def loop(
         (1 to springs.length - head - tail.sum - tail.length).toList
           .filter: i =>
             strMatch(springs, '.', i) && strMatch(springs.substring(i), '#', head)
-          .foldMap: i =>
+          .sumMap: i =>
             loop(springs.substring(i + head), tail, memo)
   )
 
@@ -42,14 +41,14 @@ private def strMatch(s: String, c: Char, n: Int): Boolean =
   s.substring(0, n).forall(d => d == c || d == '?')
 
 def part1(lines: Vector[String]): Long =
-  lines.foldMap:
+  lines.sumMap:
     case s"$springs $counts" =>
       val springs1 = "." + springs
       val counts1  = counts.split(',').map(_.toInt).toList
       loop(springs1, counts1)
 
 def part2(lines: Vector[String]): Long =
-  lines.foldMap:
+  lines.sumMap:
     case s"$springs $counts" =>
       val springs5 = "." + Array.fill(5)(springs).mkString("?")
       val counts5  = Array.fill(5)(counts.split(',').map(_.toInt)).flatten.toList

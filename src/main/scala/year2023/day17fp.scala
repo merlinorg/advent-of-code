@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2023
 package day17fp
 
-import lib.impl.IO.{*, given}
-import lib.legacy.{*, given}
+import lib.fp.{*, given}
+import lib.{*, given}
 import scala.collection.SortedSet
 
 @main

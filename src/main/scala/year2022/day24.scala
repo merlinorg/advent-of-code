@@ -25,7 +25,7 @@ def part1(input: String): Long =
   solve(map, start, map.gales)
     .takeUntil: (positions, _) =>
       positions.contains(finish)
-    .length - 1
+    .length
 
 def part2(input: String): Long =
   val map    = input.linesv

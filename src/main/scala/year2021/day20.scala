@@ -35,7 +35,7 @@ def solve(input: String, iter: Int): Long =
             lookup(bits.mkString.parseBinary)
       result.toVector.map(_.mkString)
     .nth(iter)
-    .sumMap(_.count(_ == '#'))
+    .sumMap(_.countA('#'))
 
 extension (self: String)
   def parse: (String, Vector[String]) =

@@ -14,7 +14,13 @@ object GridOps:
     def apply(xy: (Int, Int)): Char          = vector(xy._2)(xy._1)
     def get(xy: (Int, Int)): Option[Char]    = Option.when(xy >=< dimensions)(apply(xy))
     def is(xy: (Int, Int), c: Char): Boolean = (xy >=< dimensions) && (apply(xy) == c)
-    def gridIndices: Seq[(Int, Int)]         =
+    def gridChars: Seq[Char]                 =
+      for
+        y <- 0 until height
+        x <- 0 until width
+      yield vector(y)(x)
+
+    def gridIndices: Seq[(Int, Int)] =
       for
         y <- 0 until height
         x <- 0 until width
@@ -42,6 +48,20 @@ object GridOps:
       vector.zipWithIndex.map: (s, y) =>
         s.zipWithIndex.map((c, x) => f(c, (x, y))).mkString
 
+    def cw: Vector[String] =
+      vector.transpose.map(_.mkString.reverse)
+
+    def ccw: Vector[String] =
+      vector.map(_.reverse).transpose.map(_.mkString)
+
+    def flipX: Vector[String] =
+      vector.map(_.reverse)
+
+    def flipY: Vector[String] =
+      vector.reverse
+
   extension (self: Iterable[Vec2])
     def toGrid: Vector[String] = self.foldLeft(Vector.fill(1 + self.maxMap(_._2))("." * (1 + self.maxMap(_._1)))):
       (grid, point) => grid.updated(point, '#')
+
+  val EmptyMap: Map[Any, Any] = Map.empty

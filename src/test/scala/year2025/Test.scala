@@ -15,5 +15,9 @@ class Test extends AnyFreeSpec with Matchers:
         day01.part2(day01.sample) shouldBe 6
         day01.part2(day01.actual) shouldBe 6358
       }
+      "part 2 alt" in {
+        day01.part2Alt(day01.sample) shouldBe 6
+        day01.part2Alt(day01.actual) shouldBe 6358
+      }
     }
   }

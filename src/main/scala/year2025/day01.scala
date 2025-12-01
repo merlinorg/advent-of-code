@@ -17,18 +17,23 @@ val sample: String = load("sample.txt")
 
 val actual: String = load("actual.txt")
 
-def part1(input: String): Long =
-  input.parse
+def part1(input: String): Int = solve1(input.parse)
+
+private def solve1(rotations: Vector[Int]): Int =
+  rotations
     .scanLeft(50):
-      case (pos, amt) => (pos + amt) %% 100
+      case (position, amount) => (position + amount) %% 100
     .countA(0)
 
-def part2(input: String): Long =
+def part2Alt(input: String): Int =
+  solve1(input.parse.flatMap(amount => Seq.fill(amount.abs)(amount.sign)))
+
+def part2(input: String): Int =
   input.parse
     .foldLeft((position = 50, zeroes = 0)):
       case ((position, zeroes), amount) =>
         val next = (position + amount) %% 100
-        val zero = amount < 0 && position != 0 && next > position || amount > 0 && next < position || next == 0
+        val zero = next == 0 || amount > 0 && next < position || amount < 0 && position != 0 && next > position
         (position = next, zeroes = zeroes + amount.abs / 100 + (if zero then 1 else 0))
     .zeroes
 

@@ -66,5 +66,9 @@ object IteratorOps:
       Iterator.single(init) ++ Iterator.unfold(init): a =>
         f(a).map(a => (a, a))
 
+    def itercol[A](init: A)(f: PartialFunction[A, A]): Iterator[A] =
+      Iterator.single(init) ++ Iterator.unfold(init): a =>
+        f.unapply(a).map(a => (a, a))
+
     def last[A](init: A)(f: A => Option[A]): A =
       iteropt(init)(f).last()

@@ -8,7 +8,7 @@ object Parser:
   val WordRE = "\\w+".r
 
   object C:
-    def unapply(string: String): Option[Char] = string.headOption
+    def unapply(string: String): Option[Char] = Option.when(string.length == 1)(string.head)
 
   object I:
     def unapply(string: String): Option[Int] = string.toIntOption

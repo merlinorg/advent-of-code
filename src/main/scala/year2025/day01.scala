@@ -25,14 +25,15 @@ def part1(input: String): Long =
 
 def part2(input: String): Long =
   input.parse
-    .foldLeft(50 -> 0):
-      case ((pos, total), amt) =>
-        val next = (pos + amt) %% 100
-        val zero = amt < 0 && pos != 0 && next > pos || amt > 0 && next < pos || next == 0
-        next -> (total + amt.abs / 100 + (if zero then 1 else 0))
-    ._2
+    .foldLeft((position = 50, zeroes = 0)):
+      case ((position, zeroes), amount) =>
+        val next = (position + amount) %% 100
+        val zero = amount < 0 && position != 0 && next > position || amount > 0 && next < position || next == 0
+        (position = next, zeroes = zeroes + amount.abs / 100 + (if zero then 1 else 0))
+    .zeroes
 
 extension (self: String)
   def parse: Vector[Int] =
-    self.linesv.map: s =>
-      s.tail.toInt * (if s.head == 'L' then -1 else 1)
+    self.linesv.collect:
+      case s"L${I(left)}"  => -left
+      case s"R${I(right)}" => right

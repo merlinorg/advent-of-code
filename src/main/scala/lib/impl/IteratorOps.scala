@@ -31,6 +31,8 @@ object IteratorOps:
     def collectToSet[B](pf: PartialFunction[A, B]): Set[B] =
       self.collect(pf).toSet
 
+    def slidingPairs: Iterator[(A, A)] = self.sliding(2).map(a => a.head -> a.tail.head)
+
     def last(): A =
       var result = self.next()
       while self.hasNext do result = self.next()
@@ -38,28 +40,27 @@ object IteratorOps:
 
     def nth(n: Int): A = self.drop(n).next
 
-    /** Takes until and excluding when a predicate matches. */
-    def takeUntil(p: A => Boolean): Iterator[A] = new AbstractIterator[A]:
-      private var hd: A              = uninitialized
+    /** Takes until but excluding when a predicate matches. */
+    def takeUntil(p: A => Boolean): Iterator[A] = self.takeWhile(a => !p(a))
+
+    /** Takes until and including when a predicate matches. */
+    def takeTo(p: A => Boolean): Iterator[A] = new AbstractIterator[A]:
+      private var hd: A = uninitialized
       private var hdDefined: Boolean = false
-      private var tail: Iterator[A]  = self
+      private var tail: Iterator[A] = self
 
       def hasNext: Boolean = hdDefined || tail.hasNext && {
         hd = tail.next()
+        hdDefined = true
         if p(hd) then
           tail = Iterator.empty
-          false
-        else
-          hdDefined = true
-          true
+        true
       }
 
       def next(): A = if hasNext then
         hdDefined = false
         hd
       else Iterator.empty.next()
-
-    def slidingPairs: Iterator[(A, A)] = self.sliding(2).map(a => a.head -> a.tail.head)
 
   extension (self: Iterator.type)
     def iteropt[A](init: A)(f: A => Option[A]): Iterator[A] =

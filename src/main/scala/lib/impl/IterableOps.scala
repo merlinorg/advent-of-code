@@ -69,6 +69,8 @@ object IterableOps:
 
     def strengthR[B](b: B): Iterable[(A, B)] = self.map(_ -> b)
 
+    def pair: (A, A) = (self.head, self.tail.head)
+
     def pairs: Iterable[(A, A)] = self.grouped(2).map(a => a.head -> a.tail.head).toVector
 
     def slidingPairs: Iterable[(A, A)] = if self.isEmpty then Nil else self.zip(self.tail)

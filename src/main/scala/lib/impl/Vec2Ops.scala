@@ -39,6 +39,7 @@ object Vec2Ops:
   extension (vec: Vec2)
     def x: Int               = vec(0)
     def y: Int               = vec(1)
+    def magnitude: Int       = vec(0).abs + vec(1).abs
     def abs: Vec2            = (x.abs, y.abs)
     def sign: Vec2           = (x.sign, y.sign)
     def *(scalar: Int): Vec2 = (x * scalar, y * scalar)
@@ -68,5 +69,7 @@ object Vec2Ops:
     def ccw2: Vec2 = ccwMap(vec)
 
     infix def to(other: Vec2): Iterator[Vec2] =
-      Iterator.iteropt(vec): vec =>
-        (vec != other).option(vec + (other - vec).sign)
+      Iterator.iterate(vec)(vec => vec + (other - vec).sign).takeWhile(_ != other)
+
+    infix def until(other: Vec2): Iterator[Vec2] =
+      Iterator.iterate(vec)(vec => vec + (other - vec).sign).takeUntil(_ == other)

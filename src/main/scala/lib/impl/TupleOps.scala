@@ -9,6 +9,7 @@ object TupleOps:
     inline def bimap[C, D](fa: A => C, fb: B => D): (C, D) = (fa(self(0)), fb(self(1)))
 
   extension [A](self: (A, A))
+    def map1[B](f: A => B): (B, B) = (f(self._1), f(self._2))
     def sum(using N: Numeric[A]): A = N.plus(self._1, self._2)
     def difference(using N: Numeric[A]): A = N.minus(self._2, self._1)
     def product(using N: Numeric[A]): A = N.times(self._1, self._2)

@@ -42,4 +42,4 @@ def solve(input: String, length: Int): Int =
 
 extension (string: String)
   def parse: Iterator[Vec2] = string.linesIterator.flatMap:
-    case s"$a ${I(b)}" => Iterator.fill(b)(Dir(a(0)))
+    case s"${D(a)} ${I(b)}" => Iterator.fill(b)(a)

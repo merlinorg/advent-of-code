@@ -27,15 +27,18 @@ def part1(input: String): Long =
       string == string.take(length / 2) * 2
     .sum
 
+// This tests just 800 candidates vs 2,000,000 for the naïve part1 above
 def part1Alt(input: String): Long =
   val invalid = for
-    range     <- input.parse
-    digits    <- range.head.digits / 2 to range.last.digits / 2
-    modulus    = 10L ** digits
-    step       = modulus + 1
-    candidate <- (modulus / 10) * step until modulus * step by step
-    if range.contains(candidate)
-  yield candidate
+    range       <- input.parse
+    digits      <- (range.head.digits + 1) / 2 to range.last.digits / 2
+    modulus      = 10L ** digits
+    multiplicand = modulus + 1
+    lowest       = (range.head / multiplicand) max (modulus / 10)
+    highest      = (range.last / multiplicand) min (modulus - 1)
+    candidate   <- lowest to highest
+    if range.contains(candidate * multiplicand)
+  yield candidate * multiplicand
   invalid.sum
 
 def part2(input: String): Long =
@@ -48,9 +51,10 @@ def part2(input: String): Long =
     .sum
 
 def part2Alt(input: String): Long =
-  input.parse.iterator.flatten.filter(id => "^(\\d+)\\1+$".r.matches(id.toString)).sum
+  input.parse.iterator.flatten.filter(id => Part2RE.matches(id.toString)).sum
+
+val Part2RE = """(\d+)\1+""".r
 
 extension (self: String)
   def parse: Vector[NumericRange[Long]] =
-    self.commaSeparated.collect:
-      case s"${L(left)}-${L(right)}" => left to right
+    self.commaSeparated.flatMap(LR.unapply)

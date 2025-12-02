@@ -31,4 +31,4 @@ def part2(input: String): Long =
 
 extension (string: String)
   def parse: Iterator[Pair[NumericRange[Long]]] = string.linesIterator.collect:
-    case s"${R(a)},${R(b)}" => (a, b)
+    case s"${LR(a)},${LR(b)}" => (a, b)

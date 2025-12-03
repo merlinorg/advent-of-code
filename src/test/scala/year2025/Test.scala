@@ -38,4 +38,14 @@ class Test extends AnyFreeSpec with Matchers:
         day02.part2Alt(day02.actual) shouldBe 31755323497L
       }
     }
+    "day 03" - {
+      "part 1" in {
+        day03.part1(day03.sample) shouldBe 357
+        day03.part1(day03.actual) shouldBe 17087
+      }
+      "part 2" in {
+        day03.part2(day03.sample) shouldBe 3121910778619L
+        day03.part2(day03.actual) shouldBe 169019504359949L
+      }
+    }
   }

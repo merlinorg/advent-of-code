@@ -43,4 +43,12 @@ class Test extends AnyFreeSpec with Matchers:
         day04.part2(day04.actual) shouldBe 660
       }
     }
+    "day 05" - {
+      "part 1" in {
+        day05.part1(day05.actual) shouldBe 4887191
+      }
+      "part 2" in {
+        day05.part2(day05.actual) shouldBe 3419022
+      }
+    }
   }

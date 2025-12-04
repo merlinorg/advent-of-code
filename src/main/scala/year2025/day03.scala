@@ -27,8 +27,17 @@ def part2(input: String): Long =
   input.linesv.sumMap: bank =>
     solve(bank, 12, 0L)
 
+def part2Alt(input: String): Long =
+  input.linesv.sumMap: bank =>
+    solveAlt(bank, 12)
+
 @tailrec def solve(bank: String, batteries: Int, total: Long): Long =
   if batteries == 0 then total
   else
     val best = bank.take(bank.length - batteries + 1).max
     solve(bank.drop(1 + bank.indexOf(best)), batteries - 1, total * 10 + best.asDigit)
+
+def solveAlt(bank: String, batteries: Int) =
+  val indices = (batteries to 1 by -1).scanLeft(-1):
+    case (index, battery) => (index + 1 to bank.length - battery).maxBy(bank)
+  indices.tail.foldLeft(0L)((sum, index) => sum * 10 + bank(index).asDigit)

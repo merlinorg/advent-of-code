@@ -37,6 +37,14 @@ object VectorOps:
 
     def split1: (A, Vector[A]) =
       self.head -> self.tail
+
+    // maps a vector with an accumulator, returning the final accumulator and values
+    def mapAcc[B, C](c0: C)(f: (C, A) => (C, B)): (C, Vector[B]) =
+      self.foldLeft(c0 -> Vector.empty[B]):
+        case ((c, bs), a) => f(c, a) match { case (c2, b) => (c2, bs :+ b) }
+
+    // stateful map, maps a vector with an accumulator then drops the accumulator at the end
+    def mapS[B, C](c0: C)(f: (C, A) => (C, B)): Vector[B] = mapAcc(c0)(f)._2
   
   extension (self: Vector[String])
     def chunks: Vector[Vector[String]] =

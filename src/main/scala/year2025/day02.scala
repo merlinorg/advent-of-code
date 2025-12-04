@@ -31,11 +31,11 @@ def part1(input: String): Long =
 def part1Alt(input: String): Long =
   val invalid = for
     range       <- input.parse
-    digits      <- (range.head.digits + 1) / 2 to range.last.digits / 2
+    digits      <- (range.min.digits + 1) / 2 to range.max.digits / 2
     modulus      = 10L ** digits
     multiplicand = modulus + 1
-    lowest       = (range.head / multiplicand) max (modulus / 10)
-    highest      = (range.last / multiplicand) min (modulus - 1)
+    lowest       = (range.min / multiplicand) max (modulus / 10)
+    highest      = (range.max / multiplicand) min (modulus - 1)
     candidate   <- lowest to highest
     if range.contains(candidate * multiplicand)
   yield candidate * multiplicand

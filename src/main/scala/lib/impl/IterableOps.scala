@@ -50,6 +50,14 @@ object IterableOps:
     def collectToMap[B, C](pf: PartialFunction[A, (B, C)]): Map[B, C] =
       self.foldLeft(Map.empty[B, C])((acc, a) => pf.lift(a).fold(acc)(acc + _))
 
+    def collectToMultimap[B, C](pf: PartialFunction[A, (B, C)]): Map[B, Vector[C]] =
+      self.foldLeft(Map.empty[B, Vector[C]]): (acc, a) =>
+        pf.lift(a)
+          .fold(acc): (b, c) =>
+            acc.updatedWith(b):
+              case None    => Some(Vector(c))
+              case Some(v) => Some(v :+ c)
+
     def collectToSet[B](pf: PartialFunction[A, B]): Set[B] =
       self.collect(pf).toSet
 

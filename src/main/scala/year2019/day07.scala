@@ -1,5 +1,5 @@
 package org.merlin.aoc
-package year2019.day05
+package year2019.day07
 
 import lib.{*, given}
 
@@ -14,13 +14,30 @@ def part2(): Unit =
 val actual: String = load("actual.txt")
 
 def part1(input: String): Long =
-  Computer(input.parse, Vector(1)).run.last().output.last
+  val program = input.parse
+  (0 to 4).permutations.maxMap: phases =>
+    phases.foldLeft(0): (input, phase) =>
+      Computer(program, Vector(phase, input)).run.last().output.last
 
 def part2(input: String): Long =
-  Computer(input.parse, Vector(5)).run.last().output.last
+  val program = input.parse
+  (5 to 9).permutations.maxMap: phases =>
+    Iterator
+      .iterate((0, phases.toVector.map(phase => Computer(program, Vector(phase))))):
+        case (input, computers) =>
+          computers.mapAcc(input): (input, computer) =>
+            computer.copy(input = computer.input :+ input).runIO
+      .findMap: (input, computers) =>
+        Option.when(computers.head.done)(input)
 
 case class Computer(pc: Int, memory: Map[Int, Int], input: Vector[Int], output: Vector[Int]):
+  def runIO: (Int, Computer) =
+    run.findMap: c =>
+      c.output.headOption.strengthR(c.copy(output = Vector.empty))
+
   def run: Iterator[Computer] = Iterator.iteropt(this)(_.step)
+
+  def done: Boolean = memory(pc) == 99
 
   def r(i: Int): Int = (memory(pc) / (10 ** (i + 1))) % 10 match
     case 1 => memory(pc + i)

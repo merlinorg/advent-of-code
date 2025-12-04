@@ -44,17 +44,6 @@ extension (self: NumericRange[Long])
 
   def range: Long = if self.isEmpty then 0 else 1 + self.last - self.head
 
-// vector extensions
-
-extension [A](self: Vector[A])
-  // maps a vector with an accumulator, returning the final accumulator and values
-  def mapAcc[B, C](c0: C)(f: (C, A) => (C, B)): (C, Vector[B]) =
-    self.foldLeft(c0 -> Vector.empty[B]):
-      case ((c, bs), a) => f(c, a) match { case (c2, b) => (c2, bs :+ b) }
-
-  // stateful map, maps a vector with an accumulator then drops the accumulator at the end
-  def mapS[B, C](c0: C)(f: (C, A) => (C, B)): Vector[B] = mapAcc(c0)(f)._2
-
 private def bfsImpl[A, B, C](a: A, z: C, append: (C, B) => C)(f: A => Either[Iterable[A], B]): C =
   var result = z
   val queue  = mutable.Queue(a)

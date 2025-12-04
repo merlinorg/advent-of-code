@@ -43,6 +43,7 @@ object Vec2Ops:
     def abs: Vec2            = (x.abs, y.abs)
     def sign: Vec2           = (x.sign, y.sign)
     def *(scalar: Int): Vec2 = (x * scalar, y * scalar)
+    def /(scalar: Int): Vec2 = (x / scalar, y / scalar)
 
     def +(other: Vec2): Vec2           = append(other, _ + _)
     def %(other: Vec2): Vec2           = append(other, _ % _)

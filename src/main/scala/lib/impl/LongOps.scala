@@ -31,4 +31,4 @@ object LongOps:
 
     inline def digits: Int = 1 + math.log10(self.doubleValue).intValue
     
-    @tailrec def gcd(y: Long): Long = if y == 0 then self else y.gcd(self % y)
+    @tailrec infix def gcd(y: Long): Long = if y == 0 then self else y.gcd(self % y)

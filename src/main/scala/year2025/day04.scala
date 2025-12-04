@@ -18,16 +18,15 @@ val sample: String = load("sample.txt")
 val actual: String = load("actual.txt")
 
 def part1(input: String): Long =
-  val grid = input.linesv
-  grid.gridIterator.count: (loc, chr) =>
-    chr == '@' && loc.allNeighbours.count(neighbour => grid.is(neighbour, '@')) < 4
+  val rolls = input.linesv.gridIndices('@')
+  rolls.count: loc =>
+    loc.allNeighbours.count(rolls) < 4
 
 def part2(input: String): Long =
-  val grid = input.linesv
   Iterator
-    .iteropt(Set.empty[Vec2]): removed =>
-      val remove = grid.gridIndices.filter: loc =>
-        !removed(loc) && grid.is(loc, '@') && loc.allNeighbours.count(n => !removed(n) && grid.is(n, '@')) < 4
-      Option.when(remove.nonEmpty)(removed ++ remove)
-    .last()
-    .size
+    .unfold(input.linesv.gridIndices('@')): rolls =>
+      rolls
+        .partition(_.allNeighbours.count(rolls) < 4)
+        .fold: (remove, retain) =>
+          Option.when(remove.nonEmpty)(remove.size -> retain)
+    .sum

@@ -1,7 +1,7 @@
 package org.merlin.aoc
 package lib.impl
 
-import scala.annotation.targetName
+import scala.annotation.{tailrec, targetName}
 
 object IntOps:
   extension (self: Int)
@@ -22,5 +22,7 @@ object IntOps:
     inline def even: Boolean = self % 2 == 0
 
     infix def mid(n: Int): Int = (self + n) / 2
+
+    @tailrec infix def gcd(y: Int): Int = if y == 0 then self else y.gcd(self % y)
 
   private[impl] inline def posMod(a: Int, b: Int): Int = a %% b

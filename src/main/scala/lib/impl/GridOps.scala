@@ -36,6 +36,11 @@ object GridOps:
       gridIterator.findMap: (xy, c) =>
         Option.when(c == char)(xy)
 
+    def gridIndices(char: Char): Set[(Int, Int)] =
+      gridIterator.foldLeft(Set.empty[(Int, Int)]):
+        case (set, (loc, `char`)) => set + loc
+        case (set, _)             => set
+
     def updated(xy: Vec2, char: Char): Vector[String] =
       vector.updated(xy(1), vector(xy(1)).updated(xy(0), char))
 

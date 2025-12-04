@@ -6,6 +6,11 @@ import IterableOps.*
 
 object BFS:
 
+  extension [A](self: mutable.Queue[A])
+    def obliterator: Iterator[A] = new Iterator[A]:
+      override def hasNext: Boolean = self.nonEmpty
+      override def next(): A        = self.dequeue()
+
   def shortestPath[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Option[Vector[A]] =
     val visited = mutable.Set(start)
     val queue   = mutable.Queue(Vector(start))
@@ -21,8 +26,7 @@ object BFS:
     var count = 0
     val queue = mutable.Queue(start)
 
-    while queue.nonEmpty do
-      val a = queue.dequeue()
+    queue.obliterator.foreach: a =>
       if endF(a) then count = count + 1
       else queue.addAll(neighbourF(a))
 
@@ -32,8 +36,7 @@ object BFS:
     routes.keys.mapToMap: a =>
       val distances = mutable.Map.empty[A, Int]
       val queue     = mutable.Queue(a -> 0)
-      while queue.nonEmpty do
-        val (loc, distance) = queue.dequeue()
+      queue.obliterator.foreach: (loc, distance) =>
         if !distances.contains(loc) then
           if distance > 0 then distances.update(loc, distance)
           queue.enqueueAll:
@@ -43,8 +46,7 @@ object BFS:
   def floodfill[A](start: A, neighbourF: A => Vector[A]): Set[A] =
     val visited = mutable.Set(start)
     val queue   = mutable.Queue(start)
-    while queue.nonEmpty do
-      val current    = queue.dequeue()
+    queue.obliterator.foreach: current =>
       val neighbours = neighbourF(current).filter(visited.add)
       queue.addAll(neighbours)
     visited.toSet

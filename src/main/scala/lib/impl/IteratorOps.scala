@@ -20,6 +20,9 @@ object IteratorOps:
     def findMap[B](f: A => Option[B]): B =
       self.flatMap(f).next()
 
+    def findMapOpt[B](f: A => Option[B]): Option[B] =
+      self.flatMap(f).nextOption()
+
     def findCollect[B](f: PartialFunction[A, B]): B = findMap(f.lift)
 
     def foldCollect[B](z: B)(pf: PartialFunction[(B, A), B]): B =
@@ -38,22 +41,29 @@ object IteratorOps:
       while self.hasNext do result = self.next()
       result
 
+    def last[B](f: A => B): B = f(last())
+
     def nth(n: Int): A = self.drop(n).next
+
+    def countUntil(p: A => Boolean): Long =
+      var result = 0L
+      while self.hasNext && !p(self.next()) do
+        result = result + 1
+      result
 
     /** Takes until but excluding when a predicate matches. */
     def takeUntil(p: A => Boolean): Iterator[A] = self.takeWhile(a => !p(a))
 
     /** Takes until and including when a predicate matches. */
     def takeTo(p: A => Boolean): Iterator[A] = new AbstractIterator[A]:
-      private var hd: A = uninitialized
+      private var hd: A              = uninitialized
       private var hdDefined: Boolean = false
-      private var tail: Iterator[A] = self
+      private var tail: Iterator[A]  = self
 
       def hasNext: Boolean = hdDefined || tail.hasNext && {
         hd = tail.next()
         hdDefined = true
-        if p(hd) then
-          tail = Iterator.empty
+        if p(hd) then tail = Iterator.empty
         true
       }
 

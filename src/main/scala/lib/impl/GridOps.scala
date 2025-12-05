@@ -66,7 +66,15 @@ object GridOps:
       vector.reverse
 
   extension (self: Iterable[Vec2])
-    def toGrid: Vector[String] = self.foldLeft(Vector.fill(1 + self.maxMap(_._2))("." * (1 + self.maxMap(_._1)))):
-      (grid, point) => grid.updated(point, '#')
+    def toGrid: Vector[String] =
+      self.strengthR('#').toMap.toGrid
+
+  extension (self: Map[Vec2, Char])
+    def toGrid: Vector[String] = if self.isEmpty then Vector.empty
+    else
+      val (minX, maxX) = self.keys.rangeMap(_._1)
+      val (minY, maxY) = self.keys.rangeMap(_._2)
+      self.foldLeft(Vector.fill(1 + maxY - minY)("." * (1 + maxX - minX))):
+        case (grid, ((x, y), c)) => grid.updated((x - minX, y - minY), c)
 
   val EmptyMap: Map[Any, Any] = Map.empty

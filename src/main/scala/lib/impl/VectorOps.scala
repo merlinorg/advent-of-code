@@ -45,7 +45,7 @@ object VectorOps:
 
     // stateful map, maps a vector with an accumulator then drops the accumulator at the end
     def mapS[B, C](c0: C)(f: (C, A) => (C, B)): Vector[B] = mapAcc(c0)(f)._2
-  
+
   extension (self: Vector[String])
     def chunks: Vector[Vector[String]] =
       Iterator

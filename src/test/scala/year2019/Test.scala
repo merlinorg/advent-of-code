@@ -95,4 +95,54 @@ class Test extends AnyFreeSpec with Matchers:
         "actual" in (day09.part2(day09.actual) shouldBe 86025)
       }
     }
+    "day 11" - {
+      "part 1" - {
+        "actual" in (day11.part1(day11.actual) shouldBe 1967)
+      }
+      "part 2" - {
+        "actual" in (day11.part2(day11.actual) shouldBe
+          """#..#.###..#..#.####..##..####.###..#..#
+            |#.#..#..#.#..#.#....#..#....#.#..#.#.#.
+            |##...###..#..#.###..#......#..###..##..
+            |#.#..#..#.#..#.#....#.##..#...#..#.#.#.
+            |#.#..#..#.#..#.#....#..#.#....#..#.#.#.
+            |#..#.###...##..####..###.####.###..#..#""".stripMargin)
+      }
+    }
+    "day 12" - {
+      "part 1" - {
+        "sample" in (day12.part1(day12.sample) shouldBe 183)
+        "actual" in (day12.part1(day12.actual) shouldBe 14606)
+      }
+      "part 2" - {
+        "sample" in (day12.part2(day12.sample) shouldBe 2772)
+        "actual" in (day12.part2(day12.actual) shouldBe 543673227860472L)
+      }
+    }
+    "day 13" - {
+      "part 1" - {
+        "actual" in (day13.part1(day13.actual) shouldBe 326)
+      }
+      "part 2" - {
+        "actual" in (day13.part2(day13.actual) shouldBe 15988)
+      }
+    }
+    "day 14" - {
+      "part 1" - {
+        "sample" in (day14.part1(day14.sample) shouldBe 13312)
+        "actual" in (day14.part1(day14.actual) shouldBe 143173)
+      }
+      "part 2" - {
+        "sample" in (day14.part2(day14.sample) shouldBe 82892753L)
+        "actual" in (day14.part2(day14.actual) shouldBe 8845261)
+      }
+    }
+    "day 15" - {
+      "part 1" - {
+        "actual" in (day15.part1(day15.actual) shouldBe 300)
+      }
+      "part 2" - {
+        "actual" in (day15.part2(day15.actual) shouldBe 312)
+      }
+    }
   }

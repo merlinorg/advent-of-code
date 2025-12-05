@@ -9,6 +9,7 @@ package object lib:
   export GridOps.{*, given}
   export IO.{*, given}
   export IntOps.{*, given}
+  export IntervalOps.{*, given}
   export IterableOps.{*, given}
   export IteratorOps.{*, given}
   export LongOps.{*, given}

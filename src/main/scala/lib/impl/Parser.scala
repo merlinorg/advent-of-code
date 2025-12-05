@@ -29,4 +29,3 @@ object Parser:
   object LR:
     def unapply(string: String): Option[NumericRange[Long]] = PartialFunction.condOpt(string):
       case s"${L(a)}-${L(b)}" => a to b
-

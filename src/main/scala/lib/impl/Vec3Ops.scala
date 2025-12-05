@@ -13,12 +13,16 @@ object Vec3Ops:
 
   val CardinalDirections3D = Vector(Up3D, Down3D, Left3D, Right3D, Forwards3D, Backwards3D)
 
-  val Origin3D = (0, 0, 0)
+  val Origin3D: Vec3 = (0, 0, 0)
 
   extension (vec: Vec3)
-    def x: Int                       = vec(0)
-    def y: Int                       = vec(1)
-    def z: Int                       = vec(2)
+    def x: Int         = vec(0)
+    def y: Int         = vec(1)
+    def z: Int         = vec(2)
+    def magnitude: Int = x.abs + y.abs + z.abs
+    def abs: Vec3      = (x.abs, y.abs, z.abs)
+    def sign: Vec3     = (x.sign, y.sign, z.sign)
+
     def +(other: Vec3): Vec3         = append(other, _ + _)
     def -(other: Vec3): Vec3         = append(other, _ - _)
     def |-|(other: Vec3): Int        = (other.x - x).abs + (other.y - y).abs + (other.z - z).abs

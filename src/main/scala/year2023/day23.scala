@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2023
 package day23
 
-import lib.impl.IO.{*, given}
+import lib.io.{*, given}
 import scala.collection.mutable
 
 @main

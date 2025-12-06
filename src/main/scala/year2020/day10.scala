@@ -2,6 +2,7 @@ package org.merlin.aoc
 package year2020.day10
 
 import lib.{*, given}
+import lib.memo.*
 
 @main
 def part1(): Unit =

@@ -1,8 +1,9 @@
 package org.merlin.aoc
-package year2019.day15
+package year2019
+package day15
 
 import lib.{*, given}
-import year2019.Computer
+import lib.queue.*
 
 import scala.collection.mutable
 
@@ -34,17 +35,15 @@ def part2(input: String): Long =
 
 def navigate(input: String): Map[Vec2, (Long, Int)] =
   val visited = mutable.Map(Origin -> (0L, 0))
-  val queue   = mutable.Queue((Origin, Computer(input), 0, 0L))
 
-  queue.obliterator.foreach: (location, computer, steps, _) =>
-    queue.enqueueAll:
-      for
-        (dir, input)    <- Vector(North -> 1, South -> 2, West -> 3, East -> 4)
-        next             = location + dir
-        if !visited.contains(next)
-        (output, drone) <- computer.copy(input = Vector(input)).runIO
-        _                = visited.update(next, (output, 1 + steps))
-        if output != 0
-      yield (next, drone, 1 + steps, output)
+  Queue.unfoldU((Origin, Computer(input), 0, 0L)): (location, computer, steps, _) =>
+    for
+      (dir, input)    <- Vector(North -> 1, South -> 2, West -> 3, East -> 4)
+      next             = location + dir
+      if !visited.contains(next)
+      (output, drone) <- computer.copy(input = Vector(input)).runIO
+      _                = visited.update(next, (output, 1 + steps))
+      if output != 0
+    yield (next, drone, 1 + steps, output)
 
   visited.toMap

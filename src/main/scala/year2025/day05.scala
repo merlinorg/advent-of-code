@@ -2,6 +2,7 @@ package org.merlin.aoc
 package year2025.day05
 
 import lib.{*, given}
+import lib.interval.*
 
 @main
 def part1(): Unit =

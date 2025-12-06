@@ -1,10 +1,10 @@
 package org.merlin.aoc
-package lib.impl
+package lib
 
 import scala.io.Source
 import scala.quoted.*
 
-object IO:
+object io:
   def load(name: String)(using SF: SourceFile): String =
     Source.fromResource(s"${SF.path}/$name").mkString
 

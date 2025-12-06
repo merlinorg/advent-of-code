@@ -3,6 +3,8 @@ package year2024
 package day19mut
 
 import lib.{*, given}
+import lib.memo.*
+
 import scala.collection.mutable
 
 @main

@@ -1,11 +1,9 @@
 package org.merlin.aoc
-package lib.impl
-
-import Parser.*
+package lib
 
 import scala.annotation.tailrec
 
-object IntervalOps:
+object interval:
   type Interval = (Long, Long)
 
   extension (self: Set[Interval])

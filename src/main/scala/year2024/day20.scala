@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day20
 
-import lib.impl.IO.{*, given}
+import lib.io.{*, given}
 import lib.legacy.{*, given}
 
 @main

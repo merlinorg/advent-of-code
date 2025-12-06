@@ -20,8 +20,6 @@ export lib.impl.IterableOps.*
 
 export lib.impl.IteratorOps.*
 
-export lib.impl.MutableMapOps.*
-
 export lib.impl.TupleOps.*
 
 export lib.impl.OptionOps.*

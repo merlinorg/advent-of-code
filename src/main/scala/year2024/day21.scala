@@ -3,8 +3,10 @@ package year2024
 package day21
 
 import lib.fp.{*, given}
-import lib.impl.IO.{*, given}
+import lib.io.{*, given}
 import lib.legacy.{*, given}
+import lib.memo.*
+
 import scala.collection.mutable
 
 @main

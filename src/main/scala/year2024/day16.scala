@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day16
 
-import lib.impl.IO.{*, given}
+import lib.io.{*, given}
 import lib.legacy.{*, given}
 import scala.collection.immutable.TreeMap
 

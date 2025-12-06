@@ -2,7 +2,7 @@ package org.merlin.aoc
 package year2024
 package day16mut
 
-import lib.impl.IO.{*, given}
+import lib.io.{*, given}
 import scala.collection.mutable
 
 import day16alt.{Reindeer, findPosition, East, Position, Direction, Maze}

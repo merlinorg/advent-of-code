@@ -10,7 +10,7 @@ object StringOps:
       self.span(_ != ' ').rmap(_.stripLeading)
 
     def linesv: Vector[String] =
-      self.linesIterator.toVector
+      self.stripSuffix("\n").linesIterator.toVector
 
     def integers: Vector[Int] =
       Parser.NumRE.findAllIn(self).map(_.toInt).toVector

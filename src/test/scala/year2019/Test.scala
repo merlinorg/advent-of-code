@@ -145,4 +145,50 @@ class Test extends AnyFreeSpec with Matchers:
         "actual" in (day15.part2(day15.actual) shouldBe 312)
       }
     }
+    "day 16" - {
+      "part 1" - {
+        "sample" in (day16.part1(day16.sample1) shouldBe 24176176)
+        "actual" in (day16.part1(day16.actual) shouldBe 90744714)
+      }
+      "part 2" - {
+        "sample" in (day16.part2(day16.sample2) shouldBe 84462026)
+        "actual" in (day16.part2(day16.actual) shouldBe 82994322)
+      }
+    }
+    "day 17" - {
+      "part 1" - {
+        "actual" in (day17.part1(day17.actual) shouldBe 2804)
+      }
+      "part 2" - {
+        "actual" in (day17.part2(day17.actual) shouldBe 833429)
+      }
+    }
+    "day 18" - {
+      "part 1" - {
+        "sample" in (day18.part1(day18.sample1) shouldBe 132)
+        "actual" in (day18.part1(day18.actual) shouldBe 4770)
+      }
+      "part 2" - {
+        "sample" in (day18.part2(day18.sample2) shouldBe 8)
+        "actual" in (day18.part2(day18.actual) shouldBe 1578)
+      }
+    }
+    "day 19" - {
+      "part 1" - {
+        "actual" in (day19.part1(day19.actual) shouldBe 226)
+      }
+      "part 2" - {
+        "actual" in (day19.part2(day19.actual) shouldBe 7900946)
+      }
+    }
+    "day 20" - {
+      "part 1" - {
+        "sample" in (day20.part1(day20.sample) shouldBe 58)
+        "actual" in (day20.part1(day20.actual) shouldBe 618)
+      }
+      "part 2" - {
+//        "sample" in (day20.part2(day20.sample) shouldBe 8)
+//        "actual" in (day20.part2(day20.actual) shouldBe 1578)
+      }
+    }
   }

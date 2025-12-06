@@ -3,14 +3,9 @@ package lib.impl
 
 import scala.collection.mutable
 import IterableOps.*
+import lib.queue.*
 
 object BFS:
-
-  extension [A](self: mutable.Queue[A])
-    def obliterator: Iterator[A] = new Iterator[A]:
-      override def hasNext: Boolean = self.nonEmpty
-      override def next(): A        = self.dequeue()
-
   def shortestPath[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Option[Vector[A]] =
     val visited = mutable.Set(start)
     val queue   = mutable.Queue(Vector(start))
@@ -24,12 +19,9 @@ object BFS:
 
   def countPaths[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Int =
     var count = 0
-    val queue = mutable.Queue(start)
-
-    queue.obliterator.foreach: a =>
+    Queue.unfoldU(start): a =>
       if endF(a) then count = count + 1
-      else queue.addAll(neighbourF(a))
-
+      neighbourF(a)
     count
 
   def minimumDistances[A](routes: Map[A, Iterable[A]]): Map[A, Map[A, Int]] =
@@ -45,8 +37,6 @@ object BFS:
 
   def floodfill[A](start: A, neighbourF: A => Vector[A]): Set[A] =
     val visited = mutable.Set(start)
-    val queue   = mutable.Queue(start)
-    queue.obliterator.foreach: current =>
-      val neighbours = neighbourF(current).filter(visited.add)
-      queue.addAll(neighbours)
+    Queue.unfoldU(start): current =>
+      neighbourF(current).filter(visited.add)
     visited.toSet

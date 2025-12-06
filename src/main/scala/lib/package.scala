@@ -7,13 +7,11 @@ package object lib:
   export BooleanOps.{*, given}
   export EitherOps.{*, given}
   export GridOps.{*, given}
-  export IO.{*, given}
+  export io.{*, given}
   export IntOps.{*, given}
-  export IntervalOps.{*, given}
   export IterableOps.{*, given}
   export IteratorOps.{*, given}
   export LongOps.{*, given}
-  export MutableMapOps.{*, given}
   export OptionOps.{*, given}
   export Parser.{*, given}
   export SeqOps.{*, given}

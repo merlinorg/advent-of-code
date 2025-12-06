@@ -12,8 +12,8 @@ object IteratorOps:
     def maxMap(f: A => Long): Long =
       self.foldLeft(Long.MinValue)((acc, a) => acc max f(a))
 
-    def sumMap(f: A => Long): Long =
-      self.foldLeft(0L)((sum, a) => sum + f(a))
+    def sumMap[N: Numeric as N](f: A => N): N =
+      self.foldLeft(N.zero)((sum, a) => N.plus(sum, f(a)))
 
     def findFirst(f: A => Boolean): A = self.find(f).get
 
@@ -45,10 +45,11 @@ object IteratorOps:
 
     def nth(n: Int): A = self.drop(n).next
 
+    def nth[B](n: Int, f: A => B): B = f(nth(n))
+
     def countUntil(p: A => Boolean): Long =
       var result = 0L
-      while self.hasNext && !p(self.next()) do
-        result = result + 1
+      while self.hasNext && !p(self.next()) do result = result + 1
       result
 
     /** Takes until but excluding when a predicate matches. */
@@ -83,3 +84,6 @@ object IteratorOps:
 
     def last[A](init: A)(f: A => Option[A]): A =
       iteropt(init)(f).last()
+
+    def repeat[A](values: Iterable[A]): Iterator[A] =
+      Iterator.continually(values).flatten

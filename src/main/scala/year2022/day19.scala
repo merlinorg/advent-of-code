@@ -2,6 +2,7 @@ package org.merlin.aoc
 package year2022.day19
 
 import lib.{*, given}
+import lib.memo.*
 
 import scala.collection.mutable
 

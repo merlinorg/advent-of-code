@@ -34,8 +34,6 @@ def part2(input: String): Long =
   Iterator.unfold(Computer(input, logic, Map(0L -> 2L)))(_.runIO).last()
 
 def search(grid: Vector[String]): (Routine, Vector[Function]) =
-  given Ordering[(Routine, Vector[Function], Int)] = Ordering.by(x => x._3)
-
   val start = grid.gridIndex('^')
   val total = grid.gridIndices('#').size
 
@@ -45,7 +43,7 @@ def search(grid: Vector[String]): (Routine, Vector[Function]) =
     c <- "LR"
   yield (Vector(0), Vector(Vector(a -> 1), Vector(b -> 1), Vector(c -> 1)), 0)
 
-  PriorityQueue.unfold(initialStates*): (routine, functions, _) =>
+  PriorityQueue.unfold(initialStates*)(using Priority.most(_._3)): (routine, functions, _) =>
     evaluate(grid, start, routine, functions) match
       case Some(n) if n == total => Right(routine -> functions)
       case Some(n)               => Left(nextStates(routine, functions).map(_ :* n))

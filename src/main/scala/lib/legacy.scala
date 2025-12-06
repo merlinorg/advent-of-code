@@ -51,9 +51,6 @@ private def bfsImpl[A, B, C](a: A, z: C, append: (C, B) => C)(f: A => Either[Ite
       case Left(states) => queue.enqueueAll(states)
   result
 
-def bfsMap[A, B](a: A)(f: A => Either[Iterable[A], B]): Vector[B] =
-  bfsImpl[A, B, mutable.ArrayBuffer[B]](a, mutable.ArrayBuffer.empty[B], _ += _)(f).toVector
-
 import lib.fp.Monoid
 
 def bfsFoldl[A, B : Monoid as M](a: A)(f: A => Either[Iterable[A], B]): B =

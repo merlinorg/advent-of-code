@@ -1,5 +1,6 @@
 package org.merlin.aoc
-package year2025.day01
+package year2025
+package day01
 
 import lib.{*, given}
 
@@ -14,7 +15,6 @@ def part2(): Unit =
   println(part2(actual))
 
 val sample: String = load("sample.txt")
-
 val actual: String = load("actual.txt")
 
 def part1(input: String): Int = solve1(input.parse)

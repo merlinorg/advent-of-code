@@ -5,7 +5,7 @@ object EitherOps:
 
   extension (self: Either.type)
     def right[L]: RightProjector[L]                                       = new RightProjector
-    def when[L, R](b: Boolean, ifTrue: => R)(ifFalse: => L): Either[L, R] =
+    def when[L, R](b: Boolean)(ifTrue: => R)(ifFalse: => L): Either[L, R] =
       Either.cond(b, ifTrue, ifFalse)
 
   class RightProjector[L]:

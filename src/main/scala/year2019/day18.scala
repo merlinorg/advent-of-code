@@ -31,22 +31,20 @@ private def solve(grid: Vector[String], origins: String): Long =
   val total = grid.gridChars.count(_.isLower)
   val dist  = distances(grid)
 
-  given Ordering[(Set[Char], Set[Char], Long, Set[Char])] = Ordering.by(x => (-x._3, x._2.size))
-
-  val seen = mutable.Set.empty[(Set[Char], Set[Char])]
-  PriorityQueue.unfold((origins.toSet, Set.empty[Char], 0L, Set.empty[Char])): (locs, keys, steps, visited) =>
-    Either.when(keys.size == total, steps):
-      val unseen = seen.add(locs, keys)
+  PriorityQueue.unfold((origins.toSet, Set.empty[Char], 0L, Set.empty[Char]))(using
+    Priority.most(x => (-x._3, x._2.size), _.take(2))
+  ): (locs, keys, steps, visited) =>
+    Either.when(keys.size == total)(steps):
       locs.toSeq.flatMap: loc =>
         dist(loc)
           .filter: (c, _) =>
-            unseen && !visited(c) && (!c.isUpper || keys(c.toLower))
+            !visited(c) && (!c.isUpper || keys(c.toLower))
           .map: (c, dist) =>
             if c.isLower && !keys(c) then (locs - loc + c, keys + c, steps + dist, Set.empty)
             else (locs - loc + c, keys, steps + dist, visited + c)
 
 // The distances from each symbol to its connected symbols
-private def distances(grid: Vector[String]): Map[Char, Map[Char, Int]] =
+private def distances(grid: Vector[String]): Map[Char, Vector[(Char, Int)]] =
   grid.gridIterator
     .filter:
       case (_, chr) => chr != '.' && chr != '#'
@@ -61,7 +59,7 @@ private def distances(grid: Vector[String]): Map[Char, Map[Char, Int]] =
             c == '.'
           .map: neighbour =>
             neighbour -> (visited + loc)
-      chr -> besties.toMap
+      chr -> besties.toVector
 
 extension (self: Vector[String])
   def splitRobots: Vector[String] =

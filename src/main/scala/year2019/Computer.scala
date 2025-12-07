@@ -23,15 +23,16 @@ case class Computer(pc: Long, memory: Map[Long, Long], input: Vector[Long], outp
   def r(i: Int): Long = memory(a(i))
 
   def step: Option[Computer] = PartialFunction.condOpt(memory(pc) % 100):
-    case 1 => copy(pc = pc + 4, memory = memory.updated(a(3), r(1) + r(2)))
-    case 2 => copy(pc = pc + 4, memory = memory.updated(a(3), r(1) * r(2)))
-    case 3 => copy(pc = pc + 2, memory = memory + (a(1) -> input.head), input = input.tail)
-    case 4 => copy(pc = pc + 2, output = output :+ r(1))
-    case 5 => copy(pc = if r(1) != 0 then r(2) else pc + 3)
-    case 6 => copy(pc = if r(1) == 0 then r(2) else pc + 3)
-    case 7 => copy(pc = pc + 4, memory = memory.updated(a(3), if r(1) < r(2) then 1 else 0))
-    case 8 => copy(pc = pc + 4, memory = memory.updated(a(3), if r(1) == r(2) then 1 else 0))
-    case 9 => copy(pc = pc + 2, relative = relative + r(1))
+    case 1                  => copy(pc = pc + 4, memory = memory.updated(a(3), r(1) + r(2)))
+    case 2                  => copy(pc = pc + 4, memory = memory.updated(a(3), r(1) * r(2)))
+    case 3 if input.isEmpty => copy(pc = pc + 2, memory = memory + (a(1) -> -1))
+    case 3                  => copy(pc = pc + 2, memory = memory + (a(1) -> input.head), input = input.tail)
+    case 4                  => copy(pc = pc + 2, output = output :+ r(1))
+    case 5                  => copy(pc = if r(1) != 0 then r(2) else pc + 3)
+    case 6                  => copy(pc = if r(1) == 0 then r(2) else pc + 3)
+    case 7                  => copy(pc = pc + 4, memory = memory.updated(a(3), if r(1) < r(2) then 1 else 0))
+    case 8                  => copy(pc = pc + 4, memory = memory.updated(a(3), if r(1) == r(2) then 1 else 0))
+    case 9                  => copy(pc = pc + 2, relative = relative + r(1))
 
 object Computer:
   def apply(program: String, input: Vector[Long] = Vector.empty, poke: Map[Long, Long] = Map.empty): Computer =

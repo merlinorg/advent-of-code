@@ -2,6 +2,7 @@ package org.merlin.aoc
 package lib.impl
 
 import scala.annotation.{tailrec, targetName}
+import scala.util.Try
 
 object IntOps:
   extension (self: Int)
@@ -25,4 +26,8 @@ object IntOps:
 
     @tailrec infix def gcd(y: Int): Int = if y == 0 then self else y.gcd(self % y)
 
+    def big: BigInt = BigInt(self)
+
   private[impl] inline def posMod(a: Int, b: Int): Int = a %% b
+
+  extension (self: BigInt.type) def unapply(s: String): Option[BigInt] = Try(BigInt(s)).toOption

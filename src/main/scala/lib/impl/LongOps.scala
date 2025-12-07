@@ -33,8 +33,8 @@ object LongOps:
 
     @tailrec infix def gcd(y: Long): Long = if y == 0 then self else y.gcd(self % y)
 
-    /** multiplicative inverse mod N, toth euler .. se also BigInt*/
-    def mulInv(mod: Long): Long =
+    /** multiplicative inverse mod N, toth euler .. see also BigInt */
+    def modInv(mod: Long): Long =
       @tailrec def loop(a: Long, b: Long, x0: Long, x1: Long): Long =
         if a > 1 then loop(b, a % b, x1 - a / b * x0, x0)
         else if x1 < 0 then x1 + mod

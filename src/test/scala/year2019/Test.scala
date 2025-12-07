@@ -205,8 +205,7 @@ class Test extends AnyFreeSpec with Matchers:
         "actual" in (day22.part1(day22.actual) shouldBe 3074)
       }
       "part 2" - {
-//        "sample" in (day22.part2(day22.sample) shouldBe 396)
-//        "actual" in (day22.part2(day22.actual) shouldBe 7152)
+        "actual" in (day22.part2(day22.actual) shouldBe 104073967000066L)
       }
     }
   }

@@ -33,10 +33,12 @@ object LongOps:
 
     @tailrec infix def gcd(y: Long): Long = if y == 0 then self else y.gcd(self % y)
 
-    // https://stackoverflow.com/questions/53560302/modular-inverses-and-unsigned-integers
+    /** multiplicative inverse mod N, toth euler .. se also BigInt*/
     def mulInv(mod: Long): Long =
       @tailrec def loop(a: Long, b: Long, x0: Long, x1: Long): Long =
         if a > 1 then loop(b, a % b, x1 - a / b * x0, x0)
         else if x1 < 0 then x1 + mod
         else x1
       loop(self, mod, 0, 1)
+
+    def big: BigInt = BigInt(self)

@@ -44,7 +44,7 @@ object GridOps:
     def updated(xy: Vec2, char: Char): Vector[String] =
       vector.updated(xy(1), vector(xy(1)).updated(xy(0), char))
 
-    def contains(xy: (Int, Int)): Boolean = xy >=< dimensions
+    def has(xy: (Int, Int)): Boolean = xy >=< dimensions
 
     def stringify(f: ((Char, (Int, Int))) => Char): String =
       (0 until height).map(y => (0 until width).map(x => f((vector(y)(x), (x, y)))).mkString).mkString("\n")

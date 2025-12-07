@@ -27,7 +27,7 @@ def part1(input: String): Long =
 
   // These searches are generally intractable 30^N, so we need to provide as much help as we can
   Queue.unfold(initial): program =>
-    val output = Computer(input, program.mkString("", "\n", "\n").asciiLongs).runIOs.last()
+    val output = Computer(input, program.mkString("", "\n", "\n").asciiLongs).unfoldIO.last()
     Either.when(output >= 128)(output):
       for
         op <- Seq("NOT", "OR", "AND")
@@ -48,7 +48,7 @@ def part2(input: String): Long =
   )
   // println:(Computer(input, initial.mkString("", "\n", "\n").asciiLongs).runIOs.map(_.toChar).mkString)
   Queue.unfold(initial): program =>
-    val output = Computer(input, program.mkString("", "\n", "\n").asciiLongs).runIOs.last()
+    val output = Computer(input, program.mkString("", "\n", "\n").asciiLongs).unfoldIO.last()
     Either.when(output >= 128)(output):
       for
         x  <- Seq("E", "F", "G", "H", "I", "T") // exclude sensors we've used

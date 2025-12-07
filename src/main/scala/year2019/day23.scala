@@ -32,13 +32,11 @@ def network(input: String): Iterator[(Vector[Computer], Vector[Long], Int, Long,
       val computerOutputs        = computers1.map: computer =>
         if computer.output.size < 3 then (Vector.empty, computer)
         else (computer.output, computer.copy(output = Vector.empty))
-      val (outputs, computers2)  = computerOutputs.unzip
+      val (outputs, computers2)  = computerOutputs.unzip.lmap(_.filter(_.nonEmpty))
       val inputs0                = outputs.foldLeft(Map.empty[Long, Vector[Long]]): (map, output) =>
-        if output.isEmpty then map
-        else
-          map.updatedWith(output.head):
-            case None    => Some(output.tail)
-            case Some(v) => Some(v ++ output.tail)
+        map.updatedWith(output.head):
+          case None    => Some(output.tail)
+          case Some(v) => Some(v ++ output.tail)
       val (inputs1, nextY, oldY) = if idle < 1000 then (inputs0, lastY, priorY) else (Map(0L -> nat), nat(1), lastY)
       val computers3             = computers2.zipWithIndex.map: (computer, index) =>
         computer.copy(input = computer.input ++ inputs1.getOrElse(index, Vector.empty))

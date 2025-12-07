@@ -11,7 +11,7 @@ case class Computer(pc: Long, memory: Map[Long, Long], input: Vector[Long], outp
     run.findMapOpt: c =>
       c.output.headOption.strengthR(c.copy(output = Vector.empty))
 
-  def runIOs: Iterator[Long] = Iterator.unfold(this)(_.runIO)
+  def unfoldIO: Iterator[Long] = Iterator.unfold(this)(_.runIO)
 
   def done: Boolean = memory(pc) == 99
 

@@ -31,7 +31,7 @@ def part2(input: String): Long =
        |${functions.map(_.flatMap(_.productIterator).mkString(",")).mkString("\n")}
        |n
        |""".stripMargin.asciiLongs
-  Computer(input, logic, Map(0L -> 2L)).runIOs.last()
+  Computer(input, logic, Map(0L -> 2L)).unfoldIO.last()
 
 def search(grid: Vector[String]): (Routine, Vector[Function]) =
   val start = grid.gridIndex('^')

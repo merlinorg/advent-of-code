@@ -11,6 +11,8 @@ case class Computer(pc: Long, memory: Map[Long, Long], input: Vector[Long], outp
     run.findMapOpt: c =>
       c.output.headOption.strengthR(c.copy(output = Vector.empty))
 
+  def runIOs: Iterator[Long] = Iterator.unfold(this)(_.runIO)
+
   def done: Boolean = memory(pc) == 99
 
   def a(i: Int): Long = (memory(pc) / (10 ** (i + 1))) % 10 match
@@ -36,4 +38,5 @@ object Computer:
     new Computer(pc = 0L, memory = program.parse ++ poke, input, output = Vector.empty, relative = 0L)
 
 extension (self: String)
-  def parse: Map[Long, Long] = self.longs.zipWithIndex.mapToMap(_.swap.lmap(_.toLong)).withDefaultValue(0L)
+  def parse: Map[Long, Long]   = self.longs.zipWithIndex.mapToMap(_.swap.lmap(_.toLong)).withDefaultValue(0L)
+  def asciiLongs: Vector[Long] = self.toVector.map(_.toLong)

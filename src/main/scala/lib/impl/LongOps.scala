@@ -30,5 +30,13 @@ object LongOps:
     inline def **(n: Int): Long = math.pow(self.doubleValue, n.doubleValue).longValue
 
     inline def digits: Int = 1 + math.log10(self.doubleValue).intValue
-    
+
     @tailrec infix def gcd(y: Long): Long = if y == 0 then self else y.gcd(self % y)
+
+    // https://stackoverflow.com/questions/53560302/modular-inverses-and-unsigned-integers
+    def mulInv(mod: Long): Long =
+      @tailrec def loop(a: Long, b: Long, x0: Long, x1: Long): Long =
+        if a > 1 then loop(b, a % b, x1 - a / b * x0, x0)
+        else if x1 < 0 then x1 + mod
+        else x1
+      loop(self, mod, 0, 1)

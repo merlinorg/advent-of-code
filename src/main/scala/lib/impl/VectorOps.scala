@@ -12,7 +12,7 @@ object VectorOps:
 
     def get(i: Int): Option[A] = Option.when(i >= 0 && i < self.length)(self(i))
 
-    def splice(from: Int, length: Int, insert: Vector[A] = Vector.empty): Vector[A] =
+    def splice(from: Int, length: Int, insert: A*): Vector[A] =
       self.slice(0, from) ++ insert ++ self.slice(from + length, self.length)
 
     def groupWhen(pred: (A, A) => Boolean): Vector[Vector[A]] =

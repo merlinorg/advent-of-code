@@ -20,8 +20,10 @@ object BFS:
   def countPaths[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Int =
     var count = 0
     Queue.unfoldU(start): a =>
-      if endF(a) then count = count + 1
-      neighbourF(a)
+      if endF(a) then
+        count = count + 1
+        Nil
+      else neighbourF(a)
     count
 
   def minimumDistances[A](routes: Map[A, Iterable[A]]): Map[A, Map[A, Int]] =

@@ -30,8 +30,8 @@ def part2(input: String): Long =
     s"""${routine.map(i => ('A' + i).toChar).mkString(",")}
        |${functions.map(_.flatMap(_.productIterator).mkString(",")).mkString("\n")}
        |n
-       |""".stripMargin.toVector.map(_.toLong)
-  Iterator.unfold(Computer(input, logic, Map(0L -> 2L)))(_.runIO).last()
+       |""".stripMargin.asciiLongs
+  Computer(input, logic, Map(0L -> 2L)).runIOs.last()
 
 def search(grid: Vector[String]): (Routine, Vector[Function]) =
   val start = grid.gridIndex('^')

@@ -28,6 +28,8 @@ object Vec3Ops:
     def |-|(other: Vec3): Int        = (other.x - x).abs + (other.y - y).abs + (other.z - z).abs
     infix def min(other: Vec3): Vec3 = append(other, _ min _)
     infix def max(other: Vec3): Vec3 = append(other, _ max _)
+    def distance2(other: Vec3): Long =
+      (other.x - x).toLong * (other.x - x) + (other.y - y).toLong * (other.y - y) + (other.z - z).toLong * (other.z - z)
 
     def neighbours: Vector[Vec3] = CardinalDirections3D.map(vec + _)
 

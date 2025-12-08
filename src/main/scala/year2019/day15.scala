@@ -7,12 +7,10 @@ import lib.queue.*
 
 import scala.collection.mutable
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(actual))
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   println(part2(actual))
 
 val actual: String = load("actual.txt")

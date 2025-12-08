@@ -7,8 +7,7 @@ import lib.{*, given}
 import scala.collection.mutable
 import scala.io.StdIn
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(actual))
 
 val actual: String = load("actual.txt")

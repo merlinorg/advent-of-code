@@ -4,13 +4,11 @@ package day25alt
 
 import lib.{*, given}
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample))
   println(part1(actual))
 
 val sample: String = load("sample.txt")
-
 val actual: String = load("actual.txt")
 
 def part1(input: String): Int =

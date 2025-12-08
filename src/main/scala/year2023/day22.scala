@@ -4,18 +4,15 @@ package day22
 
 import lib.{*, given}
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample))
   println(part1(actual))
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   println(part2(sample))
   println(part2(actual))
 
 val sample: Vector[String] = loadv("sample.txt")
-
 val actual: Vector[String] = loadv("actual.txt")
 
 private final case class Block(x1: Long, y1: Long, z1: Long, x2: Long, y2: Long, z2: Long):

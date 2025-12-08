@@ -3,16 +3,13 @@ package year2021.day24
 
 import lib.{*, given}
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(actual)._1)
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   println(part2(actual)._1)
 
-@main
-def reduce(): Unit =
+@main def reduce(): Unit =
   val program = actual.parse
   import ALU.*
 

@@ -5,13 +5,11 @@ package day07
 import lib.map.*
 import lib.{*, given}
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample))
   println(part1(actual))
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   println(part2(sample))
   println(part2(actual))
 

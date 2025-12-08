@@ -4,19 +4,16 @@ package year2021.day23
 import lib.{*, given}
 import scala.collection.mutable
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample1))
   println(part1(actual1))
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   println(part2(sample2))
   println(part2(actual2))
 
 val sample1: String = load("sample1.txt")
 val sample2: String = load("sample2.txt")
-
 val actual1: String = load("actual1.txt")
 val actual2: String = load("actual2.txt")
 

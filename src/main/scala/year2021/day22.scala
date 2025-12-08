@@ -6,20 +6,17 @@ import lib.{*, given}
 import scala.annotation.tailrec
 import scala.collection.parallel.CollectionConverters.*
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample1))
   println(part1(actual))
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   // perhaps an interval tree would improve performance..
   println(part2(sample2))
   println(part2(actual))
 
 val sample1: String = load("sample1.txt")
 val sample2: String = load("sample2.txt")
-
 val actual: String = load("actual.txt")
 
 def part1(input: String): Long =

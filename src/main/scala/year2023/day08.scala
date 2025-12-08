@@ -4,13 +4,11 @@ package day08
 
 import lib.{*, given}
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample))
   println(part1(actual))
 
-@main
-def part2(): Unit =
+@main def part2(): Unit =
   println(part2(sample2))
   println(part2(actual))
 

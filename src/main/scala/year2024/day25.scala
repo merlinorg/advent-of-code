@@ -5,13 +5,11 @@ package day25
 import lib.io.{*, given}
 import lib.legacy.{*, given}
 
-@main
-def part1(): Unit =
+@main def part1(): Unit =
   println(part1(sample))
   println(part1(actual))
 
 val sample: Vector[String] = loadv("sample.txt")
-
 val actual: Vector[String] = loadv("actual.txt")
 
 def part1(lines: Vector[String]): Long =

@@ -1,6 +1,9 @@
 package org.merlin.aoc
 package lib.impl
 
+import LongOps.*
+import Parser.*
+
 object Vec3Ops:
   type Vec3 = (Int, Int, Int)
 
@@ -26,10 +29,9 @@ object Vec3Ops:
     def +(other: Vec3): Vec3         = append(other, _ + _)
     def -(other: Vec3): Vec3         = append(other, _ - _)
     def |-|(other: Vec3): Int        = (other.x - x).abs + (other.y - y).abs + (other.z - z).abs
+    def <->(other: Vec3): Long       = (other.x - x) ** 2 + (other.y - y) ** 2 + (other.z - z) ** 2
     infix def min(other: Vec3): Vec3 = append(other, _ min _)
     infix def max(other: Vec3): Vec3 = append(other, _ max _)
-    def distance2(other: Vec3): Long =
-      (other.x - x).toLong * (other.x - x) + (other.y - y).toLong * (other.y - y) + (other.z - z).toLong * (other.z - z)
 
     def neighbours: Vector[Vec3] = CardinalDirections3D.map(vec + _)
 
@@ -41,3 +43,7 @@ object Vec3Ops:
     def rotations: Vector[Vec3] =
       (0 to 23).toVector.scanLeft(vec): (vec, i) =>
         if i == 12 then vec.roll.turn.roll.roll else if i % 4 == 0 then vec.roll else vec.turn
+
+  object Vec3:
+    def unapply(s: String): Option[Vec3] = PartialFunction.condOpt(s):
+      case s"${I(x)},${I(y)},${I(z)}" => (x, y, z)

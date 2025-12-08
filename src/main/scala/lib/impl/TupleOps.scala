@@ -13,6 +13,7 @@ object TupleOps:
     def sum(using N: Numeric[A]): A = N.plus(self._1, self._2)
     def difference(using N: Numeric[A]): A = N.minus(self._2, self._1)
     def product(using N: Numeric[A]): A = N.times(self._1, self._2)
+    def toSet: Set[A] = Set(self._1, self._2)
 
   extension [A](self: (A, A, A))
     inline def set(i: 0 | 1 | 2, a: A): (A, A, A) =

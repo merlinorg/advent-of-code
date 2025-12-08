@@ -27,7 +27,11 @@ object LongOps:
     inline def |-|(n: Long): Long = (self - n).abs
 
     @targetName("pow")
-    inline def **(n: Int): Long = math.pow(self.doubleValue, n.doubleValue).longValue
+    inline def **(n: Int): Long = n match
+      case 0 => 1
+      case 1 => self
+      case 2 => self * self
+      case n => math.pow(self.doubleValue, n.doubleValue).longValue
 
     inline def digits: Int = 1 + math.log10(self.doubleValue).intValue
 

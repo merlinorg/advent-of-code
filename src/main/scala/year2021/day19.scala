@@ -52,5 +52,4 @@ def solve(scanners: Vector[Vector[Vec3]]): (Vector[Vec3], Vector[Vec3]) =
 extension (self: String)
   def parse: Vector[Vector[Vec3]] =
     self.linesv.chunks.map: lines =>
-      lines.tail.collect:
-        case s"${I(x)},${I(y)},${I(z)}" => (x, y, z)
+      lines.tail.flatMap(Vec3.unapply)

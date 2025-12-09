@@ -28,6 +28,18 @@ object IntOps:
 
     def big: BigInt = BigInt(self)
 
+    @targetName("mulLong") def *<(o: Int): Long = self.toLong * o
+
+    @targetName("plusMod") def +%(o: Int)(using M: IntMod): Int      = (self + o)  % M
+    @targetName("plusPosMod") def +%%(o: Int)(using M: IntMod): Int  = (self + o) %% M
+    @targetName("minusMod") def -%(o: Int)(using M: IntMod): Int     = (self - o)  % M
+    @targetName("minusPosMod") def -%%(o: Int)(using M: IntMod): Int = (self - o) %% M
+
   private[impl] inline def posMod(a: Int, b: Int): Int = a %% b
 
   extension (self: BigInt.type) def unapply(s: String): Option[BigInt] = Try(BigInt(s)).toOption
+
+  opaque type IntMod = Int
+
+  object IntMod:
+    def apply(i: Int): IntMod = i

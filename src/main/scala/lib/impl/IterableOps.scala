@@ -6,12 +6,6 @@ import TupleOps.*
 
 object IterableOps:
   extension [A](self: Iterable[A])
-    def minMap[B: Numeric as N](f: A => B): B =
-      self.foldLeft(Option.empty[B])((acc, a) => acc.map(b => N.min(b, f(a))).orElse(Some(f(a)))).get
-
-    def maxMap[B: Numeric as N](f: A => B): B =
-      self.foldLeft(Option.empty[B])((acc, a) => acc.map(b => N.max(b, f(a))).orElse(Some(f(a)))).get
-
     def rangeMap[B: Numeric as N](f: A => B): (B, B) =
       self
         .foldLeft(Option.empty[(B, B)]): (acc, a) =>
@@ -20,12 +14,6 @@ object IterableOps:
             .map(_.bimap(N.min(_, b), N.max(_, b)))
             .orElse(Some(b -> b))
         .get
-
-    def sumMap[B: Numeric as N](f: A => B): B =
-      self.foldLeft(N.zero)((acc, a) => N.plus(acc, f(a)))
-
-    def productMap[B: Numeric as N](f: A => B): B =
-      self.foldLeft(N.one)((acc, a) => N.times(acc, f(a)))
 
     def foldCollect[B](z: B)(pf: PartialFunction[(B, A), B]): B =
       self.foldLeft(z)((b, a) => pf.lift(b -> a).getOrElse(b))

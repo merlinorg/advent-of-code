@@ -17,10 +17,12 @@ val actual: String = load("actual.txt")
 
 def part1(input: String): Int = solve1(input.parse)
 
+given IntMod = IntMod(100)
+
 private def solve1(rotations: Vector[Int]): Int =
   rotations
     .scanLeft(50):
-      case (position, amount) => (position + amount) %% 100
+      case (position, amount) => position +%% amount
     .countA(0)
 
 def part2Alt(input: String): Int =
@@ -30,7 +32,7 @@ def part2(input: String): Int =
   input.parse
     .foldLeft((position = 50, zeroes = 0)):
       case ((position, zeroes), amount) =>
-        val next = (position + amount) %% 100
+        val next = position +%% amount
         val zero = next == 0 || amount > 0 && next < position || amount < 0 && position != 0 && next > position
         (position = next, zeroes = zeroes + amount.abs / 100 + (if zero then 1 else 0))
     .zeroes

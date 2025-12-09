@@ -2,8 +2,12 @@ package org.merlin.aoc
 package year2025
 package day05
 
-import lib.{*, given}
+import lib.io.{*, given}
+import lib.collection.{*, given}
 import lib.interval.*
+import lib.impl.StringOps.*
+import lib.impl.TupleOps.*
+import lib.impl.VectorOps.*
 
 @main def part1(): Unit =
   println(part1(sample))

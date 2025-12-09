@@ -29,8 +29,8 @@ def part2(input: String): Long =
   val grid = input.linesv
   val res  =
     for ((x, y), c) <- grid.gridIterator
-    yield (x - 1 to 0 by -1).takeUntil(xx => c > grid(xx -> y)).length *
-      (x + 1 until grid.width).takeUntil(xx => c > grid(xx -> y)).length *
-      (y - 1 to 0 by -1).takeUntil(yy => c > grid(x -> yy)).length *
-      (y + 1 until grid.height).takeUntil(yy => c > grid(x -> yy)).length
+    yield (x - 1 to 0 by -1).takeTo(xx => c > grid(xx -> y)).length *
+      (x + 1 until grid.width).takeTo(xx => c > grid(xx -> y)).length *
+      (y - 1 to 0 by -1).takeTo(yy => c > grid(x -> yy)).length *
+      (y + 1 until grid.height).takeTo(yy => c > grid(x -> yy)).length
   res.max

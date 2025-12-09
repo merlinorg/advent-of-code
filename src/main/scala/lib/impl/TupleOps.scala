@@ -9,15 +9,26 @@ object TupleOps:
     inline def bimap[C, D](fa: A => C, fb: B => D): (C, D) = (fa(self(0)), fb(self(1)))
 
   extension [A](self: (A, A))
-    def map1[B](f: A => B): (B, B) = (f(self._1), f(self._2))
-    def sum(using N: Numeric[A]): A = N.plus(self._1, self._2)
+    def map1[B](f: A => B): (B, B)         = (f(self._1), f(self._2))
+    def sum(using N: Numeric[A]): A        = N.plus(self._1, self._2)
     def difference(using N: Numeric[A]): A = N.minus(self._2, self._1)
-    def product(using N: Numeric[A]): A = N.times(self._1, self._2)
-    def toSet: Set[A] = Set(self._1, self._2)
+    def product(using N: Numeric[A]): A    = N.times(self._1, self._2)
 
   extension [A](self: (A, A, A))
     inline def set(i: 0 | 1 | 2, a: A): (A, A, A) =
       if i == 0 then (a, self(1), self(2))
       else if i == 1 then (self(0), a, self(2))
       else (self(0), self(1), a)
-    inline def get(i: Int): A = self(i).asInstanceOf[A] // when called with a constant, inlines to ._N
+    inline def get(i: Int): A                     = self(i).asInstanceOf[A] // when called with a constant, inlines to ._N
+
+//  type TupleAs[T <: Tuple, B] = T match
+//    case EmptyTuple => EmptyTuple
+//    case _ *: T     => B *: TupleAs[T, B]
+
+  // Don't try to fly too close to the sun...
+  extension [T <: Tuple](self: T)
+    //    inline def map1[B](f: Tuple.Union[T] => B): TupleAs[T, B]     = self.map[? => B](f)
+    //    def sum(using N: Numeric[Tuple.Union[T]]): Tuple.Union[T]     =
+    //      self.toList.foldLeft(N.zero)((a, b) => N.plus(a, b))
+    def toSet: Set[Tuple.Union[T]]                           =
+      self.productIterator.toSet.asInstanceOf[Set[Tuple.Union[T]]]

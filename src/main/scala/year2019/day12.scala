@@ -18,7 +18,7 @@ def part1(input: String): Long =
   simulate(input.parse)
     .nth(1000)
     .sumMap: (position, velocity) =>
-      position.magnitude.toLong * velocity.magnitude
+      position.magnitude *< velocity.magnitude
 
 // Compute the x, y, z repeats independently and then calculate the LCM.
 // To find the repeats we use Either[Long, Set[Vector[Int]] where left means

@@ -14,10 +14,11 @@ package object lib:
   export LongOps.{*, given}
   export OptionOps.{*, given}
   export Parser.{*, given}
-  export SeqOps.{*, given}
+//  export SeqOps.{*, given}
   export StringOps.{*, given}
   export VectorOps.{*, given}
   export TupleOps.{*, given}
   export Types.{*, given}
   export Vec2Ops.{*, given}
   export Vec3Ops.{*, given}
+  export collection.{*, given}

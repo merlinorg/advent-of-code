@@ -6,6 +6,8 @@ import scala.annotation.targetName
 import scala.collection.immutable.NumericRange
 import scala.collection.mutable
 
+export lib.collection.{*, given}
+
 export lib.impl.IntOps.*
 
 export lib.impl.LongOps.*

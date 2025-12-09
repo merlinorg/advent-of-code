@@ -46,16 +46,17 @@ object Vec2Ops:
     def *(scalar: Int): Vec2 = (x * scalar, y * scalar)
     def /(scalar: Int): Vec2 = (x / scalar, y / scalar)
 
-    def +(other: Vec2): Vec2           = append(other, _ + _)
-    def %(other: Vec2): Vec2           = append(other, _ % _)
-    def %(grid: Vector[String]): Vec2  = append(grid.dimensions, _ % _)
-    def %%(other: Vec2): Vec2          = append(other, posMod)
-    def %%(grid: Vector[String]): Vec2 = append(grid.dimensions, posMod)
-    def -(other: Vec2): Vec2           = append(other, _ - _)
-    def >=<(other: Vec2): Boolean      = x >= 0 && x < other.x && y >= 0 && y < other.y
-    def |-|(other: Vec2): Int          = (other.x - x).abs + (other.y - y).abs
-    infix def min(other: Vec2): Vec2   = append(other, _ min _)
-    infix def max(other: Vec2): Vec2   = append(other, _ max _)
+    def +(other: Vec2): Vec2            = append(other, _ + _)
+    def %(other: Vec2): Vec2            = append(other, _ % _)
+    def %(grid: Vector[String]): Vec2   = append(grid.dimensions, _ % _)
+    def %%(other: Vec2): Vec2           = append(other, posMod)
+    def %%(grid: Vector[String]): Vec2  = append(grid.dimensions, posMod)
+    def -(other: Vec2): Vec2            = append(other, _ - _)
+    def >=<(other: Vec2): Boolean       = x >= 0 && x < other.x && y >= 0 && y < other.y
+    def |-|(other: Vec2): Int           = (other.x - x).abs + (other.y - y).abs
+    infix def min(other: Vec2): Vec2    = append(other, _ min _)
+    infix def max(other: Vec2): Vec2    = append(other, _ max _)
+    infix def minMax(other: Vec2): Vec2 = (x min other.x, y max other.y)
 
     private inline def append(other: Vec2, f: (Int, Int) => Int): Vec2 = (f(x, other.x), f(y, other.y))
 
@@ -71,11 +72,13 @@ object Vec2Ops:
     def ccw2: Vec2 = ccwMap(vec)
 
     /** inclusive */
-    infix def to(dest: Vec2): Vector[Vec2] =
-      Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeTo(_ == dest).toVector
+    infix def to(dest: Vec2): Vector[Vec2]          = iterateTo(dest).toVector
+    infix def iterateTo(dest: Vec2): Iterator[Vec2] =
+      Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeTo(_ == dest)
 
-    infix def until(dest: Vec2): Vector[Vec2] =
-      Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeUntil(_ == dest).toVector
+    infix def until(dest: Vec2): Vector[Vec2]          = iterateUntil(dest).toVector
+    infix def iterateUntil(dest: Vec2): Iterator[Vec2] =
+      Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeUntil(_ == dest)
 
   object Vec2:
     def unapply(s: String): Option[Vec2] = PartialFunction.condOpt(s):

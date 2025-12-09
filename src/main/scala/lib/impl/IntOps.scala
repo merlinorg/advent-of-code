@@ -18,7 +18,12 @@ object IntOps:
     @targetName("or")
     inline def ||(n: => Int): Int = if self != 0 then self else n
 
+    @targetName("ceilDiv")
+    inline def /^(n: Int): Int = (self + n - 1) / n
+
     infix def divMod(mod: Int): (Int, Int) = (self / mod, self % mod)
+
+    inline def odd: Boolean = self % 2 == 1
 
     inline def even: Boolean = self % 2 == 0
 

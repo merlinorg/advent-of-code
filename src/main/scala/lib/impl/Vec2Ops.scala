@@ -5,6 +5,7 @@ import lib.impl.BooleanOps.*
 import lib.impl.GridOps.*
 import lib.impl.IntOps.*
 import lib.impl.IteratorOps.*
+import lib.impl.Parser.*
 
 object Vec2Ops:
   type Vec2 = (Int, Int)
@@ -75,3 +76,7 @@ object Vec2Ops:
 
     infix def until(dest: Vec2): Vector[Vec2] =
       Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeUntil(_ == dest).toVector
+
+  object Vec2:
+    def unapply(s: String): Option[Vec2] = PartialFunction.condOpt(s):
+      case s"${I(x)},${I(y)}" => (x, y)

@@ -57,7 +57,7 @@ def evaluate(grid: Vector[String], start: Vec2, routine: Routine, functions: Vec
             stateOpt.flatMap: (loc, dir, visited) =>
               val dir2   = if turn == 'R' then dir.cw else dir.ccw
               val loc2   = loc + dir2 * len
-              val places = (loc + dir2) to loc2
+              val places = ((loc + dir2) to loc2).toVector
               Option.when(places.forall(grid.is(_, '#'))):
                 (loc2, dir2, visited ++ places)
     .map(_._3.size)

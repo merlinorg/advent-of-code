@@ -69,11 +69,11 @@ extension (self: Amphipods)
   def complete: Boolean                              =
     self.forall: (loc, char) =>
       loc.y > 1 && loc.x == char.room
-  def has(it: Iterable[Vec2]): Boolean               =
+  def has(it: Iterator[Vec2]): Boolean               =
     it.exists(self.contains)
-  def hasNot(it: Iterable[Vec2]): Boolean            =
+  def hasNot(it: Iterator[Vec2]): Boolean            =
     it.forall(s => !self.contains(s))
-  def allAre(it: Iterable[Vec2], char: Int): Boolean =
+  def allAre(it: Iterator[Vec2], char: Int): Boolean =
     it.forall(l => self.get(l).forall(_ == char))
 
 extension (self: Char)

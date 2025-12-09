@@ -72,12 +72,10 @@ object Vec2Ops:
     def ccw2: Vec2 = ccwMap(vec)
 
     /** inclusive */
-    infix def to(dest: Vec2): Vector[Vec2]          = iterateTo(dest).toVector
-    infix def iterateTo(dest: Vec2): Iterator[Vec2] =
+    infix def to(dest: Vec2): Iterator[Vec2] =
       Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeTo(_ == dest)
 
-    infix def until(dest: Vec2): Vector[Vec2]          = iterateUntil(dest).toVector
-    infix def iterateUntil(dest: Vec2): Iterator[Vec2] =
+    infix def until(dest: Vec2): Iterator[Vec2] =
       Iterator.iterate(vec)(vec => vec + (dest - vec).sign).takeUntil(_ == dest)
 
   object Vec2:

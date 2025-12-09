@@ -3,6 +3,7 @@ package lib.impl
 
 import scala.collection.mutable
 import IterableOps.*
+import lib.collection.*
 import lib.queue.*
 
 object BFS:

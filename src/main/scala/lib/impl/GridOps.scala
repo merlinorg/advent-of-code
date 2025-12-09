@@ -1,8 +1,9 @@
 package org.merlin.aoc
 package lib.impl
 
-import lib.impl.IterableOps.*
-import lib.impl.Vec2Ops.*
+import IterableOps.*
+import Vec2Ops.*
+import lib.collection.*
 
 object GridOps:
   extension (vector: Vector[String])

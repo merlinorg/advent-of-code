@@ -8,6 +8,8 @@ import scala.collection.mutable
 
 export lib.collection.{*, given}
 
+export lib.number.{*, given}
+
 export lib.impl.IntOps.*
 
 export lib.impl.LongOps.*

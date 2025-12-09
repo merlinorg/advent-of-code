@@ -8,6 +8,7 @@ package object lib:
   export EitherOps.{*, given}
   export GridOps.{*, given}
   export io.{*, given}
+  export number.{*, given}
   export IntOps.{*, given}
   export IterableOps.{*, given}
   export IteratorOps.{*, given}

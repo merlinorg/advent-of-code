@@ -2,53 +2,9 @@ package org.merlin.aoc
 package lib.impl
 
 import LongOps.*
-import TupleOps.*
 
 object IterableOps:
   extension [A](self: Iterable[A])
-    def rangeMap[B: Numeric as N](f: A => B): (B, B) =
-      self
-        .foldLeft(Option.empty[(B, B)]): (acc, a) =>
-          val b = f(a)
-          acc
-            .map(_.bimap(N.min(_, b), N.max(_, b)))
-            .orElse(Some(b -> b))
-        .get
-
-    def foldCollect[B](z: B)(pf: PartialFunction[(B, A), B]): B =
-      self.foldLeft(z)((b, a) => pf.lift(b -> a).getOrElse(b))
-
-    def sumCollect[B: Numeric as N](pf: PartialFunction[A, B]): B =
-      self.foldLeft(N.zero)((acc, a) => pf.lift(a).fold(acc)(N.plus(acc, _)))
-
-    def minCollect[B: Numeric as N](pf: PartialFunction[A, B]): B =
-      self.foldLeft(Option.empty[B])((acc, a) => pf.lift(a).fold(acc)(b => acc.map(N.min(_, b)).orElse(Some(b)))).get
-
-    def mapToMap[B, C](f: A => (B, C)): Map[B, C] =
-      self.foldLeft(Map.empty[B, C])((acc, a) => acc + f(a))
-
-    def sumToMap[B, C: Numeric as N](f: A => (B, C)): Map[B, C] =
-      self.foldLeft(Map.empty[B, C]): (acc, a) =>
-        val (b, c) = f(a)
-        acc.updatedWith(b)(_.map(N.plus(_, c)).orElse(Some(c)))
-
-    def mapTo[B](f: A => B): Map[A, B] =
-      self.foldLeft(Map.empty[A, B])((acc, a) => acc + (a -> f(a)))
-
-    def collectToMap[B, C](pf: PartialFunction[A, (B, C)]): Map[B, C] =
-      self.foldLeft(Map.empty[B, C])((acc, a) => pf.lift(a).fold(acc)(acc + _))
-
-    def collectToMultimap[B, C](pf: PartialFunction[A, (B, C)]): Map[B, Vector[C]] =
-      self.foldLeft(Map.empty[B, Vector[C]]): (acc, a) =>
-        pf.lift(a)
-          .fold(acc): (b, c) =>
-            acc.updatedWith(b):
-              case None    => Some(Vector(c))
-              case Some(v) => Some(v :+ c)
-
-    def collectToSet[B](pf: PartialFunction[A, B]): Set[B] =
-      self.collect(pf).toSet
-
     def countA(a: A): Int = self.count(_ == a)
 
     def fornone(f: A => Boolean): Boolean = self.forall(a => !f(a))
@@ -72,18 +28,6 @@ object IterableOps:
     def slidingPairs: Iterable[(A, A)] = if self.isEmpty then Nil else self.zip(self.tail)
 
     def allPairs: Vector[(A, A)] = self.tails.toVector.tail.flatMap(self.zip)
-
-    def toBag: Map[A, Int] = self.foldLeft(Map.empty[A, Int]): (acc, v) =>
-      acc.updatedWith(v)(o => Some(o.fold(1)(_ + 1)))
-
-    def toMultimap[B, C](using ABC: A <:< (B, C)): Map[B, Vector[C]] =
-      self
-        .map(ABC)
-        .foldLeft(Map.empty[B, Vector[C]]):
-          case (acc, (b, c)) =>
-            acc.updatedWith(b):
-              case None    => Some(Vector(c))
-              case Some(v) => Some(v :+ c)
 
     def middle: A = self.drop(self.size / 2).head
 

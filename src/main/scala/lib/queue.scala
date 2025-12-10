@@ -46,6 +46,7 @@ object queue:
 
     /** Prefer lower numbers. */
     def least[A, B: Ordering, C](f: A => B, g: A => C): Priority[A] = new Impl(Ordering.by(f).reverse, a => Some(g(a)))
+    def least[A, B: Ordering](f: A => B): Priority[A]               = new Impl(Ordering.by(f).reverse, _ => None)
 
     private class Impl[A, D](ord: Ordering[A], f: A => Option[D]) extends Priority[A]:
       override type Dedup = D

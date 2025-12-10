@@ -35,6 +35,8 @@ object collection:
 //
 //    override def takeWhile[A](fa: Array[A])(p: A => Boolean): Array[A] = fa.takeWhile(p)
 
+  // how to properly support String, Map
+
   // TODO: split into foldable vs functor
   extension [A, F[_]](using F: Collection[F])(self: F[A])
     private def mapReduce[B](map: A => B, z: B, reduce: (B, B) => B): B =
@@ -89,7 +91,7 @@ object collection:
 
     def collectToSet[B](pf: PartialFunction[A, B]): Set[B] =
       F.foldLeft(self, Set.empty[B])((acc, a) => pf.lift(a).fold(acc)(acc + _))
-
+    
     def toBag: Map[A, Int] = F.foldLeft(self, Map.empty[A, Int]): (acc, v) =>
       acc.updatedWith(v)(o => Some(o.fold(1)(_ + 1)))
 

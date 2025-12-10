@@ -3,6 +3,7 @@ package year2025
 
 import org.scalatest.freespec.AnyFreeSpec
 import org.scalatest.matchers.should.Matchers
+import org.scalatest.tagobjects.Slow
 
 class Test extends AnyFreeSpec with Matchers:
   "2025" - {
@@ -120,6 +121,16 @@ class Test extends AnyFreeSpec with Matchers:
       "part 2" - {
         "sample" in (day09alt.part2(day09alt.sample) shouldBe 24)
         "actual" in (day09alt.part2(day09alt.actual) shouldBe 1530527040)
+      }
+    }
+    "day 10" - {
+      "part 1" - {
+        "sample" in (day10.part1(day10.sample) shouldBe 7)
+        "actual" in (day10.part1(day10.actual) shouldBe 571)
+      }
+      "part 2" - {
+        "sample" in (day10.part2(day10.sample) shouldBe 33)
+        "actual" taggedAs Slow in (day10.part2(day10.actual) shouldBe 20869)
       }
     }
   }

@@ -15,3 +15,7 @@ object IterableOps:
 
     def cross[B](other: Iterable[B]): Iterable[(A, B)] =
       self.flatMap(a => other.map(a -> _))
+
+    def crossProduct: Iterable[(A, A)] =
+      self.flatMap(a => self.map(a -> _))
+    

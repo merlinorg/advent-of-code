@@ -21,6 +21,9 @@ object StringOps:
     def words: Vector[String] =
       Parser.WordRE.findAllIn(self).toVector
 
+    def findIndices(c: Char): Vector[Int] =
+      self.indices.filter(self(_) == c).toVector
+
     def commaSeparated: Vector[String] = self.split(',').toVector
 
     def parseBinary: Int = Integer.parseInt(self, 2)

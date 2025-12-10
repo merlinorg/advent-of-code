@@ -15,14 +15,14 @@ val sample: String = load("sample.txt")
 val actual: String = load("actual.txt")
 
 def part1(input: String): Long =
-  input.parse.foldLeft(Origin)(_ + _).dotProduct
+  input.parse.foldLeft(Origin)(_ + _).product
 
 def part2(input: String): Long =
   input.parse
     .foldLeft((0, 0, 0)):
       case ((x, y, aim), dir) => (x + dir.x, y + aim * dir.x, aim + dir.y)
     .take(2)
-    .dotProduct
+    .product
 
 extension (string: String)
   def parse: Vector[Vec2] = string.linesv.collect:

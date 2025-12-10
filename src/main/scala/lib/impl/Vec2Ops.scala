@@ -1,7 +1,6 @@
 package org.merlin.aoc
 package lib.impl
 
-import lib.impl.BooleanOps.*
 import lib.impl.GridOps.*
 import lib.impl.IntOps.*
 import lib.impl.IteratorOps.*
@@ -60,7 +59,8 @@ object Vec2Ops:
 
     private inline def append(other: Vec2, f: (Int, Int) => Int): Vec2 = (f(x, other.x), f(y, other.y))
 
-    def dotProduct: Long            = x.toLong * y
+    def product: Long               = x.toLong * y
+    def dot(o: Vec2): Long          = x.toLong * o.y - y.toLong * o.x
     def neighbours: Vector[Vec2]    = CardinalDirections.map(vec + _)
     def allNeighbours: Vector[Vec2] = AllDirections.map(vec + _)
 

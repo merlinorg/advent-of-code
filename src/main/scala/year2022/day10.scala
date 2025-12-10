@@ -15,7 +15,7 @@ val sample: String = load("sample.txt")
 val actual: String = load("actual.txt")
 
 def part1(input: String): Long =
-  execute(input).take(221).filter(c => c(0) % 40 == 20).sumMap(_.dotProduct)
+  execute(input).take(221).filter(c => c(0) % 40 == 20).sumMap(_.product)
 
 def part2(input: String): String =
   val pixels = execute(input).map:

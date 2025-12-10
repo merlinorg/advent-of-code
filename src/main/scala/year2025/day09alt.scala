@@ -1,6 +1,6 @@
 package org.merlin.aoc
 package year2025
-package day09
+package day09alt
 
 import lib.{*, given}
 import lib.map.*

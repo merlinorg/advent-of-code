@@ -16,9 +16,9 @@ val actual: String = load("actual.txt")
 
 def part1(input: String): Long =
   val (elves, _) = input.elferator.nth(10)
-  val min        = elves.reduce(_ min _)
-  val max        = elves.reduce(_ max _)
-  (max - min + SouthEast).dotProduct - elves.size
+  val min        = elves.min
+  val max        = elves.max
+  (max - min + SouthEast).product - elves.size
 
 def part2(input: String): Long =
   1 + input.elferator.slidingPairs.indexWhere:

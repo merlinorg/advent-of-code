@@ -16,8 +16,8 @@ val actual: String = load("actual.txt")
 
 def part1(input: String): Long =
   val (elves, _) = input.elferator.nth(10)
-  val min        = elves.min
-  val max        = elves.max
+  val min        = elves.reduce(_ min _) // no, intellij
+  val max        = elves.reduce(_ max _) // no, intellij
   (max - min + SouthEast).product - elves.size
 
 def part2(input: String): Long =

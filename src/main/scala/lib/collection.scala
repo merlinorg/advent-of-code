@@ -35,7 +35,7 @@ object collection:
 //
 //    override def takeWhile[A](fa: Array[A])(p: A => Boolean): Array[A] = fa.takeWhile(p)
 
-  // TODO: split into foldable vs collection-like
+  // TODO: split into foldable vs functor
   extension [A, F[_]](using F: Collection[F])(self: F[A])
     private def mapReduce[B](map: A => B, z: B, reduce: (B, B) => B): B =
       F.foldLeft(self, z)((b, a) => reduce(b, map(a)))
@@ -100,6 +100,19 @@ object collection:
           case None    => Some(Vector(c))
           case Some(v) => Some(v :+ c)
 
+    def countA(a: A): Int = F.foldLeft(self, 0)((acc, a0) => if a == a0 then acc + 1 else acc)
+
+    def lcm(using L: A <:< Long): Long =
+      F.foldLeft(self, 1L)((a, b) => b * a / a.gcd(L(b)))
+
+    def fornone(p: A => Boolean): Boolean = F.iterator(self).forall(a => !p(a))
+
+    def findFirst(p: A => Boolean): A = F.iterator(self).find(p).get
+
+    def findMap[B](f: A => Option[B]): B = F.iterator(self).flatMap(f).next()
+
+    def findMapOpt[B](f: A => Option[B]): Option[B] = F.iterator(self).flatMap(f).nextOption()
+
     def takeTo(p: A => Boolean): F[A] =
       var okay = true
       F.takeWhile(self): a =>
@@ -109,36 +122,22 @@ object collection:
 
     def takeUntil(p: A => Boolean): F[A] = F.takeWhile(self)(a => !p(a))
 
-    def fornone(p: A => Boolean): Boolean = F.iterator(self).forall(a => !p(a))
+    def fproduct[B](f: A => B): F[(A, B)] = F.map(self)(a => (a, f(a)))
 
-    def findFirst(p: A => Boolean): A = F.iterator(self).find(p).get
+    def strengthL[B](b: B): F[(B, A)] = F.map(self)(b -> _)
 
-//
-//  def countA(a: A): Int = self.count(_ == a)
-//
-//  def findMap[B](f: A => Option[B]): B = self.iterator.flatMap(f).next()
-//
-//  def findMapOpt[B](f: A => Option[B]): Option[B] = self.iterator.flatMap(f).nextOption()
-//
-//  def fproduct[B](f: A => B): Iterable[(A, B)] = self.map(a => (a, f(a)))
-//
-//  def strengthL[B](b: B): Iterable[(B, A)] = self.map(b -> _)
-//
-//  def strengthR[B](b: B): Iterable[(A, B)] = self.map(_ -> b)
-//
-//  def pair: (A, A) = (self.head, self.tail.head)
-//
-//  def pairs: Iterable[(A, A)] = self.grouped(2).map(a => a.head -> a.tail.head).toVector
+    def strengthR[B](b: B): F[(A, B)] = F.map(self)(_ -> b)
+
+//    def head2: (A, A) = (self.head, self.tail.head)
+
+//    def pairs: Iterable[(A, A)] = self.grouped(2).map(a => a.head -> a.tail.head).toVector
 //
 //  def slidingPairs: Iterable[(A, A)] = if self.isEmpty then Nil else self.zip(self.tail)
 //
 //  def allPairs: Vector[(A, A)] = self.tails.toVector.tail.flatMap(self.zip)
-//
 //
 //  def middle: A = self.drop(self.size / 2).head
 //
 //  def cross[B](other: Iterable[B]): Iterable[(A, B)] =
 //    self.flatMap(a => other.map(a -> _))
 //
-//  def lcm(using L: A <:< Long): Long =
-//    self.foldLeft(1L)((a, b) => b * a / a.gcd(L(b)))

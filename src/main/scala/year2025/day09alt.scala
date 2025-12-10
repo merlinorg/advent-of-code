@@ -21,12 +21,12 @@ def part1(input: String): Long = input.parse.allPairs.map(Rect.apply).maxMap(_.a
 def part2(input: String): Long = solve2(input.parse).area
 
 def solve2(vertices: Vector[Vec2]): Rect =
-  val scaled       = vertices.map(_ * 3)
-  val polygonEdges = expandPolygon(scaled)
+  val scaled       = vertices.map(_ * 3)   // scale everything by 3 so we have room for the expanded polygon
+  val polygonEdges = expandPolygon(scaled) // the expanded polygon sits 1 unit outside the actual perimeter
   val quadrants    = quadrantise(polygonEdges)
   val maxQuadrant  = quadrants.keys.maxMap(_.x)
 
-  vertices.allPairs
+  scaled.allPairs
     .map(Rect.apply)
     .sortBy(r => -r.area)
     .findFirst: rect =>
@@ -76,21 +76,21 @@ def pointsOfInterest(rect: Rect, quadrants: Map[Vec2, Vector[Edge]]): Vector[Vec
     y    <- Seq(rect.tl.y, rect.br.y) // just the two extrema, not all the points
     qx   <- rect.tl.x / Quadrant to rect.br.x / Quadrant
     edge <- quadrants(qx, y / Quadrant)
-    if edge.vertical && edge.minY <= y && edge.maxY >= y
-    x    <- Seq(edge.minX - 3, edge.minX + 3, edge.maxX - 3, edge.maxX + 3)
+    if edge.vertical && edge.minY <= y && edge.maxY >= y && rect.tl.x < edge.minX && rect.br.x > edge.maxX
+    x    <- Seq((edge.minX - 2) / 3 * 3, (edge.minX + 4) / 3 * 3, (edge.maxX - 2) / 3 * 3, (edge.maxX + 4) / 3 * 3)
     if x >= rect.tl.x && x <= rect.br.x
   yield (x, y)
   val verticals   = for
     x    <- Seq(rect.tl.x, rect.br.x)
     qy   <- rect.tl.y / Quadrant to rect.br.y / Quadrant
     edge <- quadrants(x / Quadrant, qy)
-    if !edge.vertical && edge.minX <= x && edge.maxX >= x
-    y    <- Seq(edge.minY - 3, edge.minY + 3, edge.maxY - 3, edge.maxY + 3)
+    if !edge.vertical && edge.minX <= x && edge.maxX >= x && rect.tl.y < edge.minY && rect.br.y > edge.maxY
+    y    <- Seq((edge.minY - 2) / 3 * 3, (edge.minY + 4) / 3 * 3, (edge.maxY - 2) / 3 * 3, (edge.maxY + 4) / 3 * 3)
     if y >= rect.tl.y && y <= rect.br.y
   yield (x, y)
   rect.corners ++ horizontals ++ verticals
 
-// Expand the polygon edge vertices slightly so the even-odd rule works.
+// Expand the polygon edge vertices slightly so the even-odd rule works for this blocky world.
 def expandPolygon(vertices: Vector[Vec2]): Vector[Edge] =
   Iterator(vertices, vertices.take(3)).flatten
     .sliding(3)
@@ -130,6 +130,7 @@ case class Rect(tl: Vec2, br: Vec2):
   val bl: Vec2              = (tl.x, br.y)
   def area: Long            = (1 + br.x - tl.x) *< (1 + br.y - tl.y)
   def corners: Vector[Vec2] = Vector(tl, tr, br, bl)
+  def grow: Rect            = Rect(tl * 3, br * 3)
   def shrink: Rect          = Rect(tl / 3, br / 3)
 
 object Rect:
@@ -150,13 +151,14 @@ extension (self: String) def parse: Vector[Vec2] = self.linesv.flatMap(Vec2.unap
 @main def writeSvg2(): Unit =
   import lib.svg.*
   val edgeCase    = load("edge.txt").parse
-  val expanded    = edgeCase.map(_ * 3)
-  val rect        = solve2(edgeCase)
-  val interesting = pointsOfInterest(rect, quadrantise(expandPolygon(expanded)))
+  val rect        = solve2(edgeCase).grow
+  val scaled      = edgeCase.map(_ * 3)
+  val expanded    = expandPolygon(scaled)
+  val interesting = pointsOfInterest(rect, quadrantise(expanded))
   Svg(
     Vector(
-      Polygon(expanded, stroke = "yellow"),
-      Polygon(expandPolygon(expanded).map(_.head), stroke = "green"),
+      Polygon(scaled, stroke = "yellow"),
+      Polygon(expanded.map(_.head), stroke = "green"),
       Polygon(rect.corners, fill = "#ff000080")
     ) ++ interesting.map(Circle(_, 1.0, fill = "#0000ff80"))
   ).writeTo("polygon2.svg")

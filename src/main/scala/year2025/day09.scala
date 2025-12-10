@@ -22,9 +22,9 @@ def part1(input: String): Long =
 // there could be two adjacent parallel lines that intersect a valid rectangle
 // but there aren't any, the shortest edge is 5 long.
 def part2(input: String): Long =
-  val corners  = input.parse
-  val allEdges = (corners :+ corners.head).slidingPairs
-  corners.allPairs
+  val vertices = input.parse
+  val allEdges = (vertices :+ vertices.head).slidingPairs
+  vertices.allPairs
     .sortBy(r => -r.area)
     .findMap: rect =>
       Option.when(allEdges.fornone(_.intersects(rect)))(rect.area)

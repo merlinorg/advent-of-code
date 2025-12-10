@@ -34,6 +34,6 @@ def part2(input: String): Long =
 
 extension (self: String)
   def parse: Pair[Vector[(direction: Vec2, length: Int)]] =
-    self.linesv.pair.map1: wire =>
+    self.linesv.head2.map1: wire =>
       wire.commaSeparated.map: s =>
         Dir(s.head) -> s.tail.toInt

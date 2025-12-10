@@ -2,8 +2,8 @@ package org.merlin.aoc
 package year2025
 package day09alt
 
-import lib.{*, given}
 import lib.map.*
+import lib.{*, given}
 
 @main def part1(): Unit =
   println(part1(sample))

@@ -2,8 +2,10 @@ package org.merlin.aoc
 package year2025
 package day10
 
-import lib.{*, given}
 import lib.queue.*
+import lib.{*, given}
+
+import scala.collection.parallel.CollectionConverters.*
 
 @main def part1(): Unit =
   println(part1(sample))
@@ -33,7 +35,7 @@ def part1(input: String): Long =
 // Otherwise BFS all the pushes.
 def part2(input: String): Long =
   val machines = input.parse
-  machines.zipWithIndex.sumMap:
+  machines.zipWithIndex.par.sumMap:
     case ((_, buttons, joltage), i) =>
       println(s"... $i / ${machines.size}")
       Queue.unfold((joltage, buttons, 0L)): (joltage, buttons, pushed) =>
@@ -58,6 +60,6 @@ extension (self: Vector[Int])
     Option(Vector.tabulate(self.size)(j => self(j) - (if indices(j) then 1 else 0))).filter(_.forall(_ >= 0))
 
 extension (self: String)
-  def parse: Vector[(Set[Int], Vector[Set[Int]], Vector[Int])] = self.linesv.collect:
+  def parse: Vector[(lights: Set[Int], buttons: Vector[Set[Int]], joltages: Vector[Int])] = self.linesv.collect:
     case s"[$str] $buttons {${IV(jolts)}}" =>
       (str.findIndices('#').toSet, buttons.split(" ").toVector.map(_.integers.toSet), jolts)

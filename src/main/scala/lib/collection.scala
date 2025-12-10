@@ -3,6 +3,7 @@ package lib
 
 import impl.TupleOps.*
 import number.*
+import scala.collection.parallel.ParIterable
 
 object collection:
 
@@ -36,6 +37,10 @@ object collection:
 //    override def takeWhile[A](fa: Array[A])(p: A => Boolean): Array[A] = fa.takeWhile(p)
 
   // how to properly support String, Map
+
+  extension [A](self: ParIterable[A])
+    def sumMap[B: Numeric](f: A => B): B = self.map(f).sum
+    def productMap[B: Numeric](f: A => B): B = self.map(f).product
 
   // TODO: split into foldable vs functor
   extension [A, F[_]](using F: Collection[F])(self: F[A])

@@ -7,11 +7,14 @@ import number.*
 object collection:
 
   trait Collection[F[_]]:
+    def iterator[A](fa: F[A]): Iterator[A]
     def map[A, B](fa: F[A])(f: A => B): F[B]
     def foldLeft[A, B](fa: F[A], z: B)(f: (B, A) => B): B
     def takeWhile[A](fa: F[A])(p: A => Boolean): F[A]
 
   given [F <: Iterable] => Collection[F]:
+    override def iterator[A](fa: F[A]): Iterator[A] = fa.iterator
+
     override def map[A, B](fa: F[A])(f: A => B): F[B] = fa.map(f).asInstanceOf[F[B]]
 
     override def foldLeft[A, B](fa: F[A], z: B)(f: (B, A) => B): B = fa.foldLeft(z)(f)
@@ -106,12 +109,12 @@ object collection:
 
     def takeUntil(p: A => Boolean): F[A] = F.takeWhile(self)(a => !p(a))
 
+    def fornone(p: A => Boolean): Boolean = F.iterator(self).forall(a => !p(a))
+
+    def findFirst(p: A => Boolean): A = F.iterator(self).find(p).get
+
 //
 //  def countA(a: A): Int = self.count(_ == a)
-//
-//  def fornone(f: A => Boolean): Boolean = self.forall(a => !f(a))
-//
-//  def findFirst(f: A => Boolean): A = self.find(f).get
 //
 //  def findMap[B](f: A => Option[B]): B = self.iterator.flatMap(f).next()
 //

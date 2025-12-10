@@ -7,10 +7,6 @@ object IterableOps:
   extension [A](self: Iterable[A])
     def countA(a: A): Int = self.count(_ == a)
 
-    def fornone(f: A => Boolean): Boolean = self.forall(a => !f(a))
-
-    def findFirst(f: A => Boolean): A = self.find(f).get
-
     def findMap[B](f: A => Option[B]): B = self.iterator.flatMap(f).next()
 
     def findMapOpt[B](f: A => Option[B]): Option[B] = self.iterator.flatMap(f).nextOption()

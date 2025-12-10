@@ -3,7 +3,6 @@ package year2025
 package day09
 
 import lib.{*, given}
-import lib.map.*
 
 @main def part1(): Unit =
   println(part1(sample))
@@ -16,147 +15,29 @@ import lib.map.*
 val sample: String = load("sample.txt")
 val actual: String = load("actual.txt")
 
-def part1(input: String): Long = input.parse.allPairs.map(Rect.apply).maxMap(_.area)
+def part1(input: String): Long =
+  input.parse.allPairs.maxMap(_.area)
 
-def part2(input: String): Long = solve2(input.parse).area
-
-def solve2(vertices: Vector[Vec2]): Rect =
-  val scaled       = vertices.map(_ * 3)
-  val polygonEdges = expandPolygon(scaled)
-  val quadrants    = quadrantise(polygonEdges)
-  val maxQuadrant  = quadrants.keys.maxMap(_.x)
-
-  vertices.allPairs
-    .map(Rect.apply)
+// If any line intersects the rect I exclude it, but that's not really lawful,
+// there could be two adjacent parallel lines that intersect a valid rectangle
+// but there aren't any, the shortest edge is 5 long.
+def part2(input: String): Long =
+  val corners  = input.parse
+  val allEdges = (corners :+ corners.head).slidingPairs
+  corners.allPairs
     .sortBy(r => -r.area)
-    .findFirst: rect =>
-      pointsOfInterest(rect, quadrants).forall(isContained(_, quadrants, maxQuadrant))
-    .shrink
+    .findMap: rect =>
+      Option.when(allEdges.fornone(_.intersects(rect)))(rect.area)
 
-// This is very much more complex than needed for the given input, which can be
-// solved by looking for any edge that intersects with the rectangle interior.
-// That would fail, however, for:
-//
-//   #XX##XX#
-//   X..XX..X
-//   X..##..X
-//   X......X
-//   #XXXXXX#
-//
-// This would still fail, however, for:
-//
-//   #XXX##XXX#
-//   X...XX...X
-//   X..####..X
-//   X..X..X..X
-//   X..#XX#..X
-//   X........X
-//   #XXXXXXXX#
-//
-// Would neet to augment to test all outside-corners of interior path FML.
+extension (self: (Vec2, Vec2))
+  def area: Long = (1 + (self(0).x - self(1).x).abs) *< (1 + (self(0).y - self(1).y).abs)
 
-val Quadrant = 4096
-
-// Divide the world into quadrants and return a map of all the edges that pass through each quadrant
-def quadrantise(edges: Iterable[Edge]): Map[Vec2, Vector[Edge]] =
-  edges.foldLeft(Map.empty[Vec2, Vector[Edge]].withDefaultValue(Vector.empty)):
-    case (map, edge) if edge.vertical =>
-      val ((x0, y0), (_, y1)) = edge
-      ((y0 min y1) / Quadrant to (y0 max y1) / Quadrant).foldLeft(map): (map, y) =>
-        map.append((x0 / Quadrant, y), edge)
-    case (map, edge)                  =>
-      val ((x0, y0), (x1, _)) = edge
-      ((x0 min x1) / Quadrant to (x0 max x1) / Quadrant).foldLeft(map): (map, x) =>
-        map.append((x, y0 / Quadrant), edge)
-
-// The points we need to test for presence within the polygon are the four corners and the
-// points on either side of every intersection of an edge with the rectangle.
-def pointsOfInterest(rect: Rect, quadrants: Map[Vec2, Vector[Edge]]): Vector[Vec2] =
-  val horizontals = for
-    y    <- Seq(rect.tl.y, rect.br.y) // just the two extrema, not all the points
-    qx   <- rect.tl.x / Quadrant to rect.br.x / Quadrant
-    edge <- quadrants(qx, y / Quadrant)
-    if edge.vertical && edge.minY <= y && edge.maxY >= y
-    x    <- Seq(edge.minX - 3, edge.minX + 3, edge.maxX - 3, edge.maxX + 3)
-    if x >= rect.tl.x && x <= rect.br.x
-  yield (x, y)
-  val verticals   = for
-    x    <- Seq(rect.tl.x, rect.br.x)
-    qy   <- rect.tl.y / Quadrant to rect.br.y / Quadrant
-    edge <- quadrants(x / Quadrant, qy)
-    if !edge.vertical && edge.minX <= x && edge.maxX >= x
-    y    <- Seq(edge.minY - 3, edge.minY + 3, edge.maxY - 3, edge.maxY + 3)
-    if y >= rect.tl.y && y <= rect.br.y
-  yield (x, y)
-  rect.corners ++ horizontals ++ verticals
-
-// Expand the polygon edge vertices slightly so the even-odd rule works.
-def expandPolygon(vertices: Vector[Vec2]): Vector[Edge] =
-  Iterator(vertices, vertices.take(3)).flatten
-    .sliding(3)
-    .collect:
-      case Seq(prev, cur, next) =>
-        val dir = (cur - prev).sign
-        val dot = (next - cur).dot(dir)
-        cur + dir.ccw + (if dot < 0 then dir else if dot > 0 then dir.negate else Origin)
-    .slidingPairs
-    .toVector
-
-// A point is within the polygon if it is either on an edge, or there is an odd number of
-// edges to the right of it (crossing number / even-odd rule).
-def isContained(point: Vec2, quadrants: Map[Vec2, Vector[Edge]], maxQuadrant: Int): Boolean =
-  val quadrant = point / Quadrant
-  (quadrant.x to maxQuadrant)
-    .flatMap(x => quadrants(x -> quadrant.y))
-    .filter(_.vertical)
-    .toSet
-    .count(_.rightOf(point))
-    .odd
-
-type Edge = Pair[Vec2]
-
-extension (self: Edge)
-  def vertical: Boolean = self(0).x == self(1).x
-  def minX: Int         = self(0).x min self(1).x
-  def maxX: Int         = self(0).x max self(1).x
-  def minY: Int         = self(0).y min self(1).y
-  def maxY: Int         = self(0).y max self(1).y
-
-  def contains(v: Vec2): Boolean = v.x >= minX && v.x <= maxX && v.y >= minY && v.y <= maxY
-  def rightOf(v: Vec2): Boolean  = v.x < minX && v.y >= minY && v.y <= maxY
-
-case class Rect(tl: Vec2, br: Vec2):
-  val tr: Vec2              = (br.x, tl.y)
-  val bl: Vec2              = (tl.x, br.y)
-  def area: Long            = (1 + br.x - tl.x) *< (1 + br.y - tl.y)
-  def corners: Vector[Vec2] = Vector(tl, tr, br, bl)
-  def shrink: Rect          = Rect(tl / 3, br / 3)
-
-object Rect:
-  def apply(vertices: Pair[Vec2]): Rect = new Rect(vertices(0) min vertices(1), vertices(0) max vertices(1))
+  // touching is okay, lines passing through each other are not
+  def intersects(rect: (Vec2, Vec2)): Boolean =
+    val (rx0, ry0) = rect.fold(_ min _)
+    val (rx1, ry1) = rect.fold(_ max _)
+    val (lx0, ly0) = self.fold(_ min _)
+    val (lx1, ly1) = self.fold(_ max _)
+    lx0 < rx1 && lx1 > rx0 && ly0 < ry1 && ly1 > ry0
 
 extension (self: String) def parse: Vector[Vec2] = self.linesv.flatMap(Vec2.unapply)
-
-@main def writeSvg(): Unit =
-  import lib.svg.*
-  val rect = solve2(actual.parse)
-  Svg(
-    Vector(
-      Polygon(actual.parse, stroke = "yellow"),
-      Polygon(rect.corners, fill = "green")
-    )
-  ).writeTo("polygon.svg")
-
-@main def writeSvg2(): Unit =
-  import lib.svg.*
-  val edgeCase    = load("edge.txt").parse
-  val expanded    = edgeCase.map(_ * 3)
-  val rect        = solve2(edgeCase)
-  val interesting = pointsOfInterest(rect, quadrantise(expandPolygon(expanded)))
-  Svg(
-    Vector(
-      Polygon(expanded, stroke = "yellow"),
-      Polygon(expandPolygon(expanded).map(_.head), stroke = "green"),
-      Polygon(rect.corners, fill = "#ff000080")
-    ) ++ interesting.map(Circle(_, 1.0, fill = "#0000ff80"))
-  ).writeTo("polygon2.svg")

@@ -135,6 +135,8 @@ object collection:
 
     def strengthR[B](b: B): F[(A, B)] = F.map(self)(_ -> b)
 
+    def as[B](b: => B): F[B] = F.map(self)(_ => b)
+
 //    def head2: (A, A) = (self.head, self.tail.head)
 
 //    def pairs: Iterable[(A, A)] = self.grouped(2).map(a => a.head -> a.tail.head).toVector

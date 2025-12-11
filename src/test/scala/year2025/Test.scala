@@ -133,4 +133,10 @@ class Test extends AnyFreeSpec with Matchers:
         "actual" taggedAs Slow in (day10.part2(day10.actual) shouldBe 20869)
       }
     }
+    "day 10 alt" - {
+      "part 2" - {
+        "sample" in (day10alt.part2(day10alt.sample) shouldBe 33)
+        "actual" in (day10alt.part2(day10alt.actual) shouldBe 20869)
+      }
+    }
   }

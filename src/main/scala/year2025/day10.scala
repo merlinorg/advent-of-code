@@ -25,8 +25,8 @@ def part1(input: String): Long =
         case (lights, presses) =>
           Either.when(lights.isEmpty)(presses):
             buttons.map: indices =>
-              val updated = indices.foldLeft(lights): (str, index) =>
-                if str(index) then str - index else str + index
+              val updated = indices.foldLeft(lights): (lights, index) =>
+                if lights(index) then lights - index else lights + index
               updated -> (presses + 1)
 
 // Key insight: If there is a joltage J0 higher than another joltage J1, and there is

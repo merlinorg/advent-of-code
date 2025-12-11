@@ -33,7 +33,7 @@ def part1(input: String): Long =
 
         minimize(buttonVars.values.sumExpr)
         subjectTo:
-          // Sum(ButtonPresses_i Where Button_i increments Joltage_j) = 2 * Parity_j + Light_j for some unbound parity
+          // Sum(ButtonPresses_i Where Button_i increments Joltage_j) = 2 * Parity_j + Light_j for some unconstrained parity
           joltage.indices.map: j =>
             buttons.filter(_(j)).map(buttonVars).sumExpr := parityVars(j) * 2 + (if lights(j) then 1 else 0)
         start()
@@ -59,11 +59,9 @@ def part2(input: String): Long =
         objectiveValue.round
       finally release()
 
-def subjectTo(constraints: Iterable[Constraint])(using M: MPModel): Unit = constraints.foreach(M.add)
+def subjectTo(constraints: Iterable[Constraint])(using MP: MPModel): Unit = constraints.foreach(MP.add)
 
-extension (self: Iterable[Expression])
-  def sumExpr: Expression =
-    self.tail.foldLeft[Expression](self.head)(_ + _)
+extension (self: Iterable[Expression]) def sumExpr: Expression = self.reduce(_ + _)
 
 extension (self: String)
   def parse: Vector[(lights: Set[Int], buttons: Vector[Set[Int]], joltages: Vector[Int])] = self.linesv.collect:

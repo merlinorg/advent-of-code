@@ -2,12 +2,12 @@ package org.merlin.aoc
 package lib.impl
 
 import scala.collection.mutable
-import IterableOps.*
 import lib.collection.*
+import lib.memo.*
 import lib.queue.*
 
 object BFS:
-  def shortestPath[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Option[Vector[A]] =
+  def shortestPath[A](start: A, endF: A => Boolean, neighbourF: A => Iterable[A]): Option[Vector[A]] =
     val visited = mutable.Set(start)
     val queue   = mutable.Queue(Vector(start))
 
@@ -18,14 +18,9 @@ object BFS:
 
     queue.headOption
 
-  def countPaths[A](start: A, endF: A => Boolean, neighbourF: A => Vector[A]): Int =
-    var count = 0
-    Queue.unfoldU(start): a =>
-      if endF(a) then
-        count = count + 1
-        Nil
-      else neighbourF(a)
-    count
+  def countPaths[A](start: A, endF: A => Boolean, neighbourF: A => Iterable[A]): Long =
+    memoized[Long](start): (loc, loop) =>
+      if endF(loc) then 1 else neighbourF(loc).sumMap(loop)
 
   def minimumDistances[A](routes: Map[A, Iterable[A]]): Map[A, Map[A, Int]] =
     routes.keys.mapToMap: a =>

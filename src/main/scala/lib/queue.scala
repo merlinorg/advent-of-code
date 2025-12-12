@@ -16,14 +16,16 @@ object queue:
       override def next(): A        = self.dequeue()
 
   object Queue:
-    def unfold[A, B](a: A*)(f: A => Either[Seq[A], B]): B =
+    def unfoldOpt[A, B](a: A*)(f: A => Either[Seq[A], B]): Option[B] =
       val queue  = mutable.Queue(a*)
       var result = Option.empty[B]
       while queue.nonEmpty && result.isEmpty do
         f(queue.dequeue()) match
           case Right(b) => result = Some(b)
           case Left(a)  => queue.enqueueAll(a)
-      result.get
+      result
+
+    def unfold[A, B](a: A*)(f: A => Either[Seq[A], B]): B = unfoldOpt(a*)(f).get
 
     def unfoldU[A](a: A)(f: A => Iterable[A]): Unit =
       val queue = mutable.Queue(a)

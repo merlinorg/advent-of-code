@@ -11,21 +11,14 @@ import lib.{*, given}
 val sample: String = load("sample.txt")
 val actual: String = load("actual.txt")
 
-def part1(input: String): Long = {
+def part1(input: String): Long =
   val (presents, regions) = input.parse
   regions.count: (x, y, counts) =>
-    val area    = x * y
-    val regions = (x / 3) * (y / 3)
-    val tiles   = counts.zipWithIndex.sumMap: (count, i) =>
+    val blocks = counts.zipWithIndex.sumMap: (count, i) =>
       count * presents(i).gridChars.countA('#')
-    if tiles > area then false              // trivially impossible
-    else if counts.sum <= regions then true // trivially possible
-    else canFit(presents, x, y, counts)
-}
-
-// a 5 and 2 3s will fill 3x5
-// a 2 and 2 0s will fill 3x5
-// a 0 and a 1 and a 3 will fill a 3x7
+    if blocks > x * y then false                      // trivially impossible
+    else if counts.sum <= (x / 3) * (y / 3) then true // trivially possible
+    else canFit(presents, x, y, counts) // intractable
 
 // This is obviously intractable for the actual problems.
 def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]): Boolean =
@@ -41,14 +34,12 @@ def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]
       val results = for
         (rotations, index) <- transformations.zipWithIndex.iterator
         if counts(index) > 0
-        counts2             = counts.updated(index, counts(index) - 1)
         rot                <- rotations
         i                  <- 0 to x - 3
         j                  <- 0 to y - 3
-        translate           = (i, j)
-        translated          = rot.map(_ + translate)
+        translated          = rot.map(_ + (i, j))
         if translated.fornone(set)
-        result             <- loop(counts2, set ++ translated)
+        result             <- loop(counts.updated(index, counts(index) - 1), set ++ translated)
       yield result
       results.nextOption()
 
@@ -61,8 +52,5 @@ def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]
 extension (self: String)
   def parse: (Vector[Vector[String]], Vector[(Int, Int, Vector[Int])]) =
     val chunks = self.linesv.chunks
-    (
-      chunks.init.map(_.tail),
-      chunks.last.collect:
-        case s"${I(x)}x${I(y)}: $s" => (x, y, s.split(' ').map(_.toInt).toVector)
-    )
+    chunks.init.map(_.tail) -> chunks.last.collect:
+      case s"${I(x)}x${I(y)}: $s" => (x, y, s.split(' ').map(_.toInt).toVector)

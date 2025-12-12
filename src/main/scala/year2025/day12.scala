@@ -28,7 +28,7 @@ def part1(input: String): Long = {
 // a 0 and a 1 and a 3 will fill a 3x7
 
 // This is obviously intractable for the actual problems.
-def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]): Boolean = {
+def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]): Boolean =
   val transformations = presents.map: p =>
     (Iterator.iterate(p)(_.cw).take(4) ++ Iterator.iterate(p.flipX)(_.cw).take(4))
       .map(_.gridIndices('#'))
@@ -52,10 +52,11 @@ def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]
       yield result
       results.nextOption()
 
-  val result = loop(counts, Set.empty)
-  result.foreach(set => println(set.toGrid.mkString("\n")))
-  result.isDefined
-}
+  loop(counts, Set.empty) match
+    case None      => false
+    case Some(set) =>
+      println(set.toGrid.mkString("\n"))
+      true
 
 extension (self: String)
   def parse: (Vector[Vector[String]], Vector[(Int, Int, Vector[Int])]) =

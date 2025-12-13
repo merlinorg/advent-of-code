@@ -7,6 +7,8 @@ object memo:
   
   extension [A, B](self: mutable.Map[A, B]) def memo(a: A)(b: => B): B = self.getOrElseUpdate(a, b)
 
+  def memoize[A, B](f: A => B): A => B = f.memoized
+
   /** Usage: <pre> val b: B = memoized[B](a0: A): (a: A, f: A => B) => B </pre>
     */
   def memoized[B] = new Memoizer[B]
@@ -28,3 +30,8 @@ object memo:
 
   object Memoize:
     def apply[A, B](f: (A, A => B) => B): A => B = new Memoize[A, B](f)
+
+  extension [A, B](self: A => B)
+    def memoized: A => B =
+      val memo = mutable.Map.empty[A, B]
+      a => memo.getOrElseUpdate(a, self(a))

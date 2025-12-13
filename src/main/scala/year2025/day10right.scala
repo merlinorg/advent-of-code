@@ -29,8 +29,8 @@ def part2(input: String): Long =
   val machines = input.parse
   machines.par.sumMap:
     case (_, buttons, joltage) =>
-      val permutations = buttons.foldLeft(Vector((0, Vector.fill(joltage.size)(0)))): (blah, indices) =>
-        blah ++ blah.map((presses, decrements) => (presses + 1, decrements.plus(indices)))
+      val permutations = buttons.foldLeft(Vector((0, Vector.fill(joltage.size)(0)))): (acc, indices) =>
+        acc ++ acc.map((presses, decrements) => (presses + 1, decrements.plus(indices)))
       val result       = memoized[Option[Long]](joltage): (joltage, loop) =>
         if joltage.forall(_ == 0) then Some(0)
         else

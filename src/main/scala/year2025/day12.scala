@@ -28,18 +28,15 @@ def canFit(presents: Vector[Vector[String]], x: Int, y: Int, counts: Vector[Int]
       .toSet
       .toVector
 
-  def loop(counts: Vector[Int], set: Set[Vec2]): Option[Set[Vec2]] =
-    if counts.forall(_ == 0) then Some(set)
+  def loop(counts: Vector[Int], board: Set[Vec2]): Option[Set[Vec2]] =
+    if counts.forall(_ == 0) then Some(board)
     else
       val results = for
-        (rotations, index) <- transformations.zipWithIndex.iterator
-        if counts(index) > 0
+        (rotations, index) <- transformations.zipWithIndex.iterator if counts(index) > 0
         rot                <- rotations
-        i                  <- 0 to x - 3
-        j                  <- 0 to y - 3
-        translated          = rot.map(_ + (i, j))
-        if translated.fornone(set)
-        result             <- loop(counts.updated(index, counts(index) - 1), set ++ translated)
+        offset             <- (0 to x - 3).cross(0 to y - 3)
+        translated          = rot.map(_ + offset) if translated.fornone(board)
+        result             <- loop(counts.updated(index, counts(index) - 1), board ++ translated)
       yield result
       results.nextOption()
 

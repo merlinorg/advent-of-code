@@ -4,6 +4,8 @@ ThisBuild / scalaVersion := "3.7.3"
 
 Global / excludeLintKeys += idePackagePrefix
 
+Test / parallelExecution := false
+
 enablePlugins(JmhPlugin)
 
 lazy val root = (project in file("."))

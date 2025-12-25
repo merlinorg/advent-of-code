@@ -11,6 +11,9 @@ object io:
   def loadv(name: String)(using SF: SourceFile): Vector[String] =
     Source.fromResource(s"${SF.path}/$name").mkString.linesIterator.toVector
 
+  def loadf(path: String): String =
+    Source.fromResource(path).mkString
+
   inline given instance: SourceFile =
     ${ SourceFile.sourceFile_impl }
 

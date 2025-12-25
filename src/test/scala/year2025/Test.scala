@@ -169,4 +169,14 @@ class Test extends AnyFreeSpec with Matchers:
         "actual" in (day12.part1(day12.actual) shouldBe 528)
       }
     }
+    "liquid cake" - {
+      "part 1" - {
+        "sample" in (liquidcake.part1(liquidcake.sample) shouldBe 12251)
+        "actual" in (liquidcake.part1(liquidcake.actual) shouldBe 1401106)
+      }
+      "part 2" - {
+        "sample" in (liquidcake.part2(liquidcake.sample) shouldBe 2279)
+        "actual" in (liquidcake.part2(liquidcake.actual) shouldBe 517533251)
+      }
+    }
   }

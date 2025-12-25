@@ -5,6 +5,7 @@ package day10
 import lib.queue.*
 import lib.{*, given}
 
+import scala.collection.immutable.BitSet
 import scala.collection.parallel.CollectionConverters.*
 
 @main def part1(): Unit =
@@ -25,9 +26,7 @@ def part1(input: String): Long =
         case (lights, presses) =>
           Either.when(lights.isEmpty)(presses):
             buttons.map: indices =>
-              val updated = indices.foldLeft(lights): (lights, index) =>
-                if lights(index) then lights - index else lights + index
-              updated -> (presses + 1)
+              lights.xor(indices) -> (presses + 1)
 
 // Key insight: If there is a joltage J0 higher than another joltage J1, and there is
 // only one button that can reduce J0 but not J1, then at some point you will have to
@@ -56,10 +55,10 @@ def part2(input: String): Long =
               yield (joltage, buttons, pushed + 1)
 
 extension (self: Vector[Int])
-  def decrement(indices: Set[Int]): Option[Vector[Int]] =
+  def decrement(indices: BitSet): Option[Vector[Int]] =
     Option(Vector.tabulate(self.size)(j => self(j) - (if indices(j) then 1 else 0))).filter(_.forall(_ >= 0))
 
 extension (self: String)
-  def parse: Vector[(lights: Set[Int], buttons: Vector[Set[Int]], joltages: Vector[Int])] = self.linesv.collect:
+  def parse: Vector[(lights: BitSet, buttons: Vector[BitSet], joltages: Vector[Int])] = self.linesv.collect:
     case s"[$str] $buttons {${IV(jolts)}}" =>
-      (str.findIndices('#').toSet, buttons.split(" ").toVector.map(_.integers.toSet), jolts)
+      (BitSet(str.findIndices('#') *), buttons.split(" ").toVector.map(s => BitSet(s.integers *)), jolts)
